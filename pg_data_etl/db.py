@@ -196,7 +196,14 @@ class Database:
         print(command)
         run_command_in_shell(command)
 
-    def pgsql2shp(self, table_or_sql: str, output_filepath: str):
+    def pgsql2shp(self, table_or_sql: str, output_filepath: str) -> None:
+        """
+        Use pgsql2shp to export a shapefile from the database.
+
+        Valid arguments for `table_or_sql` are the name of a table or a full query.
+        e.g. "pa.centerlines"
+             "SELECT * FROM pa.centerlines WHERE some_column = 'some value'"
+        """
 
         if "select" in table_or_sql.lower():
             query = table_or_sql
