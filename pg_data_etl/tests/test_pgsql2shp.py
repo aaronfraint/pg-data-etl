@@ -1,5 +1,5 @@
 from pathlib import Path
-from pg_data_etl.tests.fixtures import production_gis_db, shp_path, test_data
+from pg_data_etl.tests.fixtures import production_gis_db, shp_path
 
 
 def test_pgsql2shp_makes_shapefile():
