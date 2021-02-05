@@ -196,6 +196,14 @@ class Database:
         print(command)
         run_command_in_shell(command)
 
-    # def pgsql2shp(self):
+    def pgsql2shp(self, table_or_sql: str, output_filepath: str):
 
-    #     command = f"pgsql2shp -h {self.params['host']} -U user "
+        if "select" in table_or_sql.lower():
+            query = table_or_sql
+        else:
+            query = f"SELECT * FROM {table_or_sql}"
+
+        command = f'pgsql2shp -f "{output_filepath}" -h {self.params["host"]} -u {self.params["un"]} -P {self.params["pw"]} {self.params["db_name"]} "{query}" '
+        print(command)
+
+        run_command_in_shell(command)
