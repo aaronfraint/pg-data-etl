@@ -4,23 +4,14 @@ import subprocess
 
 
 def run_command_in_shell(command):
+    """Use subprocess to execute a command in a shell"""
+
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
 
     output = process.communicate()
     print(output[0])
 
-
-def get_output_via_psycopg2(uri: str, query: str):
-    connection = psycopg2.connect(uri)
-    cursor = connection.cursor()
-
-    cursor.execute(query)
-
-    result = cursor.fetchall()
-    cursor.close()
-    connection.close()
-
-    return result
+    process.kill()
 
 
 class Database:
@@ -39,9 +30,9 @@ class Database:
         Create a URI and super URI that get used across the class.
         """
 
-        self.uri = f"postgresql://{un}:{pw}@{host}:{port}/{db_name}"
+        self._uri = f"postgresql://{un}:{pw}@{host}:{port}/{db_name}"
 
-        self.super_uri = f"postgresql://{super_un}:{super_pw}@{host}:{port}/{super_db}"
+        self._super_uri = f"postgresql://{super_un}:{super_pw}@{host}:{port}/{super_db}"
 
         self.params = {
             "un": un,
@@ -54,17 +45,38 @@ class Database:
             "super_db": super_db,
         }
 
-    def execute_query(self, query: str, super_uri: bool = False) -> list:
-        """
-        Use psycopg2 to execute a query and return the output as a list of lists
-        """
-
+    def uri(self, super_uri: bool = False):
         if super_uri:
-            uri = self.super_uri
+            return self._super_uri
         else:
-            uri = self.uri
+            return self._uri
 
-        result = get_output_via_psycopg2(uri, query)
+    def execute_via_psycopg2(self, query: str, super_uri: bool = False) -> None:
+        """ Use psycopg2 to execute a query """
+
+        connection = psycopg2.connect(self.uri(super_uri=super_uri))
+        cursor = connection.cursor()
+
+        cursor.execute(query)
+
+        cursor.close()
+        connection.commit()
+        connection.close()
+
+        return None
+
+    def query_via_psycopg2(self, query: str, super_uri: bool = False) -> list:
+        """ Use psycopg2 to run a query and return the result as a list of lists """
+
+        connection = psycopg2.connect(self.uri(super_uri=super_uri))
+        cursor = connection.cursor()
+
+        cursor.execute(query)
+
+        result = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
 
         return [list(x) for x in result]
 
@@ -79,8 +91,7 @@ class Database:
             );
         """
 
-        x = self.execute_query(query, super_uri=True)[0][0]
-        # print(x)
+        x = self.query_via_psycopg2(query, super_uri=True)[0][0]
 
         return x
 
@@ -90,8 +101,15 @@ class Database:
         """
 
         if not self.exists():
-            command = f'psql -c "CREATE DATABASE {self.params["db_name"]};" {self.super_uri}'
 
+            # Create the database
+            command = (
+                f'psql -c "CREATE DATABASE {self.params["db_name"]};" {self.uri(super_uri=True)}'
+            )
+            run_command_in_shell(command)
+
+            # Enable PostGIS
+            command = f'psql -c "CREATE EXTENSION postgis;" {self.uri()}'
             run_command_in_shell(command)
 
     def drop_db(self) -> None:
@@ -100,25 +118,65 @@ class Database:
         """
 
         if self.exists():
-            command = f'psql -c "DROP DATABASE {self.params["db_name"]};" {self.super_uri}'
+            command = (
+                f'psql -c "DROP DATABASE {self.params["db_name"]};" {self.uri(super_uri=True)}'
+            )
             run_command_in_shell(command)
 
-        print(self.exists())
-
-    def all_tables_in_db(self):
+    def all_tables_in_db(self) -> list:
+        """
+        Get a list of all tables in the db
+        """
         query = """
             SELECT table_name
             FROM information_schema.tables
         """
 
-        tables = self.execute_query(query)
-        print([x[0] for x in tables])
+        tables = self.query_via_psycopg2(query)
+
         return [x[0] for x in tables]
 
-    def copy_table_to_another_db(self, table_to_copy: str, other_db: Database):
+    def all_spatial_tables_in_db(self) -> list:
         """
-        Pipe data directly from one DB to another using:
-            pg_dump | psql
+        Get a list of all SPATIAL tables in the db
         """
-        command = f"pg_dump -t {table_to_copy} {self.uri} | psql {other_db.uri}"
+
+        query = """
+            SELECT f_table_name
+            FROM geometry_columns
+        """
+        geotables = self.query_via_psycopg2(query)
+
+        return [x[0] for x in geotables]
+
+    def all_schemas_in_db(self) -> list:
+        """
+        Get a list of all schemas in the db
+        """
+
+        query = """
+            SELECT schema_name
+            FROM information_schema.schemata;
+        """
+
+        schemas = self.query_via_psycopg2(query)
+
+        return [x[0] for x in schemas]
+
+    def copy_table_to_another_db(self, table_to_copy: str, other_db: Database) -> None:
+        """
+        Pipe data directly from a pg_dump of one DB into another using psql
+        """
+
+        # If the table_to_copy has a schema, ensure that the schema also exists in the target db
+        if "." in table_to_copy:
+            print(table_to_copy)
+            schema = table_to_copy.split(".")[0]
+
+            print(other_db.all_schemas_in_db())
+            if schema not in other_db.all_schemas_in_db():
+                other_db.execute_via_psycopg2(f"CREATE SCHEMA IF NOT EXISTS {schema};")
+
+        command = f"pg_dump -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
+        print(command)
         run_command_in_shell(command)
