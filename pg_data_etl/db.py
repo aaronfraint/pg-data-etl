@@ -130,6 +130,12 @@ class Database:
             )
             run_command_in_shell(command)
 
+    def add_schema(self, schema: str) -> None:
+        """Add a schema if it does not yet exist """
+
+        if schema not in self.all_schemas_in_db():
+            self.execute_via_psycopg2(f"CREATE SCHEMA IF NOT EXISTS {schema};")
+
     def all_tables_in_db(self, schema: str = None) -> list:
         """
         Get a list of all tables in the db.
@@ -186,11 +192,8 @@ class Database:
 
         # If the table_to_copy has a schema, ensure that the schema also exists in the target db
         if "." in table_to_copy:
-
             schema = table_to_copy.split(".")[0]
-
-            if schema not in other_db.all_schemas_in_db():
-                other_db.execute_via_psycopg2(f"CREATE SCHEMA IF NOT EXISTS {schema};")
+            other_db.add_schema(schema)
 
         command = f"pg_dump -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
         print(command)
@@ -211,6 +214,18 @@ class Database:
             query = f"SELECT * FROM {table_or_sql}"
 
         command = f'pgsql2shp -f "{output_filepath}" -h {self.params["host"]} -u {self.params["un"]} -P {self.params["pw"]} {self.params["db_name"]} "{query}" '
+        print(command)
+
+        run_command_in_shell(command)
+
+    def shp2pgsql(self, shp_path: str, srid: int, sql_tablename: str):
+
+        if "." in sql_tablename:
+            schema = sql_tablename.split(".")[0]
+            self.add_schema(schema)
+
+        command = f'shp2pgsql -s {srid} "{shp_path}" {sql_tablename} | psql {self.uri()}'
+
         print(command)
 
         run_command_in_shell(command)
