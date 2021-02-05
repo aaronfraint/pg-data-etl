@@ -3,7 +3,7 @@ import psycopg2
 import subprocess
 
 
-def run_command_in_shell(command):
+def run_command_in_shell(command: str) -> str:
     """Use subprocess to execute a command in a shell"""
 
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
@@ -12,6 +12,8 @@ def run_command_in_shell(command):
     print(output[0])
 
     process.kill()
+
+    return output
 
 
 class Database:
@@ -45,14 +47,19 @@ class Database:
             "super_db": super_db,
         }
 
-    def uri(self, super_uri: bool = False):
+    def uri(self, super_uri: bool = False) -> str:
+        """
+        Return the normal URI by default.
+        Return the super database URI if super_uri = True
+        """
+
         if super_uri:
             return self._super_uri
         else:
             return self._uri
 
     def execute_via_psycopg2(self, query: str, super_uri: bool = False) -> None:
-        """ Use psycopg2 to execute a query """
+        """ Use psycopg2 to execute a query & commit it to the database """
 
         connection = psycopg2.connect(self.uri(super_uri=super_uri))
         cursor = connection.cursor()
@@ -123,20 +130,25 @@ class Database:
             )
             run_command_in_shell(command)
 
-    def all_tables_in_db(self) -> list:
+    def all_tables_in_db(self, schema: str = None) -> list:
         """
-        Get a list of all tables in the db
+        Get a list of all tables in the db.
+        Omit the behind-the-scenes tables.
         """
         query = """
             SELECT table_name
             FROM information_schema.tables
+            WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
         """
+
+        if schema:
+            query += f" AND table_schema = '{schema}'"
 
         tables = self.query_via_psycopg2(query)
 
         return [x[0] for x in tables]
 
-    def all_spatial_tables_in_db(self) -> list:
+    def all_spatial_tables_in_db(self, schema: str = None) -> list:
         """
         Get a list of all SPATIAL tables in the db
         """
@@ -145,6 +157,10 @@ class Database:
             SELECT f_table_name
             FROM geometry_columns
         """
+
+        if schema:
+            query += f" WHERE f_table_schema = '{schema}'"
+
         geotables = self.query_via_psycopg2(query)
 
         return [x[0] for x in geotables]
@@ -170,13 +186,16 @@ class Database:
 
         # If the table_to_copy has a schema, ensure that the schema also exists in the target db
         if "." in table_to_copy:
-            print(table_to_copy)
+
             schema = table_to_copy.split(".")[0]
 
-            print(other_db.all_schemas_in_db())
             if schema not in other_db.all_schemas_in_db():
                 other_db.execute_via_psycopg2(f"CREATE SCHEMA IF NOT EXISTS {schema};")
 
         command = f"pg_dump -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
         print(command)
         run_command_in_shell(command)
+
+    # def pgsql2shp(self):
+
+    #     command = f"pgsql2shp -h {self.params['host']} -U user "
