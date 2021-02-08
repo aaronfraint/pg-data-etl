@@ -3,6 +3,16 @@ import psycopg2
 import subprocess
 
 
+def _convert_full_tablename_to_parts(tablename: str) -> tuple:
+    if "." not in tablename:
+        schema = "public"
+        tbl = tablename
+    else:
+        schema, tbl = tablename.split(".")
+
+    return (schema, tbl)
+
+
 def run_command_in_shell(command: str) -> str:
     """Use subprocess to execute a command in a shell"""
 
@@ -195,9 +205,13 @@ class Database:
             schema = table_to_copy.split(".")[0]
             other_db.add_schema(schema)
 
-        command = f"pg_dump -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
+        command = (
+            f"pg_dump --no-owner --no-acl -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
+        )
         print(command)
         run_command_in_shell(command)
+
+        other_db.lint_geom_colname(table_to_copy)
 
     def pgsql2shp(self, table_or_sql: str, output_filepath: str) -> None:
         """
@@ -229,3 +243,36 @@ class Database:
         print(command)
 
         run_command_in_shell(command)
+
+        self.lint_geom_colname(sql_tablename)
+
+    def columns_in_table(self, tablename: str) -> list:
+        """ Get a list of all column names in a given table. """
+
+        schema, tbl = _convert_full_tablename_to_parts(tablename)
+
+        query = f"""
+            SELECT DISTINCT column_name
+            FROM information_schema.columns
+            WHERE
+                table_name = '{tbl}'
+              AND
+                table_schema = '{schema}';
+        """
+
+        return [x[0] for x in self.query_via_psycopg2(query)]
+
+    def rename_column(self, old_colname: str, new_colname: str, tablename: str) -> None:
+        """ Change a column name for a table in SQL """
+
+        query = f"ALTER TABLE {tablename} RENAME {old_colname} TO {new_colname};"
+
+        self.execute_via_psycopg2(query)
+
+    def lint_geom_colname(self, tablename: str):
+        """
+        Rename the geometry column to 'geom' if it comes through as 'shape'
+        """
+
+        if "shape" in self.columns_in_table(tablename):
+            self.rename_column("shape", "geom", tablename)
