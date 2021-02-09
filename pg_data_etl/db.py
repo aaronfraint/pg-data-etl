@@ -157,12 +157,12 @@ class Database:
     def add_schema(self, schema: str) -> None:
         """Add a schema if it does not yet exist """
 
-        if schema not in self.all_schemas_in_db():
+        if schema not in self.schema_list():
             self.execute_via_psycopg2(f"CREATE SCHEMA IF NOT EXISTS {schema};")
 
     # LISTS OF THINGS
 
-    def all_tables_in_db(self, schema: str = None) -> list:
+    def table_list(self, schema: str = None) -> list:
         """
         Get a list of all tables in the db.
         Omit the behind-the-scenes tables.
@@ -180,7 +180,7 @@ class Database:
 
         return [x[0] for x in tables]
 
-    def all_spatial_tables_in_db(self, schema: str = None) -> list:
+    def spatial_table_list(self, schema: str = None) -> list:
         """
         Get a list of all SPATIAL tables in the db
         """
@@ -197,7 +197,7 @@ class Database:
 
         return [x[0] for x in geotables]
 
-    def all_schemas_in_db(self) -> list:
+    def schema_list(self) -> list:
         """
         Get a list of all schemas in the db
         """
@@ -247,6 +247,13 @@ class Database:
 
         other_db.lint_geom_colname(table_to_copy)
 
+    def copy_entire_db_to_another_db(self, other_db: Database) -> None:
+        """
+        Pipe an entire database from one location to another using pg_dump and psql
+        """
+
+        pass
+
     # SHAPEFILE I/O
 
     def pgsql2shp(self, table_or_sql: str, output_filepath: str) -> None:
@@ -268,13 +275,20 @@ class Database:
 
         run_command_in_shell(command)
 
-    def shp2pgsql(self, shp_path: str, srid: int, sql_tablename: str):
+    def shp2pgsql(self, shp_path: str, srid: int, sql_tablename: str, new_srid: int = None):
+        """
+        Use the shp2pgsql command to import a shapefile into the database
+        """
 
+        # Ensure that the schema provided in the 'sql_tablename' exists
         if "." in sql_tablename:
             schema = sql_tablename.split(".")[0]
             self.add_schema(schema)
 
-        command = f'shp2pgsql -s {srid} "{shp_path}" {sql_tablename} | psql {self.uri()}'
+        # If 'new_srid' is provided, use 'old:new' to project on the fly
+        srid_arg = f"{srid}:{new_srid}" if new_srid else srid
+
+        command = f'shp2pgsql -I -s {srid_arg} "{shp_path}" {sql_tablename} | psql {self.uri()}'
 
         print(command)
 
@@ -320,7 +334,7 @@ class Query:
 
     def get_gdf(self, geom_col: str = "geom"):
         """ Get a geopandas GeoDataFrame from the query """
-        
+
         connection = psycopg2.connect(self.db.uri())
 
         self.gdf = gpd.GeoDataFrame.from_postgis(self.q, connection, geom_col=geom_col)
