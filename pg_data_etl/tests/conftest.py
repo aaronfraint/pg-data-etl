@@ -1,12 +1,9 @@
-from pg_data_etl import Database, configurations
+from pg_data_etl import Database, connections
 import pytest
 import os
 import shutil
 import zipfile
 import urllib.request
-
-# Define database connections for the tests
-c = configurations()
 
 # This is a temp folder where we'll store inputs/ouputs from the testing suite
 test_data_path = r"C:\Users\afraint\Documents\pg_data_etl_tests"
@@ -29,7 +26,7 @@ def test_folder():
 def local_db():
     """ Spin up a local db, use it in the test, then drop it """
 
-    db = Database("test_from_pytest_lastone", **c["localhost"])
+    db = Database("test_from_pytest_lastone", **connections["localhost"])
 
     db.create_db()
 
@@ -40,17 +37,17 @@ def local_db():
 
 @pytest.fixture(scope="function")
 def production_gis_db():
-    yield Database("gis", **c["dvrpc_gis"])
+    yield Database("gis", **connections["dvrpc_gis"])
 
 
 @pytest.fixture(scope="function")
 def network_db_that_exists():
-    yield Database("GTFS", **c["daisy"])
+    yield Database("GTFS", **connections["daisy"])
 
 
 @pytest.fixture(scope="function")
 def local_sw_db():
-    yield Database("sidewalk_gap_analysis", **c["localhost"])
+    yield Database("sidewalk_gap_analysis", **connections["localhost"])
 
 
 @pytest.fixture(scope="function")

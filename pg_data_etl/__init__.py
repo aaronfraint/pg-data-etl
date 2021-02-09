@@ -1,2 +1,4 @@
-from .db import Database
-from .configuration_manager import configurations
+from .db import Database, Query
+from .configuration_manager import configurations as _configurations
+
+connections = _configurations()
