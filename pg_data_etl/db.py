@@ -168,7 +168,7 @@ class Database:
         Omit the behind-the-scenes tables.
         """
         query = """
-            SELECT table_name
+            SELECT concat(table_schema, '.', table_name )
             FROM information_schema.tables
             WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
         """
@@ -186,7 +186,7 @@ class Database:
         """
 
         query = """
-            SELECT f_table_name
+            SELECT concat(f_table_schema, '.', f_table_name )
             FROM geometry_columns
         """
 
@@ -252,7 +252,13 @@ class Database:
         Pipe an entire database from one location to another using pg_dump and psql
         """
 
-        pass
+        command = (
+            f"pg_dump --no-owner --no-acl -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
+        )
+        print(command)
+        run_command_in_shell(command)
+
+        other_db.lint_geom_colname(table_to_copy)
 
     # SHAPEFILE I/O
 
