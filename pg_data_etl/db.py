@@ -6,6 +6,19 @@ import pandas as pd
 import geopandas as gpd
 import sqlalchemy
 
+from datetime import datetime
+import os
+
+
+def _timestamp_for_filepath(dt: datetime = None) -> str:
+    """
+    Make a datetime string formatted like: 'on_2021_02_09_at_09_29_58'
+    """
+    if not dt:
+        dt = datetime.now()
+
+    return dt.strftime("on_%Y_%m_%d_at_%H_%M_%S")
+
 
 def _convert_full_tablename_to_parts(tablename: str) -> tuple:
     """
@@ -227,9 +240,23 @@ class Database:
 
         return [x[0] for x in self.query_via_psycopg2(query)]
 
+    # BACKUP
+
+    def backup_to_sql_file(self, output_folder: str) -> str:
+
+        filename = f"{self.params['db_name']}_{_timestamp_for_filepath()}.sql"
+        output_filepath = os.path.join(output_folder, filename)
+
+        command = f'pg_dump --no-owner --no-acl {self.uri()} > "{output_filepath}"'
+        print(command)
+
+        run_command_in_shell(command)
+
+        return output_filepath
+
     # COPY BETWEEN DATABASES
 
-    def copy_table_to_another_db(self, table_to_copy: str, other_db: Database) -> None:
+    def copy_table_to_another_db(self, table_to_copy: str, target_db: Database) -> None:
         """
         Pipe data directly from a pg_dump of one DB into another using psql
         """
@@ -237,28 +264,42 @@ class Database:
         # If the table_to_copy has a schema, ensure that the schema also exists in the target db
         if "." in table_to_copy:
             schema = table_to_copy.split(".")[0]
-            other_db.add_schema(schema)
+            target_db.add_schema(schema)
 
         command = (
-            f"pg_dump --no-owner --no-acl -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
+            f"pg_dump --no-owner --no-acl -t {table_to_copy} {self.uri()} | psql {target_db.uri()}"
         )
         print(command)
         run_command_in_shell(command)
 
-        other_db.lint_geom_colname(table_to_copy)
+        target_db.ensure_geometry_is_named_geom(table_to_copy)
 
-    def copy_entire_db_to_another_db(self, other_db: Database) -> None:
+    def copy_entire_db_to_another_db(self, target_db: Database) -> None:
         """
-        Pipe an entire database from one location to another using pg_dump and psql
+        Copy an entire database to a new database.
+
+        To get around memory error limitations, this is done in two steps as opposed to a single command with a pipe:
+            Step 1) Backup the source db to .sql file with pg_dump
+            Step 2) Load the .sql file into the target db with psql
         """
 
-        command = (
-            f"pg_dump --no-owner --no-acl -t {table_to_copy} {self.uri()} | psql {other_db.uri()}"
-        )
+        if target_db.exists():
+            print(
+                f"A database named '{target_db.params['db_name']}' already exists. Use a different name or drop this database before copying into it."
+            )
+            return None
+
+        target_db.create_db()
+
+        sql_filepath = self.backup_to_sql_file(os.getcwd())
+
+        command = f'psql -f  "{sql_filepath}" {target_db.uri()}'
         print(command)
         run_command_in_shell(command)
 
-        other_db.lint_geom_colname(table_to_copy)
+        # Ensure that spatial tables have 'geom' instead of 'shape' columns
+        for table in target_db.spatial_table_list():
+            target_db.ensure_geometry_is_named_geom(table)
 
     # SHAPEFILE I/O
 
@@ -300,7 +341,7 @@ class Database:
 
         run_command_in_shell(command)
 
-        self.lint_geom_colname(sql_tablename)
+        self.ensure_geometry_is_named_geom(sql_tablename)
 
     # UPDATE DATA IN-PLACE
 
@@ -311,7 +352,7 @@ class Database:
 
         self.execute_via_psycopg2(query)
 
-    def lint_geom_colname(self, tablename: str):
+    def ensure_geometry_is_named_geom(self, tablename: str):
         """
         Rename the geometry column to 'geom' if it comes through as 'shape'
         """
