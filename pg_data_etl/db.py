@@ -243,6 +243,10 @@ class Database:
     # BACKUP
 
     def backup_to_sql_file(self, output_folder: str) -> str:
+        """
+        Create a standalone text file backup of the entire database.
+        Returns the full filepath to the newly created file.
+        """
 
         filename = f"{self.params['db_name']}_{_timestamp_for_filepath()}.sql"
         output_filepath = os.path.join(output_folder, filename)
@@ -360,16 +364,88 @@ class Database:
         if "shape" in self.columns_in_table(tablename):
             self.rename_column("shape", "geom", tablename)
 
+    # GET DATA OUT VIA QUERY
+
+    def query(self, q: str, geo: bool = None, query_kwargs: dict = None) -> Query:
+        """
+        Run a query in the database and return a Query() object.
+
+        Leave 'geo' as None if you want the query to figure out
+        whether to return a geodataframe or regular dataframe.
+
+        If you specifically want a dataframe, set geo=False
+        Likewise, set geo=True if you definitely want a geodataframe
+        """
+        if query_kwargs:
+            query = Query(self, q, **query_kwargs)
+        else:
+            query = Query(self, q)
+
+        # Use the user's provided geo value
+        if geo is not None:
+            geo_flag = geo
+
+        # If none provided, try to guess if it's spatial
+        else:
+            geo_flag = query.is_spatial()
+
+        # If spatial, return a geodataframe
+        if geo_flag:
+            query.get_gdf()
+        # If not spatial, return a pandas dataframe
+        else:
+            query.get_df()
+
+        return query
+
 
 class Query:
-    def __init__(self, db: Database, q: str):
+    def __init__(self, db: Database, q: str, geom_col: str = "geom"):
         self.db = db
         self.q = q
+        self.geom_col = geom_col
         self.df = None
         self.gdf = None
+        self.runtime = None
+
+    def is_spatial(self) -> bool:
+        """
+        Guess if the query is spatial by looking at the "FROM tablename" portion of the query.
+
+        If the tablename is in the list of spatial tables, it will fetch a geodataframe of the query.
+
+        If the initial FROM table is not spatial, it will fetch a pandas dataframe of the query.
+        """
+        # Replace all occuranges of '\n' and '\t' with a space
+        q = self.q.replace("\n", " ").replace("\t", " ")
+
+        # Turn query into a list and remove all empty values
+        # i.e. from this:
+        #           ['', 'select', '', '', '', '', '*', 'from', '', '', '', '', 'my_table']
+        #      to this:
+        #           ['select', '*', 'from', 'my_table']
+
+        query_as_list = q.lower().split(" ")
+        query_as_list = [x for x in query_as_list if x != ""]
+
+        # Isolate the text after "from" in the query
+        from_idx = query_as_list.index("from")
+        selected_table = query_as_list[from_idx + 1]
+
+        # Make sure that schema-less tables are prefixed with "public"
+        if "." not in selected_table:
+            selected_table = f"public.{selected_table}"
+
+        # Return True if the FROM table is spatial
+        if selected_table in self.db.spatial_table_list():
+            return True
+        else:
+            return False
 
     def get_df(self) -> pd.Dataframe:
         """ Get a pandas Dataframe from the query """
+
+        start_time = datetime.now()
 
         engine = sqlalchemy.create_engine(self.db.uri())
 
@@ -377,15 +453,23 @@ class Query:
 
         engine.dispose()
 
+        end_time = datetime.now()
+        self.runtime = str(end_time - start_time)
+
         return self.df
 
-    def get_gdf(self, geom_col: str = "geom"):
+    def get_gdf(self):
         """ Get a geopandas GeoDataFrame from the query """
+
+        start_time = datetime.now()
 
         connection = psycopg2.connect(self.db.uri())
 
-        self.gdf = gpd.GeoDataFrame.from_postgis(self.q, connection, geom_col=geom_col)
+        self.gdf = gpd.GeoDataFrame.from_postgis(self.q, connection, geom_col=self.geom_col)
 
         connection.close()
+
+        end_time = datetime.now()
+        self.runtime = str(end_time - start_time)
 
         return self.gdf
