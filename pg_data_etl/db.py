@@ -1,6 +1,7 @@
 from __future__ import annotations
 import psycopg2
 import subprocess
+from typing import Union
 
 import pandas as pd
 import geopandas as gpd
@@ -8,6 +9,30 @@ import sqlalchemy
 
 from datetime import datetime
 import os
+
+
+def _sanitize_df_for_sql(
+    df: Union[pd.DataFrame, gpd.GeoDataFrame]
+) -> Union[pd.DataFrame, gpd.GeoDataFrame]:
+    """
+    Clean up a dataframe column names so it imports into SQL properly.
+
+    This includes:
+        - spaces in column names replaced with underscore
+        - all column names are 100% lowercase
+        - funky characters are stripped out of column names
+    """
+
+    # Replace "Column Name" with "column_name"
+    df.columns = df.columns.str.replace(" ", "_")
+    df.columns = [x.lower() for x in df.columns]
+
+    # Remove '.' and '-' from column names.
+    # i.e. 'geo.display-label' becomes 'geodisplaylabel'
+    for s in [".", "-", "(", ")", "+"]:
+        df.columns = df.columns.str.replace(s, "")
+
+    return df
 
 
 def _timestamp_for_filepath(dt: datetime = None) -> str:
@@ -375,13 +400,22 @@ class Database:
 
         If you specifically want a dataframe, set geo=False
         Likewise, set geo=True if you definitely want a geodataframe
+
+        If your spatial query uses a non-standard geom column (i.e. 'shape')
+        you'll need to pass a dictionary to 'query_kwargs'. For example:
+            >>> db = Database('my_db')
+            >>> db.query('select geom as shape from circuittrails', query_kwargs={'geom_col': 'shape'})
+
+        A more traditional query with 'geom' requires less typing:
+            >>> db.query('select geom from circuittrails')
         """
+
         if query_kwargs:
             query = Query(self, q, **query_kwargs)
         else:
             query = Query(self, q)
 
-        # Use the user's provided geo value
+        # Use the user's geo flag, if they provided one
         if geo is not None:
             geo_flag = geo
 
@@ -398,6 +432,77 @@ class Database:
 
         return query
 
+    # IMPORT PANDAS
+    def import_tabular_file(
+        self,
+        filepath: str,
+        sql_tablename: str,
+        pd_read_kwargs: dict = {},
+        df_import_kwargs: dict = {"index": False},
+    ) -> None:
+
+        # Determine if this is a CSV, XLS, or XLSX
+        file_end = filepath.lower().split(".")[-1]
+
+        if file_end == "csv":
+            df = pd.read_csv(filepath, **pd_read_kwargs)
+        elif file_end in ["xlsx", "xls"]:
+            df = pd.read_excel(filepath, **pd_read_kwargs)
+        else:
+            print(
+                f"File type: '{file_end}' is not supported. Check the official pandas documentation to see if this is a valid filetype."
+            )
+            return None
+
+        self.import_dataframe(df, sql_tablename, df_import_kwargs)
+
+    def import_dataframe(
+        self, df: pd.DataFrame, sql_tablename: str, df_import_kwargs: dict = {}
+    ) -> None:
+
+        # Clean up column names
+        df = _sanitize_df_for_sql(df)
+
+        # Make sure the schema exists
+        schema, table_name = _convert_full_tablename_to_parts(sql_tablename)
+        self.add_schema(schema)
+
+        # Write to database
+        engine = sqlalchemy.create_engine(self.uri())
+
+        df.to_sql(table_name, engine, schema=schema, **df_import_kwargs)
+
+        engine.dispose()
+
+    def import_geo_file(self, filepath: str, sql_tablename: str) -> None:
+
+        # Read the data into a geodataframe
+        gdf = gpd.read_file(filepath)
+
+        # Drop null geometries
+        gdf = gdf[gdf["geometry"].notnull()]
+
+        self.import_geodataframe()
+
+    def import_geodataframe(
+        self, gdf: gpd.GeoDataFrame, sql_tablename: str, gpd_kwargs: dict = {}
+    ) -> None:
+
+        # Get a list of all geometry types in the dataframe
+        geom_types = list(gdf.geometry.geom_type.unique())
+
+        # If there are multi- and single-part features, explode to singlepart
+        if len(geom_types) > 1:
+            # Explode multipart to singlepart and reset the index
+            gdf = gdf.explode()
+            gdf["explode"] = gdf.index
+            gdf = gdf.reset_index()
+
+        # Use the non-multi version of the geometry
+        geom_type_to_use = min(geom_types, key=len).upper()
+
+        pass
+
 
 class Query:
     def __init__(self, db: Database, q: str, geom_col: str = "geom"):
@@ -410,13 +515,14 @@ class Query:
 
     def is_spatial(self) -> bool:
         """
-        Guess if the query is spatial by looking at the "FROM tablename" portion of the query.
+        Guess if the query is spatial by looking at the 'FROM tablename' portion of the query.
 
         If the tablename is in the list of spatial tables, it will fetch a geodataframe of the query.
 
-        If the initial FROM table is not spatial, it will fetch a pandas dataframe of the query.
+        If the initial 'FROM tablename' is not spatial, it will fetch a pandas dataframe of the query.
         """
-        # Replace all occuranges of '\n' and '\t' with a space
+
+        # Replace all occuranges of '\n' and '\t' in the query with a space
         q = self.q.replace("\n", " ").replace("\t", " ")
 
         # Turn query into a list and remove all empty values
