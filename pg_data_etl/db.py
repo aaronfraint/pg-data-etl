@@ -2,8 +2,18 @@ from __future__ import annotations
 import psycopg2
 import subprocess
 
+import pandas as pd
+import geopandas as gpd
+import sqlalchemy
+
 
 def _convert_full_tablename_to_parts(tablename: str) -> tuple:
+    """
+    Take in a table name and return a tuple with (schema, name)
+
+    e.g.  'my_schema.my_table'  -> ('my_schema', 'my_table')
+          'my_table'            -> ('public', 'my_table')
+    """
     if "." not in tablename:
         schema = "public"
         tbl = tablename
@@ -57,6 +67,8 @@ class Database:
             "super_db": super_db,
         }
 
+    # ACCESS
+
     def uri(self, super_uri: bool = False) -> str:
         """
         Return the normal URI by default.
@@ -96,6 +108,8 @@ class Database:
         connection.close()
 
         return [list(x) for x in result]
+
+    # MANAGEMENT
 
     def exists(self) -> bool:
         """
@@ -146,6 +160,8 @@ class Database:
         if schema not in self.all_schemas_in_db():
             self.execute_via_psycopg2(f"CREATE SCHEMA IF NOT EXISTS {schema};")
 
+    # LISTS OF THINGS
+
     def all_tables_in_db(self, schema: str = None) -> list:
         """
         Get a list of all tables in the db.
@@ -195,6 +211,24 @@ class Database:
 
         return [x[0] for x in schemas]
 
+    def columns_in_table(self, tablename: str) -> list:
+        """ Get a list of all column names in a given table. """
+
+        schema, tbl = _convert_full_tablename_to_parts(tablename)
+
+        query = f"""
+            SELECT DISTINCT column_name
+            FROM information_schema.columns
+            WHERE
+                table_name = '{tbl}'
+              AND
+                table_schema = '{schema}';
+        """
+
+        return [x[0] for x in self.query_via_psycopg2(query)]
+
+    # COPY BETWEEN DATABASES
+
     def copy_table_to_another_db(self, table_to_copy: str, other_db: Database) -> None:
         """
         Pipe data directly from a pg_dump of one DB into another using psql
@@ -212,6 +246,8 @@ class Database:
         run_command_in_shell(command)
 
         other_db.lint_geom_colname(table_to_copy)
+
+    # SHAPEFILE I/O
 
     def pgsql2shp(self, table_or_sql: str, output_filepath: str) -> None:
         """
@@ -246,21 +282,7 @@ class Database:
 
         self.lint_geom_colname(sql_tablename)
 
-    def columns_in_table(self, tablename: str) -> list:
-        """ Get a list of all column names in a given table. """
-
-        schema, tbl = _convert_full_tablename_to_parts(tablename)
-
-        query = f"""
-            SELECT DISTINCT column_name
-            FROM information_schema.columns
-            WHERE
-                table_name = '{tbl}'
-              AND
-                table_schema = '{schema}';
-        """
-
-        return [x[0] for x in self.query_via_psycopg2(query)]
+    # UPDATE DATA IN-PLACE
 
     def rename_column(self, old_colname: str, new_colname: str, tablename: str) -> None:
         """ Change a column name for a table in SQL """
@@ -276,3 +298,33 @@ class Database:
 
         if "shape" in self.columns_in_table(tablename):
             self.rename_column("shape", "geom", tablename)
+
+
+class Query:
+    def __init__(self, db: Database, q: str):
+        self.db = db
+        self.q = q
+        self.df = None
+        self.gdf = None
+
+    def get_df(self) -> pd.Dataframe:
+        """ Get a pandas Dataframe from the query """
+
+        engine = sqlalchemy.create_engine(self.db.uri())
+
+        self.df = pd.read_sql(self.q, engine)
+
+        engine.dispose()
+
+        return self.df
+
+    def get_gdf(self, geom_col: str = "geom"):
+        """ Get a geopandas GeoDataFrame from the query """
+        
+        connection = psycopg2.connect(self.db.uri())
+
+        self.gdf = gpd.GeoDataFrame.from_postgis(self.q, connection, geom_col=geom_col)
+
+        connection.close()
+
+        return self.gdf
