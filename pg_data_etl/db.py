@@ -6,6 +6,7 @@ from typing import Union
 import pandas as pd
 import geopandas as gpd
 import sqlalchemy
+from geoalchemy2 import Geometry, WKTElement
 
 from datetime import datetime
 import os
@@ -30,7 +31,7 @@ def _sanitize_df_for_sql(
     # Remove '.' and '-' from column names.
     # i.e. 'geo.display-label' becomes 'geodisplaylabel'
     for s in [".", "-", "(", ")", "+"]:
-        df.columns = df.columns.str.replace(s, "")
+        df.columns = df.columns.str.replace(s, "", regex=False)
 
     return df
 
@@ -485,8 +486,16 @@ class Database:
         self.import_geodataframe()
 
     def import_geodataframe(
-        self, gdf: gpd.GeoDataFrame, sql_tablename: str, gpd_kwargs: dict = {}
+        self, gdf: gpd.GeoDataFrame, sql_tablename: str, gpd_kwargs: dict = {}, uid_col: str = "uid"
     ) -> None:
+
+        schema, table_name = _convert_full_tablename_to_parts(sql_tablename)
+
+        gdf = gdf.copy()
+
+        gdf = _sanitize_df_for_sql(gdf)
+
+        epsg_code = int(str(gdf.crs).split(":")[1])
 
         # Get a list of all geometry types in the dataframe
         geom_types = list(gdf.geometry.geom_type.unique())
@@ -501,7 +510,54 @@ class Database:
         # Use the non-multi version of the geometry
         geom_type_to_use = min(geom_types, key=len).upper()
 
-        pass
+        # Replace the 'geom' column with 'geometry'
+        if "geom" in gdf.columns:
+            gdf["geometry"] = gdf["geom"]
+            gdf.drop("geom", 1, inplace=True)
+
+        # Drop the 'gid' column
+        if "gid" in gdf.columns:
+            gdf.drop("gid", 1, inplace=True)
+
+        # Rename 'uid' to 'old_uid'
+        if uid_col in gdf.columns:
+            gdf[f"old_{uid_col}"] = gdf[uid_col]
+            gdf.drop(uid_col, 1, inplace=True)
+
+        # Build a 'geom' column using geoalchemy2
+        # and drop the source 'geometry' column
+        gdf["geom"] = gdf["geometry"].apply(lambda x: WKTElement(x.wkt, srid=epsg_code))
+        gdf.drop("geometry", 1, inplace=True)
+
+        # Write geodataframe to SQL database
+        self.add_schema(schema)
+
+        engine = sqlalchemy.create_engine(self.uri())
+        gdf.to_sql(
+            table_name,
+            engine,
+            schema=schema,
+            dtype={"geom": Geometry(geom_type_to_use, srid=epsg_code)},
+        )
+        engine.dispose()
+
+        self.add_uid_column_to_table(sql_tablename)
+        self.add_spatial_index_to_table(sql_tablename)
+
+    def add_uid_column_to_table(self, sql_tablename: str, uid_col: str = "uid"):
+
+        sql_unique_id_column = f"""
+            ALTER TABLE {sql_tablename} DROP COLUMN IF EXISTS {uid_col};
+            ALTER TABLE {sql_tablename} ADD {uid_col} serial PRIMARY KEY;
+        """
+        self.execute_via_psycopg2(sql_unique_id_column)
+
+    def add_spatial_index_to_table(self, sql_tablename: str):
+        sql_make_spatial_index = f"""
+            CREATE INDEX ON {sql_tablename}
+            USING GIST (geom);
+        """
+        self.execute_via_psycopg2(sql_make_spatial_index)
 
 
 class Query:
