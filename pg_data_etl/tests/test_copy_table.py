@@ -8,6 +8,7 @@ def test_copy_of_table(local_db, network_db_that_exists):
 
 def test_copy_of_local_spatial_table(local_db, local_sw_db):
     """Copy a spatial table from a local db to another local db """
+
     local_sw_db.copy_table_to_another_db("circuittrails", local_db)
 
     assert "circuittrails" in local_db.spatial_table_list()
@@ -15,6 +16,7 @@ def test_copy_of_local_spatial_table(local_db, local_sw_db):
 
 def test_copy_of_network_spatial_table(local_db, production_gis_db):
     """Copy a spatial table from a NETWORK db to a local db """
+
     production_gis_db.copy_table_to_another_db("boundaries.countyboundaries", local_db)
 
     assert "countyboundaries" in local_db.spatial_table_list()
