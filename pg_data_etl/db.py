@@ -453,9 +453,9 @@ class Database:
         # Determine if this is a CSV, XLS, or XLSX and use the appropriate pandas loader
         suffix = filepath.suffix.lower()
 
-        if suffix == "csv":
+        if suffix == ".csv":
             df = pd.read_csv(filepath, **pd_read_kwargs)
-        elif suffix in ["xlsx", "xls"]:
+        elif suffix in [".xlsx", ".xls"]:
             df = pd.read_excel(filepath, **pd_read_kwargs)
         else:
             print(
