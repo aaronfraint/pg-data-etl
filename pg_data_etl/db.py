@@ -538,6 +538,7 @@ class Database:
             engine,
             schema=schema,
             dtype={"geom": Geometry(geom_type_to_use, srid=epsg_code)},
+            **gpd_kwargs,
         )
         engine.dispose()
 
