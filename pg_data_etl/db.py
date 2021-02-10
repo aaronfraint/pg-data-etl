@@ -2,6 +2,7 @@ from __future__ import annotations
 import psycopg2
 import subprocess
 from typing import Union
+from pathlib import Path
 
 import pandas as pd
 import geopandas as gpd
@@ -268,14 +269,14 @@ class Database:
 
     # BACKUP
 
-    def backup_to_sql_file(self, output_folder: str) -> str:
+    def backup_to_sql_file(self, output_folder: Path) -> Path:
         """
         Create a standalone text file backup of the entire database.
         Returns the full filepath to the newly created file.
         """
 
         filename = f"{self.params['db_name']}_{_timestamp_for_filepath()}.sql"
-        output_filepath = os.path.join(output_folder, filename)
+        output_filepath = output_folder / filename
 
         command = f'pg_dump --no-owner --no-acl {self.uri()} > "{output_filepath}"'
         print(command)
@@ -304,6 +305,8 @@ class Database:
 
         target_db.ensure_geometry_is_named_geom(table_to_copy)
 
+        return None
+
     def copy_entire_db_to_another_db(self, target_db: Database) -> None:
         """
         Copy an entire database to a new database.
@@ -321,7 +324,7 @@ class Database:
 
         target_db.create_db()
 
-        sql_filepath = self.backup_to_sql_file(os.getcwd())
+        sql_filepath = self.backup_to_sql_file(Path.cwd())
 
         command = f'psql -f  "{sql_filepath}" {target_db.uri()}'
         print(command)
@@ -331,9 +334,14 @@ class Database:
         for table in target_db.spatial_table_list():
             target_db.ensure_geometry_is_named_geom(table)
 
+        # Delete the .sql file from disk
+        sql_filepath.unlink()
+
+        return None
+
     # SHAPEFILE I/O
 
-    def pgsql2shp(self, table_or_sql: str, output_filepath: str) -> None:
+    def pgsql2shp(self, table_or_sql: str, output_filepath: Path) -> None:
         """
         Use pgsql2shp to export a shapefile from the database.
 
@@ -436,22 +444,22 @@ class Database:
     # IMPORT PANDAS
     def import_tabular_file(
         self,
-        filepath: str,
+        filepath: Path,
         sql_tablename: str,
         pd_read_kwargs: dict = {},
         df_import_kwargs: dict = {"index": False},
     ) -> None:
 
-        # Determine if this is a CSV, XLS, or XLSX
-        file_end = filepath.lower().split(".")[-1]
+        # Determine if this is a CSV, XLS, or XLSX and use the appropriate pandas loader
+        suffix = filepath.suffix.lower()
 
-        if file_end == "csv":
+        if suffix == "csv":
             df = pd.read_csv(filepath, **pd_read_kwargs)
-        elif file_end in ["xlsx", "xls"]:
+        elif suffix in ["xlsx", "xls"]:
             df = pd.read_excel(filepath, **pd_read_kwargs)
         else:
             print(
-                f"File type: '{file_end}' is not supported. Check the official pandas documentation to see if this is a valid filetype."
+                f"File type: '{suffix}' is not supported. Check the official pandas documentation to see if this is a valid filetype."
             )
             return None
 
@@ -475,7 +483,7 @@ class Database:
 
         engine.dispose()
 
-    def import_geo_file(self, filepath: str, sql_tablename: str, gpd_kwargs: dict = {}) -> None:
+    def import_geo_file(self, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {}) -> None:
 
         # Read the data into a geodataframe
         gdf = gpd.read_file(filepath)
