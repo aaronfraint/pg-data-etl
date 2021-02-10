@@ -85,7 +85,7 @@ class Database:
         super_un: str,
         super_pw: str,
         super_db: str = "postgres",
-        port: int = 5423,
+        port: int = 5432,
     ):
         """
         Create a URI and super URI that get used across the class.
