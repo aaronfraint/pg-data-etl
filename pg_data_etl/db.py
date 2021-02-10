@@ -475,7 +475,7 @@ class Database:
 
         engine.dispose()
 
-    def import_geo_file(self, filepath: str, sql_tablename: str) -> None:
+    def import_geo_file(self, filepath: str, sql_tablename: str, gpd_kwargs: dict = {}) -> None:
 
         # Read the data into a geodataframe
         gdf = gpd.read_file(filepath)
@@ -483,7 +483,7 @@ class Database:
         # Drop null geometries
         gdf = gdf[gdf["geometry"].notnull()]
 
-        self.import_geodataframe()
+        self.import_geodataframe(gdf, sql_tablename, gpd_kwargs)
 
     def import_geodataframe(
         self, gdf: gpd.GeoDataFrame, sql_tablename: str, gpd_kwargs: dict = {}, uid_col: str = "uid"
