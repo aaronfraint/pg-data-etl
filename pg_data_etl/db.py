@@ -10,7 +10,6 @@ import sqlalchemy
 from geoalchemy2 import Geometry, WKTElement
 
 from datetime import datetime
-import os
 
 
 def _sanitize_df_for_sql(
@@ -441,7 +440,8 @@ class Database:
 
         return query
 
-    # IMPORT PANDAS
+    # IMPORT PANDAS & GEOPANDAS
+
     def import_tabular_file(
         self,
         filepath: Path,
@@ -553,7 +553,12 @@ class Database:
         self.add_uid_column_to_table(sql_tablename)
         self.add_spatial_index_to_table(sql_tablename)
 
+    # CANNED QUERIES THAT GET USED A LOT
+
     def add_uid_column_to_table(self, sql_tablename: str, uid_col: str = "uid"):
+        """
+        Add a unique ID column to a table as a SERIAL PRIMARY KEY type
+        """
 
         sql_unique_id_column = f"""
             ALTER TABLE {sql_tablename} DROP COLUMN IF EXISTS {uid_col};
@@ -562,11 +567,90 @@ class Database:
         self.execute_via_psycopg2(sql_unique_id_column)
 
     def add_spatial_index_to_table(self, sql_tablename: str):
+        """
+        Add a spatial index on a table's geom column
+        """
         sql_make_spatial_index = f"""
             CREATE INDEX ON {sql_tablename}
             USING GIST (geom);
         """
         self.execute_via_psycopg2(sql_make_spatial_index)
+
+    def project_spatial_table(
+        self,
+        sql_tablename: str,
+        old_epsg: Union[int, str],
+        new_epsg: Union[int, str],
+        geom_type: str,
+    ) -> None:
+        """
+        Transform a table in-place from old_epsg to new_epsg.
+
+        You can use this with identical old and new epsgs to force an
+        entry into the geometry_columns table.
+        (Helpful for making geotables directly in the DB via query)
+        """
+
+        sql_transform_geom = f"""
+            ALTER TABLE {sql_tablename}
+            ALTER COLUMN geom TYPE geometry({geom_type}, {new_epsg})
+            USING ST_Transform(ST_SetSRID(geom, {old_epsg}), {new_epsg});
+        """
+        self.execute_via_psycopg2(sql_transform_geom)
+
+    # EXECUTE A QUERY THAT CREATES A NEW GEOTABLE IN THE DB
+
+    def make_geotable_from_query(
+        self,
+        query: str,
+        new_table_name: str,
+        geom_type: str,
+        epsg: int,
+        uid_col: str = "uid",
+    ) -> None:
+        """
+        Allow the creation of a new table in the db directly via query.
+
+        This is especially helpful when you're working with a large dataset
+        and you want to limit the I/O processing time.
+        """
+
+        schema, tbl = _convert_full_tablename_to_parts(new_table_name)
+
+        valid_geom_types = [
+            "POINT",
+            "MULTIPOINT",
+            "POLYGON",
+            "MULTIPOLYGON",
+            "LINESTRING",
+            "MULTILINESTRING",
+        ]
+
+        if geom_type.upper() not in valid_geom_types:
+            for msg in [
+                f"Geometry type of {geom_type} is not valid.",
+                f"Please use one of the following: {valid_geom_types}",
+                "Aborting",
+            ]:
+                print("\t", msg)
+            return
+
+        sql_make_table_from_query = f"""
+            DROP TABLE IF EXISTS {new_table_name};
+            CREATE TABLE {new_table_name} AS
+            {query}
+        """
+
+        self.add_schema(schema)
+
+        self.execute_via_psycopg2(sql_make_table_from_query)
+
+        self.add_uid_column_to_table(new_table_name, uid_col=uid_col)
+        self.add_spatial_index_to_table(new_table_name)
+
+        # We're not reprojecting here, but rather forcing an entry for
+        # the new geo table into the geometry_columns table
+        self.project_spatial_table(new_table_name, epsg, epsg, geom_type=geom_type.upper())
 
 
 class Query:
