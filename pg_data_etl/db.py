@@ -652,6 +652,44 @@ class Database:
         # the new geo table into the geometry_columns table
         self.project_spatial_table(new_table_name, epsg, epsg, geom_type=geom_type.upper())
 
+    # REPORTS
+
+    def report_spatial(self):
+        query = "select concat(f_table_schema, '.', f_table_name), srid, type from geometry_columns"
+
+        results = self.query_via_psycopg2(query)
+
+        output = {}
+
+        for row in results:
+            tbl, epsg, geom_type = row
+
+            if epsg not in output:
+                output[epsg] = {}
+
+            if geom_type not in output[epsg]:
+                output[epsg][geom_type] = []
+
+            output[epsg][geom_type].append(tbl)
+
+        print("-" * 80)
+        print(f"Spatial Data Report for DB: {self.uri()}")
+
+        epsg_list = [x for x in output.keys()]
+        if len(epsg_list) < 2:
+            print(f"\t-> All data is stored in {epsg_list[0]}")
+        else:
+            print(f"\t-> Data is stored in {len(epsg_list)} projections: {epsg_list}")
+
+        for k in output.keys():
+            print(f"\t-> EPSG: {k}")
+            for geom_type in output[k]:
+                print(f"\t\t->{geom_type}")
+                for tbl in output[k][geom_type]:
+                    print(f"\t\t\t-> {tbl}")
+
+        return output
+
 
 class Query:
     def __init__(self, db: Database, q: str, geom_col: str = "geom"):
