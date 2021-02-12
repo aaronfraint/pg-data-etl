@@ -86,6 +86,7 @@ class Database:
         super_pw: str,
         super_db: str = "postgres",
         port: int = 5432,
+        dump_cmd_prefix: str = None,
     ):
         """
         Create a URI and super URI that get used across the class.
@@ -94,6 +95,8 @@ class Database:
         self._uri = f"postgresql://{un}:{pw}@{host}:{port}/{db_name}"
 
         self._super_uri = f"postgresql://{super_un}:{super_pw}@{host}:{port}/{super_db}"
+
+        self.dump_cmd_prefix = dump_cmd_prefix
 
         self.params = {
             "un": un,
@@ -278,6 +281,10 @@ class Database:
         output_filepath = output_folder / filename
 
         command = f'pg_dump --no-owner --no-acl {self.uri()} > "{output_filepath}"'
+
+        if self.dump_cmd_prefix:
+            command = self.dump_cmd_prefix + " " + command
+
         print(command)
 
         run_command_in_shell(command)
@@ -299,6 +306,10 @@ class Database:
         command = (
             f"pg_dump --no-owner --no-acl -t {table_to_copy} {self.uri()} | psql {target_db.uri()}"
         )
+
+        if self.dump_cmd_prefix:
+            command = self.dump_cmd_prefix + " " + command
+
         print(command)
         run_command_in_shell(command)
 
