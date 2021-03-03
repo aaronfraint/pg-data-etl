@@ -386,7 +386,7 @@ class Database:
 
         self.ensure_geometry_is_named_geom(sql_tablename)
 
-    def ogr2ogr_export(self, filepath: Path, table_or_sql: str, filetype: str = "ESRI Shapefile"):
+    def ogr2ogr_export(self, table_or_sql: str, filepath: Path, filetype: str = "ESRI Shapefile"):
         """
         Use ogr2ogr to export a shapefile from the database.
 
