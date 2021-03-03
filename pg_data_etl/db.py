@@ -352,12 +352,15 @@ class Database:
              "SELECT * FROM pa.centerlines WHERE some_column = 'some value'"
         """
 
+        print("WARNING! pgsql2shp creates shapefiles that do not contain EPSG values")
+        print("As an alternative that preserves EPSG values, use Database.ogr2ogr_export() instead")
+
         if "select" in table_or_sql.lower():
             query = table_or_sql
         else:
             query = f"SELECT * FROM {table_or_sql}"
 
-        command = f'pgsql2shp -f "{output_filepath}" -h {self.params["host"]} -u {self.params["un"]} -P {self.params["pw"]} {self.params["db_name"]} "{query}" '
+        command = f'pgsql2shp -f "{output_filepath}" -h {self.params["host"]} -u {self.params["un"]} -P {self.params["pw"]} -p {self.params["port"]} {self.params["db_name"]} "{query}" '
         print(command)
 
         run_command_in_shell(command)
@@ -382,6 +385,25 @@ class Database:
         run_command_in_shell(command)
 
         self.ensure_geometry_is_named_geom(sql_tablename)
+
+    def ogr2ogr_export(self, filepath: Path, table_or_sql: str, filetype: str = "ESRI Shapefile"):
+        """
+        Use ogr2ogr to export a shapefile from the database.
+
+        Valid arguments for `table_or_sql` are the name of a table or a full query.
+        e.g. "pa.centerlines"
+             "SELECT * FROM pa.centerlines WHERE some_column = 'some value'"
+        """
+
+        if "select" in table_or_sql.lower():
+            query = table_or_sql
+        else:
+            query = f"SELECT * FROM {table_or_sql}"
+
+        cmd = f'ogr2ogr -f "{filetype}" "{filepath}" PG:"host={self.params["host"]} user={self.params["un"]} password={self.params["pw"]} port={self.params["port"]} dbname={self.params["db_name"]}" -sql "{query}"'
+        print(cmd)
+
+        run_command_in_shell(cmd)
 
     # UPDATE DATA IN-PLACE
 
