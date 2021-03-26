@@ -395,14 +395,16 @@ class Database:
              "SELECT * FROM pa.centerlines WHERE some_column = 'some value'"
         """
 
+        cmd = f'ogr2ogr -f "{filetype}" "{filepath}" PG:"host={self.params["host"]} user={self.params["un"]} password={self.params["pw"]} port={self.params["port"]} dbname={self.params["db_name"]}" '
+
         if "select" in table_or_sql.lower():
-            query = table_or_sql
+            sql = table_or_sql
+            cmd += f' -sql "{sql}"'
         else:
-            query = f"SELECT * FROM {table_or_sql}"
+            tablename = table_or_sql
+            cmd += f" {tablename}"
 
-        cmd = f'ogr2ogr -f "{filetype}" "{filepath}" PG:"host={self.params["host"]} user={self.params["un"]} password={self.params["pw"]} port={self.params["port"]} dbname={self.params["db_name"]}" -sql "{query}"'
         print(cmd)
-
         run_command_in_shell(cmd)
 
     # UPDATE DATA IN-PLACE
