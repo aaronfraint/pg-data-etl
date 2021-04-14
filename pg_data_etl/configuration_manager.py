@@ -13,10 +13,12 @@ port = 5432
 super_db = postgres
 super_un = postgres
 super_pw = this-is-another-placeholder-password
+
 [localhost]
 host = localhost
 un = postgres
 pw = your-password-here
+
 [digitalocean]
 un = your-username-here
 host = your-host-here.db.ondigitalocean.com
