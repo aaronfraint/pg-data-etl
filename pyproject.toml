@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pg-data-etl"
+version = "0.1.0"
+description = "ETL tools for postgres data, built on top of the psql and pg_dump command line tools"
+authors = ["Aaron Fraint <38364429+aaronfraint@users.noreply.github.com>"]
+license = "GNU v3"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+python-dotenv = "^0.17.0"
+psycopg2 = "^2.8.6"
+GeoAlchemy2 = "^0.8.5"
+geopandas = "^0.9.0"
+
+[tool.poetry.dev-dependencies]
+black = "^20.8b1"
+pytest = "^6.2.3"
+flake8 = "^3.9.0"
+jupyterlab = "^3.0.14"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
