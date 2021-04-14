@@ -6,7 +6,22 @@ ETL tools for postgres data, built on top of the psql and pg_dump command line t
 
 This module exists to make life easier when working with geospatial data in a Postgres environment.
 
-For example, the following code block imports a spatial table into Postgres and runs spatial queries, returned as a `geopandas.GeoDataFrame`
+You should have the following command-line tools installed, preferably on your system path:
+
+- `psql`
+- `pg_dump`
+- `shp2postgis`
+- `ogr2ogr`
+
+## Installation
+
+`pip install pg_data_etl`
+
+## Example
+
+The following code blocks import spatial data into Postgres and runs a spatial query:
+
+### 1) Connect to the database
 
 ```python
 >>> import pg_data_etl as pg
@@ -19,12 +34,22 @@ For example, the following code block imports a spatial table into Postgres and 
 ... }
 >>> db = pg.Database("sample_database", **credentials)
 >>> db.create_db()
+```
+
+### 2) Import GIS data from the web
+
+```python
 >>> data_to_import = [
 ...     ("philly.high_injury_network", "https://phl.carto.com/api/v2/sql?filename=high_injury_network_2020&format=geojson&skipfields=cartodb_id&q=SELECT+*+FROM+high_injury_network_2020"),
 ...     ("philly.playgrounds", "https://opendata.arcgis.com/datasets/899c807e205244278b3f39421be8489c_0.geojson")
 ... ]
 >>> for sql_tablename, source_url in data_to_import:
 ...     db.import_geo_file(source_url, sql_tablename)
+```
+
+### 3) Run a query and get the result as a `geopandas.GeoDataFrame`
+
+```
 >>> playground_query = """
 ... select * from philly.high_injury_network
 ... where st_dwithin(
@@ -69,21 +94,9 @@ You can have as many connections defined as you'd like, and you can use them lik
 >>> db = pg.Database("sample_database", **credentials["localhost"])
 ```
 
-## Assumptions
+## Development
 
-You should have the following command-line tools installed, preferably on your system path:
-
-- `psql`
-- `pg_dump`
-- `shp2postgis`
-- `ogr2ogr`
-
-## Installation
-
-If you want to install into an existing environment:
-`pip install pg_data_etl`
-
-Alternatively, you can clone this repo and install an editable version:
+Clone or fork this repo and install an editable version:
 
 ```bash
 git clone https://github.com/aaronfraint/pg-data-etl.git
