@@ -681,7 +681,7 @@ class Database:
 
     # REPORTS
 
-    def report_spatial(self):
+    def report_spatial(self, print_output: bool = False) -> dict:
         query = "select concat(f_table_schema, '.', f_table_name), srid, type from geometry_columns"
 
         results = self.query_via_psycopg2(query)
@@ -716,6 +716,43 @@ class Database:
                     print(f"\t\t\t-> {tbl}")
 
         return output
+
+    def get_projection(self, tablename: str) -> int:
+        """
+        - Get the projection of a spatial table
+
+        Args:
+            tablename (str): name of table to check, optionally with schema prefix
+
+        Returns:
+            EPSG of table
+        """
+        schema, tbl = _convert_full_tablename_to_parts(tablename)
+
+        query = f"""
+            select srid
+            from geometry_columns
+            where f_table_schema = '{schema}'
+            and f_table_name = '{tbl}'
+        """
+
+        result = self.query_via_psycopg2(query)
+        data_epsg = result[0][0]
+
+        return data_epsg
+
+    def check_projection(self, tablename: str, epsg: int) -> bool:
+        """
+        - Check a table to see if the projection matches an expected value
+
+        Args:
+            tablename (str): name of table to check, optionally with schema prefix
+
+        Returns:
+            `True` or `False`, depending on whether the `epsg` matches the table
+        """
+
+        return self.get_projection(tablename) == epsg
 
 
 class Query:
