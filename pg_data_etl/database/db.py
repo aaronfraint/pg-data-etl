@@ -1,174 +1,183 @@
 from __future__ import annotations
 
+from pg_data_etl import helpers, actions
+
 
 class Database:
-    def __init__(
-        self,
-        db_name: str,
-        host: str,
-        un: str,
-        pw: str,
-        super_un: str,
-        super_pw: str,
-        super_db: str = "postgres",
-        port: int = 5432,
-        pg_dump_path: str = None,
-    ):
+    """
+    The `Database` class encapsulates the PostgreSQL connection and
+    all necessary functionality. It can be created in two ways:
+
+    - Option 1: pass a database connection string (i.e. 'uri')
+
+            >>> uri = 'postgresql://postgres:password@localhost:5432/name_of_db'
+            >>> db = Database.from_uri(uri)
+
+    - Option 2: pass a keyword-argument dictionary with the connection parameters
+
+            >>> creds = {'db_name': 'my_db', 'un': 'my_username', pw='my_password'}
+            >>> db = Database.from_parameters(**creds)
+
+
+    No matter how it was created, you can access the connection parameters and URI:
+
+    - Get the database URI with `db.uri`
+
+            >>> db.uri
+            'postgresql://postgres:password@localhost:5432/name_of_db'
+
+    - Get the database connection parameters with `db.connection_params`
+
+            >>> db.connection_params
+            {'db_name': 'name_of_db', 'host': 'localhost', 'un': 'postgres',
+            'pw': 'password', 'port': '5432', 'extras': None}
+
+    ---
+
+    """
+
+    def __init__(self, psql_path: str | None = None, **kwargs):
         """
-        Create a URI and super URI that get used across the class.
+        - Save all initial keyword arguments as private variables
+            - i.e. "host" argument becomes accessible as `Database._host`
+
+        - Accept a flexible set of kwargs, depending on whether the instance
+        is created `from_parameters()` or `from_uri()`
+
         """
 
-        self._uri = f"postgresql://{un}:{pw}@{host}:{port}/{db_name}"
+        self._psql_path = psql_path
+        self._init_kwargs = kwargs
 
-        self._super_uri = f"postgresql://{super_un}:{super_pw}@{host}:{port}/{super_db}"
+        # Save all kwargs as private variables
+        for key, value in kwargs.items():
+            setattr(self, f"_{key}", value)
 
-        self.pg_dump = "pg_dump" if not pg_dump_path else pg_dump_path
-
-        self.params = {
-            "un": un,
-            "pw": pw,
-            "host": host,
-            "db_name": db_name,
-            "port": port,
-            "super_un": super_un,
-            "super_pw": super_pw,
-            "super_db": super_db,
-        }
-
-    # ACCESS
-
-    def uri(self, super_uri: bool = False) -> str:
-        """
-        Return the normal URI by default.
-        Return the super database URI if super_uri = True
-        """
-
-        if super_uri:
-            return self._super_uri
+        # Record how the instance was created
+        if self._uri:
+            self.CREATED_BY_URI = True
         else:
+            self.CREATED_BY_URI = False
+
+    @property
+    def connection_params(self) -> dict:
+        """
+        - Return a `dict` of the connection parameters
+        """
+        if self.CREATED_BY_URI:
+            return helpers.decode_uri(self._uri)
+
+        else:
+            return {
+                "db_name": self._db_name,
+                "host": self._host,
+                "un": self._un,
+                "pw": self._pw,
+                "port": self._port,
+                "extras": self._extras,
+            }
+
+    @property
+    def uri(self) -> str:
+        """
+        - Return a connection string
+        """
+        if self.CREATED_BY_URI:
             return self._uri
-
-    def execute(self, query: str, super_uri: bool = False) -> None:
-        execute_via_psycopg2(self, query, super_uri=super_uri)
-
-    # GET DATA OUT VIA QUERY
-
-    def query(self, q: str, geo: bool = None, query_kwargs: dict = None) -> Query:
-        """
-        Run a query in the database and return a Query() object.
-
-        Leave 'geo' as None if you want the query to figure out
-        whether to return a geodataframe or regular dataframe.
-
-        If you specifically want a dataframe, set geo=False
-        Likewise, set geo=True if you definitely want a geodataframe
-
-        If your spatial query uses a non-standard geom column (i.e. 'shape')
-        you'll need to pass a dictionary to 'query_kwargs'. For example:
-            >>> db = Database('my_db')
-            >>> db.query('select geom as shape from circuittrails', query_kwargs={'geom_col': 'shape'})
-
-        A more traditional query with 'geom' requires less typing:
-            >>> db.query('select geom from circuittrails')
-        """
-
-        if query_kwargs:
-            query = Query(self, q, **query_kwargs)
         else:
-            query = Query(self, q)
+            return helpers.generate_uri(
+                db_name=self._db_name,
+                host=self._host,
+                un=self._un,
+                pw=self._pw,
+                port=self._port,
+                extras=self._extras,
+            )
 
-        # Use the user's geo flag, if they provided one
-        if geo is not None:
-            geo_flag = geo
+    @property
+    def uri_superuser(self, super_db: str = "postgres"):
+        """
+        - Return a connection string for the super-user / super-database
+        - This is only needed to create the database from within Python
+        """
 
-        # If none provided, try to guess if it's spatial
+        if self.CREATED_BY_URI:
+            params = helpers.decode_uri(self._uri)
+            params["db_name"] = super_db
+            return helpers.generate_uri(**params)
+
         else:
-            geo_flag = query.is_spatial()
+            return helpers.generate_uri(
+                db_name=self._super_db,
+                host=self._host,
+                un=self._super_un,
+                pw=self._super_pw,
+                port=self._port,
+            )
 
-        # If spatial, return a geodataframe
-        if geo_flag:
-            query.get_gdf()
-        # If not spatial, return a pandas dataframe
-        else:
-            query.get_df()
-
-        return query
-
-    # IMPORT PANDAS & GEOPANDAS
-
-    # CANNED QUERIES THAT GET USED A LOT
-
-    # REPORTS
-
-    def report_spatial(self, print_output: bool = False) -> dict:
-        query = "select concat(f_table_schema, '.', f_table_name), srid, type from geometry_columns"
-
-        results = self.query_via_psycopg2(query)
-
-        output = {}
-
-        for row in results:
-            tbl, epsg, geom_type = row
-
-            if epsg not in output:
-                output[epsg] = {}
-
-            if geom_type not in output[epsg]:
-                output[epsg][geom_type] = []
-
-            output[epsg][geom_type].append(tbl)
-
-        print("-" * 80)
-        print(f"Spatial Data Report for DB: {self.uri()}")
-
-        epsg_list = [x for x in output.keys()]
-        if len(epsg_list) < 2:
-            print(f"\t-> All data is stored in {epsg_list[0]}")
-        else:
-            print(f"\t-> Data is stored in {len(epsg_list)} projections: {epsg_list}")
-
-        for k in output.keys():
-            print(f"\t-> EPSG: {k}")
-            for geom_type in output[k]:
-                print(f"\t\t->{geom_type}")
-                for tbl in output[k][geom_type]:
-                    print(f"\t\t\t-> {tbl}")
-
-        return output
-
-    def get_projection(self, tablename: str) -> int:
+    @classmethod
+    def from_parameters(
+        cls,
+        db_name: str,
+        host: str = "localhost",
+        un: str = "postgres",
+        pw: str = "",
+        port: int = 5432,
+        super_un: str | None = None,
+        super_pw: str | None = None,
+        super_db: str = "postgres",
+        extras: str | None = None,
+    ) -> Database:
         """
-        - Get the projection of a spatial table
+        - Build a `Database` from keyword arguments
 
-        Args:
-            tablename (str): name of table to check, optionally with schema prefix
+        - Super username/password are necessary to create a database. Unless
+        explicitly declared, these values are assumed to be the same as the
+        provided username/password
 
-        Returns:
-            EPSG of table
-        """
-        schema, tbl = _convert_full_tablename_to_parts(tablename)
-
-        query = f"""
-            select srid
-            from geometry_columns
-            where f_table_schema = '{schema}'
-            and f_table_name = '{tbl}'
         """
 
-        result = self.query_via_psycopg2(query)
-        data_epsg = result[0][0]
+        if not super_un:
+            super_un = un
+        if not super_pw:
+            super_pw = pw
 
-        return data_epsg
+        return cls(
+            db_name=db_name,
+            host=host,
+            un=un,
+            pw=pw,
+            port=port,
+            super_un=super_un,
+            super_pw=super_pw,
+            super_db=super_db,
+            extras=extras,
+        )
 
-    def check_projection(self, tablename: str, epsg: int) -> bool:
+    @classmethod
+    def from_uri(cls, uri: str) -> Database:
         """
-        - Check a table to see if the projection matches an expected value
-
-        Args:
-            tablename (str): name of table to check, optionally with schema prefix
-
-        Returns:
-            `True` or `False`, depending on whether the `epsg` matches the table
+        - Build a `Database` through its URI
         """
+        return cls(uri=uri)
 
-        return self.get_projection(tablename) == epsg
+    def exists(self) -> bool:
+        """
+        - Return `True` or `False` depending on whether the database exists or not
+        """
+        return actions.does_database_exist(self)
+
+    def admin(self, action: str) -> None:
+        action = action.upper()
+        options = ["CREATE", "DROP"]
+        if action not in options:
+            print(
+                f"Admin {action=} is not supported\nAvailable administration options include: {options}"
+            )
+            return None
+
+        if action == "CREATE":
+            actions.create_database(self)
+
+        if action == "DROP":
+            actions.drop_database(self)
