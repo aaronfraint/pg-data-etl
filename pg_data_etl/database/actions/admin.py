@@ -1,4 +1,4 @@
-import pg_data_etl.database.helpers as helpers
+from pg_data_etl import helpers
 
 
 def create_database(db) -> None:
@@ -32,7 +32,10 @@ def drop_database(db) -> None:
 
 
 def add_schema(db, schema: str) -> None:
-    """Add a schema if it does not yet exist """
+    """
+    - Create a schema if it does not yet exist
+    """
 
-    if schema not in db.schema_list():
-        db.execute(f"CREATE SCHEMA IF NOT EXISTS {schema};")
+    query = f"CREATE SCHEMA IF NOT EXISTS {schema};"
+
+    db.execute(query)

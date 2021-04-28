@@ -7,34 +7,31 @@ from geoalchemy2 import Geometry, WKTElement
 import pg_data_etl.database.helpers as helpers
 
 
-def shp2pgsql(db, shp_path: str, srid: int, sql_tablename: str, new_srid: int = None):
+def shp2pgsql(db, shp_path: str, srid: int, tablename: str, new_srid: int = None):
     """
     Use the shp2pgsql command to import a shapefile into the database
     """
 
-    # Ensure that the schema provided in the 'sql_tablename' exists
-    if "." in sql_tablename:
-        schema = sql_tablename.split(".")[0]
-        db.add_schema(schema)
+    # Ensure that the schema provided in the 'tablename' exists
+    schema, _ = helpers.convert_full_tablename_to_parts(tablename)
+    db.add_schema(schema)
 
     # If 'new_srid' is provided, use 'old:new' to project on the fly
     srid_arg = f"{srid}:{new_srid}" if new_srid else srid
 
-    command = (
-        f'shp2pgsql -I -s {srid_arg} "{shp_path}" {sql_tablename} | psql {db.uri()}'
-    )
+    command = f'{db.shp2pgsql} -I -s {srid_arg} "{shp_path}" {sql_tablename} | psql {db.uri}'
 
     print(command)
 
     helpers.run_command_in_shell(command)
 
-    db.ensure_geometry_is_named_geom(sql_tablename)
+    db.lint_geom_colname(tablename)
 
 
 def import_tabular_file(
     db,
     filepath: Path,
-    sql_tablename: str,
+    tablename: str,
     pd_read_kwargs: dict = {},
     df_import_kwargs: dict = {"index": False},
 ) -> None:
@@ -52,31 +49,27 @@ def import_tabular_file(
         )
         return None
 
-    db.import_dataframe(df, sql_tablename, df_import_kwargs)
+    db.import_dataframe(df, tablename, df_import_kwargs)
 
 
-def import_dataframe(
-    db, df: pd.DataFrame, sql_tablename: str, df_import_kwargs: dict = {}
-) -> None:
+def import_dataframe(db, df: pd.DataFrame, tablename: str, df_import_kwargs: dict = {}) -> None:
 
     # Clean up column names
     df = helpers.sanitize_df_for_sql(df)
 
     # Make sure the schema exists
-    schema, table_name = helpers.convert_full_tablename_to_parts(sql_tablename)
+    schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
     db.add_schema(schema)
 
     # Write to database
     engine = sqlalchemy.create_engine(db.uri())
 
-    df.to_sql(table_name, engine, schema=schema, **df_import_kwargs)
+    df.to_sql(tbl, engine, schema=schema, **df_import_kwargs)
 
     engine.dispose()
 
 
-def import_geo_file(
-    db, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {}
-) -> None:
+def import_geo_file(db, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {}) -> None:
 
     # Read the data into a geodataframe
     gdf = gpd.read_file(filepath)
@@ -90,12 +83,13 @@ def import_geo_file(
 def import_geodataframe(
     db,
     gdf: gpd.GeoDataFrame,
-    sql_tablename: str,
+    tablename: str,
     gpd_kwargs: dict = {},
     uid_col: str = "uid",
 ) -> None:
-
-    schema, table_name = helpers.convert_full_tablename_to_parts(sql_tablename)
+    """
+    TODO: option to use multipart features instead of exploding to singlepart
+    """
 
     gdf = gdf.copy()
 
@@ -135,12 +129,14 @@ def import_geodataframe(
     gdf["geom"] = gdf["geometry"].apply(lambda x: WKTElement(x.wkt, srid=epsg_code))
     gdf.drop("geometry", 1, inplace=True)
 
-    # Write geodataframe to SQL database
+    # Ensure that the target schema exists
+    schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
     db.add_schema(schema)
 
+    # Write geodataframe to SQL database
     engine = sqlalchemy.create_engine(db.uri())
     gdf.to_sql(
-        table_name,
+        tbl,
         engine,
         schema=schema,
         dtype={"geom": Geometry(geom_type_to_use, srid=epsg_code)},
@@ -148,5 +144,5 @@ def import_geodataframe(
     )
     engine.dispose()
 
-    db.add_uid_column_to_table(sql_tablename)
-    db.add_spatial_index_to_table(sql_tablename)
+    db.add_uid_column_to_table(tablename)
+    db.add_spatial_index_to_table(tablename)

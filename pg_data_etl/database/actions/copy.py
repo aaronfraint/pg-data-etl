@@ -1,5 +1,5 @@
 from pathlib import Path
-import pg_data_etl.database.helpers as helpers
+from pg_data_etl import helpers
 
 
 def copy_table_to_another_db(db, table_to_copy: str, target_db) -> None:
@@ -12,14 +12,12 @@ def copy_table_to_another_db(db, table_to_copy: str, target_db) -> None:
         schema = table_to_copy.split(".")[0]
         target_db.add_schema(schema)
 
-    command = (
-        f"{db.pg_dump} --no-owner --no-acl -t {table_to_copy} {db.uri()} | psql {target_db.uri()}"
-    )
+    command = f"{db.pg_dump} --no-owner --no-acl -t {table_to_copy} {db.uri} | psql {target_db.uri}"
 
     print(command)
     helpers.run_command_in_shell(command)
 
-    target_db.ensure_geometry_is_named_geom(table_to_copy)
+    db.lint_geom_colname(target_db, table_to_copy)
 
     return None
 
@@ -34,24 +32,25 @@ def copy_entire_db_to_another_db(db, target_db) -> None:
     """
 
     if target_db.exists():
+        target_db_name = target_db.connection_params["db_name"]
         print(
-            f"A database named '{target_db.params['db_name']}' already exists. Use a different name or drop this database before copying into it."
+            f"A database named '{target_db_name}' already exists. Use a different name or drop this database before copying into it."
         )
         return None
 
-    target_db.create_db()
+    else:
+        sql_filepath = db.dump()
 
-    sql_filepath = db.backup_to_sql_file(Path.cwd())
+        target_db.admin("CREATE")
 
-    command = f'psql -f  "{sql_filepath}" {target_db.uri()}'
-    print(command)
-    helpers.run_command_in_shell(command)
+        command = f'{target_db.psql} -f  "{sql_filepath}" {target_db.uri}'
+        helpers.run_command_in_shell(command)
 
-    # Ensure that spatial tables have 'geom' instead of 'shape' columns
-    for table in target_db.spatial_table_list():
-        target_db.ensure_geometry_is_named_geom(table)
+        # Ensure that spatial tables have 'geom' instead of 'shape' columns
+        for table in target_db.list_of_tables(spatial_only=True):
+            target_db.lint_geom_colname(table)
 
-    # Delete the .sql file from disk
-    sql_filepath.unlink()
+        # Delete the .sql file from disk
+        sql_filepath.unlink()
 
-    return None
+        return None
