@@ -1,9 +1,8 @@
 from pathlib import Path
-from pg_data_etl import Database
 import pg_data_etl.database.helpers as helpers
 
 
-def copy_table_to_another_db(db, table_to_copy: str, target_db: Database) -> None:
+def copy_table_to_another_db(db, table_to_copy: str, target_db) -> None:
     """
     Pipe data directly from a pg_dump of one DB into another using psql
     """
@@ -13,7 +12,9 @@ def copy_table_to_another_db(db, table_to_copy: str, target_db: Database) -> Non
         schema = table_to_copy.split(".")[0]
         target_db.add_schema(schema)
 
-    command = f"{db.pg_dump} --no-owner --no-acl -t {table_to_copy} {db.uri()} | psql {target_db.uri()}"
+    command = (
+        f"{db.pg_dump} --no-owner --no-acl -t {table_to_copy} {db.uri()} | psql {target_db.uri()}"
+    )
 
     print(command)
     helpers.run_command_in_shell(command)
@@ -23,7 +24,7 @@ def copy_table_to_another_db(db, table_to_copy: str, target_db: Database) -> Non
     return None
 
 
-def copy_entire_db_to_another_db(db, target_db: Database) -> None:
+def copy_entire_db_to_another_db(db, target_db) -> None:
     """
     Copy an entire database to a new database.
 
