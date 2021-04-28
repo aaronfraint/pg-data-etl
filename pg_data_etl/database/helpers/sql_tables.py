@@ -3,7 +3,9 @@ from pandas import DataFrame
 from geopandas import GeoDataFrame
 
 
-def _sanitize_df_for_sql(df: Union[DataFrame, GeoDataFrame]) -> Union[DataFrame, GeoDataFrame]:
+def sanitize_df_for_sql(
+    df: Union[DataFrame, GeoDataFrame]
+) -> Union[DataFrame, GeoDataFrame]:
     """
     Clean up a dataframe column names so it imports into SQL properly.
 
@@ -25,7 +27,7 @@ def _sanitize_df_for_sql(df: Union[DataFrame, GeoDataFrame]) -> Union[DataFrame,
     return df
 
 
-def _convert_full_tablename_to_parts(tablename: str) -> tuple:
+def convert_full_tablename_to_parts(tablename: str) -> tuple:
     """
     Take in a table name and return a tuple with (schema, name)
 
