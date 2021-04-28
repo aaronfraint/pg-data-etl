@@ -25,12 +25,24 @@ def get_query_via_psycopg2(db, query: str, super_uri: bool = False) -> list:
     return [list(x) for x in result]
 
 
+def get_list_of_singletons_from_query(db, query: str, super_uri: bool = False):
+    """
+    - Run a query where the expected output is a list of values
+    """
+
+    result = get_query_via_psycopg2(db, query, super_uri=super_uri)
+
+    return [x[0] for x in result]
+
+
 def get_single_output_from_query(db, query: str, super_uri: bool = False):
     """
     - Run a query where the expected output is a single value
     """
 
-    return get_query_via_psycopg2(db, query, super_uri=super_uri)[0][0]
+    result = get_list_of_singletons_from_query(db, query, super_uri=super_uri)
+
+    return result[0]
 
 
 def does_database_exist(db) -> bool:
