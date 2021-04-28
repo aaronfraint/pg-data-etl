@@ -3,9 +3,7 @@ from pandas import DataFrame
 from geopandas import GeoDataFrame
 
 
-def sanitize_df_for_sql(
-    df: Union[DataFrame, GeoDataFrame]
-) -> Union[DataFrame, GeoDataFrame]:
+def sanitize_df_for_sql(df: Union[DataFrame, GeoDataFrame]) -> Union[DataFrame, GeoDataFrame]:
     """
     Clean up a dataframe column names so it imports into SQL properly.
 
@@ -41,3 +39,7 @@ def convert_full_tablename_to_parts(tablename: str) -> tuple:
         schema, tbl = tablename.split(".")
 
     return (schema, tbl)
+
+
+def this_is_raw_sql(table_or_sql: str) -> str:
+    return "select" in table_or_sql.lower()
