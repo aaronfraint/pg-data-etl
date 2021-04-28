@@ -1,31 +1,33 @@
 import pg_data_etl.database.helpers as helpers
 
 
-def create_db(db) -> None:
+def create_database(db) -> None:
     """
-    Create the database if it doesn't exist yet
+    - Create the database if it doesn't exist yet, via `psql`
     """
 
     if not db.exists():
 
+        db_name = db.connection_params["db_name"]
+
         # Create the database
-        command = f'psql -c "CREATE DATABASE {db.params["db_name"]};" {db.uri(super_uri=True)}'
+        command = f'psql -c "CREATE DATABASE {db_name};" {db.uri_superuser}'
         helpers.run_command_in_shell(command)
 
         # Enable PostGIS
-        command = f'psql -c "CREATE EXTENSION postgis;" {db.uri()}'
+        command = f'psql -c "CREATE EXTENSION postgis;" {db.uri}'
         helpers.run_command_in_shell(command)
 
 
-def drop_db(db) -> None:
+def drop_database(db) -> None:
     """
-    Drop the database if it exists.
+    - Drop the database if it exists, via `psql`
     """
 
     if db.exists():
-        command = (
-            f'psql -c "DROP DATABASE {db.params["db_name"]};" {db.uri(super_uri=True)}'
-        )
+        db_name = db.connection_params["db_name"]
+
+        command = f'psql -c "DROP DATABASE {db_name};" {db.uri_superuser}'
         helpers.run_command_in_shell(command)
 
 
