@@ -11,68 +11,9 @@ from geoalchemy2 import Geometry, WKTElement
 
 from datetime import datetime
 
-
-def _sanitize_df_for_sql(
-    df: Union[pd.DataFrame, gpd.GeoDataFrame]
-) -> Union[pd.DataFrame, gpd.GeoDataFrame]:
-    """
-    Clean up a dataframe column names so it imports into SQL properly.
-
-    This includes:
-        - spaces in column names replaced with underscore
-        - all column names are 100% lowercase
-        - funky characters are stripped out of column names
-    """
-
-    # Replace "Column Name" with "column_name"
-    df.columns = df.columns.str.replace(" ", "_")
-    df.columns = [x.lower() for x in df.columns]
-
-    # Remove '.' and '-' from column names.
-    # i.e. 'geo.display-label' becomes 'geodisplaylabel'
-    for s in [".", "-", "(", ")", "+"]:
-        df.columns = df.columns.str.replace(s, "", regex=False)
-
-    return df
-
-
-def _timestamp_for_filepath(dt: datetime = None) -> str:
-    """
-    Make a datetime string formatted like: 'on_2021_02_09_at_09_29_58'
-    """
-    if not dt:
-        dt = datetime.now()
-
-    return dt.strftime("on_%Y_%m_%d_at_%H_%M_%S")
-
-
-def _convert_full_tablename_to_parts(tablename: str) -> tuple:
-    """
-    Take in a table name and return a tuple with (schema, name)
-
-    e.g.  'my_schema.my_table'  -> ('my_schema', 'my_table')
-          'my_table'            -> ('public', 'my_table')
-    """
-    if "." not in tablename:
-        schema = "public"
-        tbl = tablename
-    else:
-        schema, tbl = tablename.split(".")
-
-    return (schema, tbl)
-
-
-def run_command_in_shell(command: str) -> str:
-    """Use subprocess to execute a command in a shell"""
-
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-
-    output = process.communicate()
-    print(output[0])
-
-    process.kill()
-
-    return output
+from pg_data_etl.helpers.files import _timestamp_for_filepath
+from pg_data_etl.helpers.commands import _run_command_in_shell
+from pg_data_etl.helpers.sql_tables import _sanitize_df_for_sql, _convert_full_tablename_to_parts
 
 
 class Database:
