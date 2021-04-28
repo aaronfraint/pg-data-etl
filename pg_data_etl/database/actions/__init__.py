@@ -4,6 +4,7 @@ from .copy import *
 from .data_export import *
 from .data_import import *
 from .execute import *
+from .lists import *
 from .queries import *
 from .update_geo import *
 from .update import *

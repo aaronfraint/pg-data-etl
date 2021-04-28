@@ -167,17 +167,46 @@ class Database:
         """
         return actions.does_database_exist(self)
 
-    def admin(self, action: str) -> None:
-        action = action.upper()
+    def admin(self, admin_action: str) -> None:
+        """
+        - Allow user to `"CREATE"` or `"DROP"` the database
+        """
+        admin_action = admin_action.upper()
+
+        # Check that admin_action is allowed
         options = ["CREATE", "DROP"]
-        if action not in options:
+        if admin_action not in options:
             print(
-                f"Admin {action=} is not supported\nAvailable administration options include: {options}"
+                f"{admin_action=} is not supported\nAvailable administration options include: {options}"
             )
             return None
 
-        if action == "CREATE":
+        if admin_action == "CREATE":
             actions.create_database(self)
 
-        if action == "DROP":
+        if admin_action == "DROP":
             actions.drop_database(self)
+
+    def list_of_tables(self, spatial_only: bool = False, schema: str | None = None) -> list:
+        """
+        - Return a list of tables in the database
+        - Set `spatial_only=True` if you only want a list of geotables
+        """
+        if spatial_only:
+            return actions.list_of_spatial_tables(self, schema=schema)
+        else:
+            return actions.list_of_all_tables(self, schema=schema)
+
+    def list_of_schema(self) -> list:
+        """
+        - Return a list of all schemas in the database
+        """
+        return actions.list_of_schemas(self)
+
+    def list_of_columns_in(self, tablename: str) -> list:
+        """
+        - Return a list of all columns in a table
+        - Tablename can by `'my_table' or `'my_schema.my_table'`
+        - Tables without a schema are assumed to be within the `public` schema
+        """
+        return actions.list_of_columns_in_table(tablename)
