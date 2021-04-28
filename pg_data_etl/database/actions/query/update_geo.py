@@ -1,4 +1,3 @@
-from pg_data_etl.configuration_manager import DB_CONFIG_FILEPATH
 from typing import Union
 from pg_data_etl import helpers
 
