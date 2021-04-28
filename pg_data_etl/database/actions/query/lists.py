@@ -1,4 +1,5 @@
 from pg_data_etl import helpers
+from .simple import get_list_of_singletons_from_query
 
 
 def list_of_all_tables(db, schema: str = None) -> list:
@@ -15,7 +16,7 @@ def list_of_all_tables(db, schema: str = None) -> list:
     if schema:
         query += f" AND table_schema = '{schema}'"
 
-    return helpers.get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(db, query)
 
 
 def list_of_spatial_tables(db, schema: str = None) -> list:
@@ -31,7 +32,7 @@ def list_of_spatial_tables(db, schema: str = None) -> list:
     if schema:
         query += f" WHERE f_table_schema = '{schema}'"
 
-    return helpers.get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(db, query)
 
 
 def list_of_schemas(db) -> list:
@@ -44,7 +45,7 @@ def list_of_schemas(db) -> list:
         FROM information_schema.schemata;
     """
 
-    return helpers.get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(db, query)
 
 
 def list_of_columns_in_table(db, tablename: str) -> list:
@@ -63,4 +64,4 @@ def list_of_columns_in_table(db, tablename: str) -> list:
             table_schema = '{schema}';
     """
 
-    return helpers.get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(db, query)
