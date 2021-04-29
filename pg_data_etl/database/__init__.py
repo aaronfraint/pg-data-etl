@@ -12,8 +12,6 @@ import geopandas as gpd
 
 from pg_data_etl import helpers
 
-from . import actions
-
 
 class Database:
     """
@@ -204,18 +202,15 @@ class Database:
     # Administration
     # --------------
 
-    from .actions.query.simple import exists
-
-    from .actions.admin import admin, add_schema
+    from .actions import exists, admin, add_schema
 
     # Change Things Within Database
     # -----------------------------
 
-    from .actions.query.execute import execute
-
-    from .actions.query.update import add_uid_column_to_table, rename_column
-
-    from .actions.query.update_geo import (
+    from .actions import (
+        execute,
+        add_uid_column_to_table,
+        rename_column,
         make_geotable_from_query,
         update_spatial_data_projection,
         lint_geom_colname,
@@ -225,31 +220,24 @@ class Database:
     # Lists of Content
     # ----------------
 
-    from .actions.query.lists import tables, schemas, columns
+    from .actions import tables, schemas, columns
 
     # Get Data Out of Database To Memory
     # ----------------------------------
 
-    from .actions.query.data_spatial import gdf
-    from .actions.query.data_nonspatial import df
+    from .actions import gdf, df
 
     # Get Data Out of Database To File
     # --------------------------------
 
-    from .actions.backup import dump
-
-    from .actions.copy import copy_entire_db_to_another_db, copy_table_to_another_db
-
-    from .actions.data_export import export_gis
+    from .actions import dump, export_gis, copy_entire_db_to_another_db, copy_table_to_another_db
 
     # Put Files Into Database
     # -----------------------
 
-    from .actions.import_tabular_data import import_file_with_pandas
-    from .actions.import_geo_data import import_gis
+    from .actions import import_gis, import_file_with_pandas
 
     # Put In-Memory Data Into Database
     # --------------------------------
 
-    from .actions.import_tabular_data import import_dataframe
-    from .actions.import_geo_data import import_geodataframe
+    from .actions import import_dataframe, import_geodataframe
