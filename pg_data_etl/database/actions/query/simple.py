@@ -1,7 +1,7 @@
 import psycopg2
 
 
-def get_query_via_psycopg2(self, query: str, super_uri: bool = False) -> list:
+def query_as_list_of_lists(self, query: str, super_uri: bool = False) -> list:
     """
     - Use `psycopg2` to run a query and return the result as a list of lists
     - This will NOT commit any changes to the database
@@ -25,22 +25,22 @@ def get_query_via_psycopg2(self, query: str, super_uri: bool = False) -> list:
     return [list(x) for x in result]
 
 
-def get_list_of_singletons_from_query(self, query: str, super_uri: bool = False):
+def query_as_list_of_singletons(self, query: str, super_uri: bool = False):
     """
     - Run a query where the expected output is a list of values
     """
 
-    result = get_query_via_psycopg2(self, query, super_uri=super_uri)
+    result = self.query_as_list_of_lists(query, super_uri=super_uri)
 
     return [x[0] for x in result]
 
 
-def get_single_output_from_query(self, query: str, super_uri: bool = False):
+def query_as_singleton(self, query: str, super_uri: bool = False):
     """
     - Run a query where the expected output is a single value
     """
 
-    result = get_list_of_singletons_from_query(self, query, super_uri=super_uri)
+    result = self.query_as_list_of_singletons(query, super_uri=super_uri)
 
     return result[0]
 
@@ -59,4 +59,4 @@ def exists(self) -> bool:
         );
     """
 
-    return get_single_output_from_query(self, query, super_uri=True)
+    return self.query_as_singleton(query, super_uri=True)
