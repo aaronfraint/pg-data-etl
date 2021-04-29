@@ -226,6 +226,7 @@ class Database:
     # ----------------------------------
 
     from .actions import gdf, df
+    from .actions import query_as_singleton, query_as_list_of_singletons, query_as_list_of_lists
 
     # Get Data Out of Database To File
     # --------------------------------
