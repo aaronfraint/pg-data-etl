@@ -4,72 +4,33 @@ import sqlalchemy
 import geopandas as gpd
 from geoalchemy2 import Geometry, WKTElement
 
-import pg_data_etl.database.helpers as helpers
+from pg_data_etl import helpers
 
 
-def shp2pgsql(db, shp_path: str, srid: int, tablename: str, new_srid: int = None):
+def shp2pgsql(self, shp_path: str, srid: int, tablename: str, new_srid: int = None):
     """
     Use the shp2pgsql command to import a shapefile into the database
     """
 
     # Ensure that the schema provided in the 'tablename' exists
     schema, _ = helpers.convert_full_tablename_to_parts(tablename)
-    db.add_schema(schema)
+    self.add_schema(schema)
 
     # If 'new_srid' is provided, use 'old:new' to project on the fly
     srid_arg = f"{srid}:{new_srid}" if new_srid else srid
 
-    command = f'{db.shp2pgsql} -I -s {srid_arg} "{shp_path}" {sql_tablename} | psql {db.uri}'
+    command = f'{self.shp2pgsql} -I -s {srid_arg} "{shp_path}" {tablename} | psql {self.uri}'
 
     print(command)
 
     helpers.run_command_in_shell(command)
 
-    db.lint_geom_colname(tablename)
+    self.lint_geom_colname(tablename)
 
 
-def import_tabular_file(
-    db,
-    filepath: Path,
-    tablename: str,
-    pd_read_kwargs: dict = {},
-    df_import_kwargs: dict = {"index": False},
+def import_geofile_with_geopandas(
+    self, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {}
 ) -> None:
-
-    # Determine if this is a CSV, XLS, or XLSX and use the appropriate pandas loader
-    suffix = filepath.suffix.lower()
-
-    if suffix == ".csv":
-        df = pd.read_csv(filepath, **pd_read_kwargs)
-    elif suffix in [".xlsx", ".xls"]:
-        df = pd.read_excel(filepath, **pd_read_kwargs)
-    else:
-        print(
-            f"File type: '{suffix}' is not supported. Check the official pandas documentation to see if this is a valid filetype."
-        )
-        return None
-
-    db.import_dataframe(df, tablename, df_import_kwargs)
-
-
-def import_dataframe(db, df: pd.DataFrame, tablename: str, df_import_kwargs: dict = {}) -> None:
-
-    # Clean up column names
-    df = helpers.sanitize_df_for_sql(df)
-
-    # Make sure the schema exists
-    schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
-    db.add_schema(schema)
-
-    # Write to database
-    engine = sqlalchemy.create_engine(db.uri())
-
-    df.to_sql(tbl, engine, schema=schema, **df_import_kwargs)
-
-    engine.dispose()
-
-
-def import_geo_file(db, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {}) -> None:
 
     # Read the data into a geodataframe
     gdf = gpd.read_file(filepath)
@@ -77,11 +38,11 @@ def import_geo_file(db, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {
     # Drop null geometries
     gdf = gdf[gdf["geometry"].notnull()]
 
-    db.import_geodataframe(gdf, sql_tablename, gpd_kwargs)
+    self.import_geodataframe(gdf, sql_tablename, gpd_kwargs)
 
 
 def import_geodataframe(
-    db,
+    self,
     gdf: gpd.GeoDataFrame,
     tablename: str,
     gpd_kwargs: dict = {},
@@ -131,7 +92,7 @@ def import_geodataframe(
 
     # Ensure that the target schema exists
     schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
-    db.add_schema(schema)
+    self.add_schema(schema)
 
     # Write geodataframe to SQL database
     engine = sqlalchemy.create_engine(db.uri())
@@ -144,5 +105,20 @@ def import_geodataframe(
     )
     engine.dispose()
 
-    db.add_uid_column_to_table(tablename)
-    db.add_spatial_index_to_table(tablename)
+    self.add_uid_column_to_table(tablename)
+    self.add_spatial_index_to_table(tablename)
+
+
+def import_gis(self, method="geopandas", **kwargs):
+    """"""
+    method_mapper = {
+        "geopandas": import_geofile_with_geopandas,
+        "shp2pgsql": shp2pgsql,
+    }
+
+    if method not in method_mapper:
+        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
+
+    func = method_mapper[method]
+
+    func(self, **kwargs)
