@@ -24,6 +24,7 @@ repo_url: https://github.com/aaronfraint/pg-data-etl
 repo_name: aaronfraint/pg-data-etl
 plugins:
   - search
+  - mkdocs-jupyter
   - mkdocstrings:
       handlers:
         python:
@@ -44,3 +45,4 @@ markdown_extensions:
 
 nav:
   - Quickstart: index.md
+  - Notebook page: notebook.ipynb
