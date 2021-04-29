@@ -2,16 +2,16 @@ from typing import Union
 from pg_data_etl import helpers
 
 
-def lint_geom_colname(db, tablename: str) -> None:
+def lint_geom_colname(self, tablename: str) -> None:
     """
     - Rename the geometry column to 'geom' if it comes through as 'shape'
     """
 
-    if "shape" in db.list_of_columns_in(tablename):
-        db.rename_column(db, "shape", "geom", tablename)
+    if "shape" in self.list_of_columns_in(tablename):
+        self.rename_column("shape", "geom", tablename)
 
 
-def add_spatial_index_to_table(db, tablename: str) -> None:
+def add_spatial_index_to_table(self, tablename: str) -> None:
     """
     - Add a spatial index on a table's geom column
     """
@@ -19,11 +19,11 @@ def add_spatial_index_to_table(db, tablename: str) -> None:
         CREATE INDEX ON {tablename}
         USING GIST (geom);
     """
-    db.execute(query)
+    self.execute(query)
 
 
 def update_spatial_data_projection(
-    db,
+    self,
     tablename: str,
     old_epsg: Union[int, str],
     new_epsg: Union[int, str],
@@ -40,11 +40,11 @@ def update_spatial_data_projection(
         ALTER COLUMN geom TYPE geometry({geom_type}, {new_epsg})
         USING ST_Transform(ST_SetSRID(geom, {old_epsg}), {new_epsg});
     """
-    db.execute(query)
+    self.execute(query)
 
 
 def make_geotable_from_query(
-    db,
+    self,
     query: str,
     new_table_name: str,
     geom_type: str,
@@ -80,7 +80,7 @@ def make_geotable_from_query(
 
         # Make sure the schema exists
         schema, _ = helpers.convert_full_tablename_to_parts(new_table_name)
-        db.add_schema(schema)
+        self.add_schema(schema)
 
         query_to_make_table = f"""
             DROP TABLE IF EXISTS {new_table_name};
@@ -88,11 +88,11 @@ def make_geotable_from_query(
             {query}
         """
 
-        db.execute(query_to_make_table)
+        self.execute(query_to_make_table)
 
-        db.add_uid_column_to_table(new_table_name)
-        db.add_spatial_index_to_table(db, new_table_name)
+        self.add_uid_column_to_table(new_table_name)
+        self.add_spatial_index_to_table(new_table_name)
 
         # We're not reprojecting here, but rather forcing an entry for
         # the new geo table into the geometry_columns table
-        db.update_spatial_data_projection(db, new_table_name, epsg, epsg, geom_type.upper())
+        self.update_spatial_data_projection(new_table_name, epsg, epsg, geom_type.upper())

@@ -1,8 +1,9 @@
+from typing import Union
 from pg_data_etl import helpers
 from .simple import get_list_of_singletons_from_query
 
 
-def list_of_all_tables(db, schema: str = None) -> list:
+def all_tables(self, schema: str = None) -> list:
     """
     - Get a list of all tables in the db.
     - Omit the behind-the-scenes tables within `pg_catalog` and `information_schema`
@@ -16,10 +17,10 @@ def list_of_all_tables(db, schema: str = None) -> list:
     if schema:
         query += f" AND table_schema = '{schema}'"
 
-    return get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(self, query)
 
 
-def list_of_spatial_tables(db, schema: str = None) -> list:
+def spatial_tables(self, schema: str = None) -> list:
     """
     - Get a list of all SPATIAL tables in the db
     """
@@ -32,10 +33,21 @@ def list_of_spatial_tables(db, schema: str = None) -> list:
     if schema:
         query += f" WHERE f_table_schema = '{schema}'"
 
-    return get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(self, query)
 
 
-def list_of_schemas(db) -> list:
+def tables(self, spatial_only: bool = False, schema: Union[str, None] = None) -> list:
+    """
+    - Return a list of tables in the database
+    - Set `spatial_only=True` if you only want a list of geotables
+    """
+    if spatial_only:
+        return spatial_tables(self, schema=schema)
+    else:
+        return all_tables(self, schema=schema)
+
+
+def schemas(self) -> list:
     """
     - Get a list of all schemas in the db
     """
@@ -45,10 +57,10 @@ def list_of_schemas(db) -> list:
         FROM information_schema.schemata;
     """
 
-    return get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(self, query)
 
 
-def list_of_columns_in_table(db, tablename: str) -> list:
+def columns(self, tablename: str) -> list:
     """
     - Get a list of all column names in a given table
     """
@@ -64,4 +76,4 @@ def list_of_columns_in_table(db, tablename: str) -> list:
             table_schema = '{schema}';
     """
 
-    return get_list_of_singletons_from_query(db, query)
+    return get_list_of_singletons_from_query(self, query)

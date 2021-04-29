@@ -10,7 +10,9 @@ from pathlib import Path
 import pandas as pd
 import geopandas as gpd
 
-from pg_data_etl import helpers, actions
+from pg_data_etl import helpers
+
+from . import actions
 
 
 class Database:
@@ -64,7 +66,7 @@ class Database:
             setattr(self, f"_{key}", value)
 
         # Record how the instance was created
-        if self._uri:
+        if hasattr(self, "_uri"):
             self.CREATED_BY_URI = True
         else:
             self.CREATED_BY_URI = False
@@ -72,7 +74,7 @@ class Database:
     # Properties
     # ----------
 
-    def _add_path_if_exists(self, cmd):
+    def _add_bin_path_if_exists(self, cmd):
         if not self._psql_bin:
             return cmd
         else:
@@ -80,19 +82,19 @@ class Database:
 
     @property
     def psql(self):
-        return self._add_path_if_exists("psql")
+        return self._add_bin_path_if_exists("psql")
 
     @property
     def pg_dump(self):
-        return self._add_path_if_exists("pg_dump")
+        return self._add_bin_path_if_exists("pg_dump")
 
     @property
     def shp2pgsql(self):
-        return self._add_path_if_exists("shp2pgsql")
+        return self._add_bin_path_if_exists("shp2pgsql")
 
     @property
     def pgsql2shp(self):
-        return self._add_path_if_exists("pgsql2shp")
+        return self._add_bin_path_if_exists("pgsql2shp")
 
     @property
     def connection_params(self) -> dict:
@@ -202,176 +204,52 @@ class Database:
     # Administration
     # --------------
 
-    def exists(self) -> bool:
-        """
-        - Return `True` or `False` depending on whether the database exists or not
-        """
-        return actions.does_database_exist(self)
+    from .actions.query.simple import exists
 
-    def admin(self, admin_action: str) -> None:
-        """
-        - Allow user to `"CREATE"` or `"DROP"` the database
-        """
-        admin_action = admin_action.upper()
-
-        # Check that admin_action is allowed
-        options = ["CREATE", "DROP"]
-        if admin_action not in options:
-            print(
-                f"{admin_action=} is not supported\nAvailable administration options include: {options}"
-            )
-            return None
-
-        if admin_action == "CREATE":
-            actions.create_database(self)
-
-        if admin_action == "DROP":
-            actions.drop_database(self)
-
-    def add_schema(self, schema: str) -> None:
-        actions.add_schema(schema)
+    from .actions.admin import admin, add_schema
 
     # Change Things Within Database
     # -----------------------------
 
-    def execute(self, query: str) -> None:
-        """
-        - Execute (and commit) a query to the database
-        """
-        actions.execute_via_psycopg2(query)
+    from .actions.query.execute import execute
 
-    def lint_geom_colname(self, tablename: str) -> None:
-        actions.lint_geom_colname(self, tablename)
+    from .actions.query.update import add_uid_column_to_table, rename_column
 
-    def rename_column(self, old_colname: str, new_colname: str, tablename: str) -> None:
-        actions.rename_column(old_colname, new_colname, tablename)
-
-    def add_uid_column_to_table(self, tablename: str, uid_col: str = "uid") -> None:
-        actions.add_uid_column_to_table(self, tablename, uid_col=uid_col)
-
-    def add_spatial_index_to_table(self, tablename: str) -> None:
-        actions.add_spatial_index_to_table(self, tablename)
-
-    def update_spatial_data_projection(
-        self,
-        tablename: str,
-        old_epsg: int | str,
-        new_epsg: int | str,
-        geom_type: str,
-    ) -> None:
-        actions.update_spatial_data_projection(self, tablename, old_epsg, new_epsg, geom_type)
-
-    def make_geotable_from_query(
-        self,
-        query: str,
-        new_table_name: str,
-        geom_type: str,
-        epsg: int,
-        uid_col: str = "uid",
-    ) -> None:
-        actions.make_geotable_from_query(self, query, new_table_name, geom_type, epsg, uid_col)
+    from .actions.query.update_geo import (
+        make_geotable_from_query,
+        update_spatial_data_projection,
+        lint_geom_colname,
+        add_spatial_index_to_table,
+    )
 
     # Lists of Content
     # ----------------
 
-    def list_of_tables(self, spatial_only: bool = False, schema: str | None = None) -> list:
-        """
-        - Return a list of tables in the database
-        - Set `spatial_only=True` if you only want a list of geotables
-        """
-        if spatial_only:
-            return actions.list_of_spatial_tables(self, schema=schema)
-        else:
-            return actions.list_of_all_tables(self, schema=schema)
+    from .actions.query.lists import tables, schemas, columns
 
-    def list_of_schema(self) -> list:
-        """
-        - Return a list of all schemas in the database
-        """
-        return actions.list_of_schemas(self)
+    # Get Data Out of Database To Memory
+    # ----------------------------------
 
-    def list_of_columns_in(self, tablename: str) -> list:
-        """
-        - Return a list of all columns in a table
-        - Tablename can by `'my_table' or `'my_schema.my_table'`
-        - Tables without a schema are assumed to be within the `public` schema
-        """
-        return actions.list_of_columns_in_table(tablename)
+    from .actions.query.data_spatial import gdf
+    from .actions.query.data_nonspatial import df
 
-    # Get Data Out of Database
-    # ------------------------
+    # Get Data Out of Database To File
+    # --------------------------------
 
-    def dump(self, output_folder: Path = Path.cwd()) -> Path:
-        """
-        - Back up the database with `pg_dump`
-        - Return the path to the newly created `.sql` file
-        """
+    from .actions.backup import dump
 
-        return actions.backup_to_sql_file(output_folder)
+    from .actions.copy import copy_entire_db_to_another_db, copy_table_to_another_db
 
-    def copy_table_to(self, tablename: str, target_db: Database) -> None:
-        actions.copy_table_to_another_db(self, tablename, target_db)
-
-    def copy_database_to(self, target_db: Database) -> None:
-        actions.copy_entire_db_to_another_db(self, target_db)
-
-    def export_gis(self, method="geopandas", **kwargs):
-        """
-        - All methods require kwargs `table_or_sql` and `filepath`
-        - Optional kwargs include `filetype` (ogr2ogr & geopandas) and `geom_col` (geopandas only)
-        """
-        method_mapper = {
-            "geopandas": actions.export_gis_with_geopandas,
-            "ogr2ogr": actions.export_shp_with_ogr2ogr,
-            "pgsql2shp": actions.export_shp_with_pgsql2shp,
-        }
-
-        if method not in method_mapper:
-            print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
-
-        func = method_mapper[method]
-
-        func(self, **kwargs)
+    from .actions.data_export import export_gis
 
     # Put Files Into Database
     # -----------------------
 
-    def import_with_shp2pgsql(
-        self, shp_path: str, srid: int, tablename: str, new_srid: int | None = None
-    ) -> None:
-        actions.shp2pgsql(self, shp_path, srid, tablename, new_srid=new_srid)
-
-    def import_with_gpd(self, filepath: Path, tablename: str, gpd_kwargs: dict = {}) -> None:
-        actions.import_geo_file(self, filepath, tablename, gpd_kwargs=gpd_kwargs)
-
-    def import_with_pandas(
-        self,
-        filepath: Path,
-        tablename: str,
-        pd_read_kwargs: dict = {},
-        df_import_kwargs: dict = {"index": False},
-    ):
-        actions.import_tabular_file(
-            self,
-            filepath,
-            tablename,
-            pd_read_kwargs=pd_read_kwargs,
-            df_import_kwargs=df_import_kwargs,
-        )
+    from .actions.import_tabular_data import import_file_with_pandas
+    from .actions.import_geo_data import import_gis
 
     # Put In-Memory Data Into Database
     # --------------------------------
 
-    def import_dataframe(
-        self, df: pd.DataFrame, tablename: str, df_import_kwargs: dict = {}
-    ) -> None:
-        actions.import_dataframe(self, df, tablename, df_import_kwargs=df_import_kwargs)
-
-    def import_geodataframe(
-        self,
-        gdf: gpd.GeoDataFrame,
-        tablename: str,
-        gpd_kwargs: dict = {},
-        uid_col: str = "uid",
-    ) -> None:
-        actions.import_geodataframe(self, gdf, tablename, gpd_kwargs=gpd_kwargs, uid_col=uid_col)
+    from .actions.import_tabular_data import import_dataframe
+    from .actions.import_geo_data import import_geodataframe

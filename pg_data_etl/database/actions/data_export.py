@@ -1,10 +1,9 @@
 from pathlib import Path
 import geopandas as gpd
 from pg_data_etl import helpers
-from .query.data_spatial import get_gdf
 
 
-def export_shp_with_pgsql2shp(db, table_or_sql: str, filepath: Path) -> None:
+def export_shp_with_pgsql2shp(self, table_or_sql: str, filepath: Path) -> None:
     """
     Use pgsql2shp to export a shapefile from the database.
 
@@ -21,14 +20,16 @@ def export_shp_with_pgsql2shp(db, table_or_sql: str, filepath: Path) -> None:
     else:
         query = f"SELECT * FROM {table_or_sql}"
 
-    command = f'pgsql2shp -f "{filepath}" -h {db.params["host"]} -u {db.params["un"]} -P {db.params["pw"]} -p {db.params["port"]} {db.params["db_name"]} "{query}" '
+    params = self.connection_params()
+
+    command = f'pgsql2shp -f "{filepath}" -h {params["host"]} -u {params["un"]} -P {params["pw"]} -p {params["port"]} {params["db_name"]} "{query}" '
     print(command)
 
     helpers.run_command_in_shell(command)
 
 
 def export_shp_with_ogr2ogr(
-    db, table_or_sql: str, filepath: Path, filetype: str = "ESRI Shapefile"
+    self, table_or_sql: str, filepath: Path, filetype: str = "ESRI Shapefile"
 ) -> None:
     """
     Use ogr2ogr to export a shapefile from the database.
@@ -38,7 +39,9 @@ def export_shp_with_ogr2ogr(
             "SELECT * FROM pa.centerlines WHERE some_column = 'some value'"
     """
 
-    cmd = f'ogr2ogr -f "{filetype}" "{filepath}" PG:"host={db.params["host"]} user={db.params["un"]} password={db.params["pw"]} port={db.params["port"]} dbname={db.params["db_name"]}" '
+    params = self.connection_params()
+
+    cmd = f'ogr2ogr -f "{filetype}" "{filepath}" PG:"host={params["host"]} user={params["un"]} password={params["pw"]} port={params["port"]} dbname={params["db_name"]}" '
 
     if helpers.this_is_raw_sql(table_or_sql):
         sql = table_or_sql
@@ -52,7 +55,7 @@ def export_shp_with_ogr2ogr(
 
 
 def export_gis_with_geopandas(
-    db, table_or_sql: str, filepath: Path, filetype: str = "geojson", geom_col: str = "geom"
+    self, table_or_sql: str, filepath: Path, filetype: str = "geojson", geom_col: str = "geom"
 ) -> None:
     """
     - Use `geopandas` to extract data from SQL and write to `.geojson` or `.shp`
@@ -74,13 +77,32 @@ def export_gis_with_geopandas(
     else:
         query = f"SELECT * FROM {table_or_sql}"
 
-    gdf = get_gdf(db, query, geom_col=geom_col)
+    data = self.gdf(query, geom_col=geom_col)
 
     # Write to file
     if filetype == "geojson":
-        gdf.to_file(filepath, driver="GeoJSON")
+        data.to_file(filepath, driver="GeoJSON")
 
     elif filetype == "shp":
-        gdf.to_file(filepath, driver="ESRI Shapefile")
+        data.to_file(filepath, driver="ESRI Shapefile")
 
     return None
+
+
+def export_gis(self, method="geopandas", **kwargs):
+    """
+    - All methods require kwargs `table_or_sql` and `filepath`
+    - Optional kwargs include `filetype` (ogr2ogr & geopandas) and `geom_col` (geopandas only)
+    """
+    method_mapper = {
+        "geopandas": export_gis_with_geopandas,
+        "ogr2ogr": export_shp_with_ogr2ogr,
+        "pgsql2shp": export_shp_with_pgsql2shp,
+    }
+
+    if method not in method_mapper:
+        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
+
+    func = method_mapper[method]
+
+    func(self, **kwargs)

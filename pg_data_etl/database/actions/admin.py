@@ -1,41 +1,63 @@
 from pg_data_etl import helpers
 
 
-def create_database(db) -> None:
+def create_database(self) -> None:
     """
     - Create the database if it doesn't exist yet, via `psql`
     """
 
-    if not db.exists():
+    if not self.exists():
 
-        db_name = db.connection_params["db_name"]
+        db_name = self.connection_params["db_name"]
 
         # Create the database
-        command = f'psql -c "CREATE DATABASE {db_name};" {db.uri_superuser}'
-        helpers.run_command_in_shell(command)
+        commands = [
+            f'psql -c "CREATE DATABASE {db_name};" {self.uri_superuser}',
+            f'psql -c "CREATE EXTENSION postgis;" {self.uri}',
+        ]
 
-        # Enable PostGIS
-        command = f'psql -c "CREATE EXTENSION postgis;" {db.uri}'
-        helpers.run_command_in_shell(command)
+        for cmd in commands:
+            helpers.run_command_in_shell(cmd)
 
 
-def drop_database(db) -> None:
+def drop_database(self) -> None:
     """
     - Drop the database if it exists, via `psql`
     """
 
-    if db.exists():
-        db_name = db.connection_params["db_name"]
+    if self.exists():
+        db_name = self.connection_params["db_name"]
 
-        command = f'psql -c "DROP DATABASE {db_name};" {db.uri_superuser}'
+        command = f'psql -c "DROP DATABASE {db_name};" {self.uri_superuser}'
         helpers.run_command_in_shell(command)
 
 
-def add_schema(db, schema: str) -> None:
+def admin(self, admin_action: str) -> None:
+    """
+    - Allow user to `"CREATE"` or `"DROP"` the database
+    """
+    admin_action = admin_action.upper()
+
+    # Check that admin_action is allowed
+    options = ["CREATE", "DROP"]
+    if admin_action not in options:
+        print(
+            f"{admin_action=} is not supported\nAvailable administration options include: {options}"
+        )
+        return None
+
+    if admin_action == "CREATE":
+        create_database(self)
+
+    if admin_action == "DROP":
+        drop_database(self)
+
+
+def add_schema(self, schema: str) -> None:
     """
     - Create a schema if it does not yet exist
     """
 
     query = f"CREATE SCHEMA IF NOT EXISTS {schema};"
 
-    db.execute(query)
+    self.execute(query)

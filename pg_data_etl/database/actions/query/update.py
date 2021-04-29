@@ -1,13 +1,13 @@
-def rename_column(db, old_colname: str, new_colname: str, tablename: str) -> None:
+def rename_column(self, old_colname: str, new_colname: str, tablename: str) -> None:
     """
     - Change a column name for a table in SQL
     """
 
     query = f"ALTER TABLE {tablename} RENAME {old_colname} TO {new_colname};"
-    db.execute(query)
+    self.execute(query)
 
 
-def add_uid_column_to_table(db, tablename: str, uid_col: str = "uid") -> None:
+def add_uid_column_to_table(self, tablename: str, uid_col: str = "uid") -> None:
     """
     - Add a unique ID column to a table as a SERIAL PRIMARY KEY type
     """
@@ -19,4 +19,4 @@ def add_uid_column_to_table(db, tablename: str, uid_col: str = "uid") -> None:
         ALTER TABLE {tablename}
         ADD {uid_col} serial PRIMARY KEY;
     """
-    db.execute(query)
+    self.execute(query)

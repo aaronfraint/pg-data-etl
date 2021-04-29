@@ -2,12 +2,12 @@ import pandas as pd
 import sqlalchemy
 
 
-def get_df(db, query: str) -> pd.DataFrame:
+def df(self, query: str) -> pd.DataFrame:
     """
     - Return a `pandas.Dataframe` from a SQL query
     """
 
-    engine = sqlalchemy.create_engine(db.uri)
+    engine = sqlalchemy.create_engine(self.uri)
 
     df = pd.read_sql(query, engine)
 

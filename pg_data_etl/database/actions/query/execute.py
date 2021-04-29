@@ -1,10 +1,10 @@
 import psycopg2
 
 
-def execute_via_psycopg2(db, query: str, super_uri: bool = False) -> None:
+def execute(self, query: str) -> None:
     """ Use psycopg2 to execute a query & commit it to the database """
 
-    connection = psycopg2.connect(db.uri(super_uri=super_uri))
+    connection = psycopg2.connect(self.uri)
     cursor = connection.cursor()
 
     cursor.execute(query)

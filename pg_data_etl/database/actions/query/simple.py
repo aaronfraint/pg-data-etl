@@ -1,16 +1,16 @@
 import psycopg2
 
 
-def get_query_via_psycopg2(db, query: str, super_uri: bool = False) -> list:
+def get_query_via_psycopg2(self, query: str, super_uri: bool = False) -> list:
     """
     - Use `psycopg2` to run a query and return the result as a list of lists
     - This will NOT commit any changes to the database
     """
 
     if super_uri:
-        uri = db.uri_superuser
+        uri = self.uri_superuser
     else:
-        uri = db.uri
+        uri = self.uri
 
     connection = psycopg2.connect(uri)
     cursor = connection.cursor()
@@ -25,32 +25,32 @@ def get_query_via_psycopg2(db, query: str, super_uri: bool = False) -> list:
     return [list(x) for x in result]
 
 
-def get_list_of_singletons_from_query(db, query: str, super_uri: bool = False):
+def get_list_of_singletons_from_query(self, query: str, super_uri: bool = False):
     """
     - Run a query where the expected output is a list of values
     """
 
-    result = get_query_via_psycopg2(db, query, super_uri=super_uri)
+    result = get_query_via_psycopg2(self, query, super_uri=super_uri)
 
     return [x[0] for x in result]
 
 
-def get_single_output_from_query(db, query: str, super_uri: bool = False):
+def get_single_output_from_query(self, query: str, super_uri: bool = False):
     """
     - Run a query where the expected output is a single value
     """
 
-    result = get_list_of_singletons_from_query(db, query, super_uri=super_uri)
+    result = get_list_of_singletons_from_query(self, query, super_uri=super_uri)
 
     return result[0]
 
 
-def does_database_exist(db) -> bool:
+def exists(self) -> bool:
     """
     - True or False: does this database exist already?
     """
 
-    db_name = db.connection_params["db_name"]
+    db_name = self.connection_params["db_name"]
 
     query = f"""
         SELECT EXISTS(
@@ -59,4 +59,4 @@ def does_database_exist(db) -> bool:
         );
     """
 
-    return get_single_output_from_query(db, query, super_uri=True)
+    return get_single_output_from_query(self, query, super_uri=True)

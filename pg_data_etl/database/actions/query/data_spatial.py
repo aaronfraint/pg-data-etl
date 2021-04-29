@@ -2,12 +2,12 @@ import psycopg2
 import geopandas as gpd
 
 
-def get_gdf(db, query: str, geom_col: str = "geom") -> gpd.GeoDataFrame:
+def gdf(self, query: str, geom_col: str = "geom") -> gpd.GeoDataFrame:
     """
     - Get a `geopandas.GeoDataFrame` from a `PostGIS` query
     """
 
-    connection = psycopg2.connect(db.uri)
+    connection = psycopg2.connect(self.uri)
 
     gdf = gpd.GeoDataFrame.from_postgis(query, connection, geom_col=geom_col)
 
