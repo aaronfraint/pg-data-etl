@@ -4,7 +4,14 @@ import geopandas as gpd
 
 def gdf(self, query: str, geom_col: str = "geom") -> gpd.GeoDataFrame:
     """
-    - Get a `geopandas.GeoDataFrame` from a `PostGIS` query
+    - Get a `geopandas.GeoDataFrame` from a SQL query
+
+    Args:
+        query (str): `PostGIS` query as a string
+        geom_col (str): geometry column name in the query. Usually `'geom'` or `'shape'`
+
+    Returns:
+        query output as GIS data
     """
 
     connection = psycopg2.connect(self.uri)
