@@ -12,8 +12,8 @@ def create_database(self) -> None:
 
         # Create the database
         commands = [
-            f'psql -c "CREATE DATABASE {db_name};" {self.uri_superuser}',
-            f'psql -c "CREATE EXTENSION postgis;" {self.uri}',
+            f'{self.cmd.psql} -c "CREATE DATABASE {db_name};" {self.uri_superuser}',
+            f'{self.cmd.psql} -c "CREATE EXTENSION postgis;" {self.uri}',
         ]
 
         for cmd in commands:
@@ -28,7 +28,7 @@ def drop_database(self) -> None:
     if self.exists():
         db_name = self.connection_params["db_name"]
 
-        command = f'psql -c "DROP DATABASE {db_name};" {self.uri_superuser}'
+        command = f'{self.cmd.psql} -c "DROP DATABASE {db_name};" {self.uri_superuser}'
         helpers.run_command_in_shell(command)
 
 

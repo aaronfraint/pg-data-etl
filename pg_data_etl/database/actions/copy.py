@@ -12,9 +12,7 @@ def copy_table_to_another_db(self, table_to_copy: str, target_db) -> None:
         schema = table_to_copy.split(".")[0]
         target_db.add_schema(schema)
 
-    command = (
-        f"{self.pg_dump} --no-owner --no-acl -t {table_to_copy} {self.uri} | psql {target_db.uri}"
-    )
+    command = f"{self.cmd.pg_dump} --no-owner --no-acl -t {table_to_copy} {self.uri} | psql {target_db.uri}"
 
     print(command)
     helpers.run_command_in_shell(command)
@@ -45,7 +43,7 @@ def copy_entire_db_to_another_db(self, target_db) -> None:
 
         target_db.admin("CREATE")
 
-        command = f'{target_db.psql} -f  "{sql_filepath}" {target_db.uri}'
+        command = f'{target_db.cmd.psql} -f  "{sql_filepath}" {target_db.uri}'
         helpers.run_command_in_shell(command)
 
         # Ensure that spatial tables have 'geom' instead of 'shape' columns
