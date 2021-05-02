@@ -6,9 +6,7 @@
 """
 from typing import Union
 
-import pg_data_etl.helpers as helpers
-
-# import pg_data_etl.database.actions as actions
+import pg_data_etl.helpers as helpers  # noqa
 
 from .database import Database
 
