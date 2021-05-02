@@ -1,14 +1,9 @@
 """
 `pg_data_etl.database`
 ----------------------
-
-
-
 """
+
 from __future__ import annotations
-from pathlib import Path
-import pandas as pd
-import geopandas as gpd
 
 from pg_data_etl import helpers
 
@@ -46,7 +41,7 @@ class Database:
 
     """
 
-    def __init__(self, psql_bin: str | None = None, **kwargs):
+    def __init__(self, **kwargs):
         """
         - Save all initial keyword arguments as private variables
             - i.e. "host" argument becomes accessible as `Database._host`
@@ -56,43 +51,23 @@ class Database:
 
         """
 
-        self._psql_bin = psql_bin
         self._init_kwargs = kwargs
 
         # Save all kwargs as private variables
         for key, value in kwargs.items():
             setattr(self, f"_{key}", value)
 
+        # Set up the CommandPath subclass
+        if hasattr(self, "_bin_paths"):
+            self.cmd = helpers.CommandPath(**self._bin_paths)
+        else:
+            self.cmd = helpers.CommandPath()
+
         # Record how the instance was created
         if hasattr(self, "_uri"):
             self.CREATED_BY_URI = True
         else:
             self.CREATED_BY_URI = False
-
-    # Properties
-    # ----------
-
-    def _add_bin_path_if_exists(self, cmd):
-        if not self._psql_bin:
-            return cmd
-        else:
-            return Path(self._psql_bin) / cmd
-
-    @property
-    def psql(self):
-        return self._add_bin_path_if_exists("psql")
-
-    @property
-    def pg_dump(self):
-        return self._add_bin_path_if_exists("pg_dump")
-
-    @property
-    def shp2pgsql(self):
-        return self._add_bin_path_if_exists("shp2pgsql")
-
-    @property
-    def pgsql2shp(self):
-        return self._add_bin_path_if_exists("pgsql2shp")
 
     @property
     def connection_params(self) -> dict:
@@ -161,10 +136,11 @@ class Database:
         un: str = "postgres",
         pw: str = "",
         port: int = 5432,
+        super_db: str = "postgres",
         super_un: str | None = None,
         super_pw: str | None = None,
-        super_db: str = "postgres",
         extras: str | None = None,
+        bin_paths: dict | None = None,
     ) -> Database:
         """
         - Build a `Database` from keyword arguments
@@ -193,11 +169,15 @@ class Database:
         )
 
     @classmethod
-    def from_uri(cls, uri: str) -> Database:
+    def from_uri(
+        cls,
+        uri: str,
+        bin_paths: dict | None = None,
+    ) -> Database:
         """
         - Build a `Database` through its URI
         """
-        return cls(uri=uri)
+        return cls(uri=uri, bin_paths=bin_paths)
 
     # Administration
     # --------------
@@ -211,10 +191,10 @@ class Database:
         execute,
         add_uid_column_to_table,
         rename_column,
-        make_geotable_from_query,
-        update_spatial_data_projection,
-        lint_geom_colname,
-        add_spatial_index_to_table,
+        gis_make_geotable_from_query,
+        gis_update_spatial_data_projection,
+        gis_lint_geom_colname,
+        gis_add_spatial_index_to_table,
     )
 
     # Lists of Content
@@ -226,12 +206,21 @@ class Database:
     # ----------------------------------
 
     from .actions import gdf, df
-    from .actions import query_as_singleton, query_as_list_of_singletons, query_as_list_of_lists
+    from .actions import (
+        query_as_singleton,
+        query_as_list_of_singletons,
+        query_as_list_of_lists,
+    )
 
     # Get Data Out of Database To File
     # --------------------------------
 
-    from .actions import dump, export_gis, copy_entire_db_to_another_db, copy_table_to_another_db
+    from .actions import (
+        dump,
+        export_gis,
+        copy_entire_db_to_another_db,
+        copy_table_to_another_db,
+    )
 
     # Put Files Into Database
     # -----------------------
