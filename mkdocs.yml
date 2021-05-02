@@ -45,4 +45,4 @@ markdown_extensions:
 
 nav:
   - Quickstart: index.md
-  - Notebook page: notebook.ipynb
+  - Notebook page: examples.ipynb
