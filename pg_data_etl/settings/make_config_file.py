@@ -1,4 +1,3 @@
-import configparser
 from pathlib import Path
 from typing import Union
 
@@ -8,6 +7,9 @@ from ..settings import STARTER_CONFIG_FILE, DB_CONFIG_FILEPATH
 def make_config_file(
     filepath: Union[Path, str] = DB_CONFIG_FILEPATH, overwrite: bool = False
 ) -> bool:
+    """
+    TODO: docstring
+    """
 
     filepath = Path(filepath)
 

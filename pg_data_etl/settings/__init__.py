@@ -1,3 +1,7 @@
+"""
+TODO: docstring
+"""
+
 from pathlib import Path
 
 DB_CONFIG_FILEPATH = Path.home() / ".pg-data-etl" / "database_connections.cfg"
