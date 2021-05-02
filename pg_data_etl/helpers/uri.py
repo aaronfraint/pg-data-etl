@@ -19,7 +19,7 @@ def decode_uri(uri: str) -> dict:
     Returns:
         dictionary with individual parameters
     """
-    # "postgresql://postgres:password@localhost:5432/name_of_db"
+
     psql_un_pw, host_port_db = uri.split("@")
 
     # Get username and password
