@@ -7,3 +7,4 @@ matplotlib
 mkdocs-material
 mkdocstrings
 markdown-include
+mkdocs-jupyter
