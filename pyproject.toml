@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pg-data-etl"
-version = "0.2.0"
-description = "ETL tools for postgres data, built on top of the psql and pg_dump command line tools"
+version = "0.2.1"
+description = "ETL tools for spatial data stored in postgres"
 authors = ["Aaron Fraint <38364429+aaronfraint@users.noreply.github.com>"]
 license = "GNU v3"
 readme = "README.md"
