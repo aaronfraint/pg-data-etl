@@ -3,13 +3,12 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8*
-  - flake8
-  - ipython
-  - jupyterlab
   - python-dotenv
-  - black
-  - pytest
   - psycopg2
+  - geoalchemy2
+  - geopandas
+  - folium
+  - matplotlib
   - pip
   - pip:
       - --editable .
