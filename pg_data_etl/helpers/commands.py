@@ -23,7 +23,7 @@ def run_command_in_shell(command: str) -> str:
     return output
 
 
-class CommandPath:
+class CommandPathManager:
     """
     TODO: docstring
     """
@@ -47,6 +47,9 @@ class CommandPath:
             return None
 
     def set_bin_path(self, **kwargs) -> None:
+        """
+        - assign bin path to command using `cmd=bin_path` syntax
+        """
         for k, v in kwargs.items():
             self.bins[k] = v
 
