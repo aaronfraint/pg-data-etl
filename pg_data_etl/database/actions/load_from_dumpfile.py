@@ -16,5 +16,5 @@ def load_from_dumpfile(self, filepath: str) -> None:
     if self.exists():
         print(f"Database {db_name} already exists. Use a different name.")
     else:
-        command = f'"{self.psql}" -f "{filepath}" {self.uri}'
+        command = f'"{self.cmd.psql}" -f "{filepath}" {self.uri}'
         helpers.run_command_in_shell(command)
