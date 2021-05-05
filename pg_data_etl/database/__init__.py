@@ -4,8 +4,10 @@
 """
 
 from __future__ import annotations
+from pathlib import Path
 
 from pg_data_etl import helpers
+from pg_data_etl.settings import configurations
 
 
 class Database:
@@ -15,27 +17,42 @@ class Database:
 
     - Option 1: pass a database connection string (i.e. 'uri')
 
-            >>> uri = 'postgresql://postgres:password@localhost:5432/name_of_db'
-            >>> db = Database.from_uri(uri)
+        ```python
+        >>> uri = 'postgresql://postgres:password@localhost:5432/name_of_db'
+        >>> db = Database.from_uri(uri)
+        ```
 
     - Option 2: pass a keyword-argument dictionary with the connection parameters
 
-            >>> creds = {'db_name': 'my_db', 'un': 'my_username', pw='my_password'}
-            >>> db = Database.from_parameters(**creds)
+        ```python
+        >>> creds = {'db_name': 'my_db', 'un': 'my_username', pw='my_password'}
+        >>> db = Database.from_parameters(**creds)
+        ```
 
+    - Option 3: use the built-in configuration manager
+
+        ```python
+        >>> db = Database.from_config('my_db', 'localhost')
+        ```
+
+    ---
 
     No matter how it was created, you can access the connection parameters and URI:
 
     - Get the database URI with `db.uri`
 
-            >>> db.uri
-            'postgresql://postgres:password@localhost:5432/name_of_db'
+        ```python
+        >>> db.uri
+        'postgresql://postgres:password@localhost:5432/name_of_db'
+        ```
 
     - Get the database connection parameters with `db.connection_params`
 
-            >>> db.connection_params
-            {'db_name': 'name_of_db', 'host': 'localhost', 'un': 'postgres',
-            'pw': 'password', 'port': '5432', 'extras': None}
+        ```python
+        >>> db.connection_params
+        {'db_name': 'name_of_db', 'host': 'localhost', 'un': 'postgres',
+        'pw': 'password', 'port': '5432', 'extras': None}
+        ```
 
     ---
 
@@ -58,10 +75,10 @@ class Database:
             setattr(self, f"_{key}", value)
 
         # Set up the CommandPath subclass
-        if hasattr(self, "_bin_paths"):
-            self.cmd = helpers.CommandPath(**self._bin_paths)
+        if self._bin_paths:
+            self.cmd = helpers.CommandPathManager(**self._bin_paths)
         else:
-            self.cmd = helpers.CommandPath()
+            self.cmd = helpers.CommandPathManager()
 
         # Record how the instance was created
         if hasattr(self, "_uri"):
@@ -166,6 +183,7 @@ class Database:
             super_pw=super_pw,
             super_db=super_db,
             extras=extras,
+            bin_paths=bin_paths,
         )
 
     @classmethod
@@ -178,6 +196,24 @@ class Database:
         - Build a `Database` through its URI
         """
         return cls(uri=uri, bin_paths=bin_paths)
+
+    @classmethod
+    def from_config(
+        cls,
+        db_name: str,
+        config_key: str,
+        config_filepath: str | None = None,
+        bin_paths: dict | None = None,
+    ) -> Database:
+        """
+        - Build a `Database` with the configuration file support
+        """
+        if config_filepath:
+            config = configurations(filepath=Path(config_filepath))
+        else:
+            config = configurations()
+
+        return cls(db_name=db_name, bin_paths=bin_paths, **config[config_key])
 
     # Administration
     # --------------
@@ -218,8 +254,8 @@ class Database:
     from .actions import (
         dump,
         export_gis,
-        copy_entire_db_to_another_db,
-        copy_table_to_another_db,
+        export_entire_db_to_another_db,
+        export_table_to_another_db,
     )
 
     # Put Files Into Database

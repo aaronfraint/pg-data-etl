@@ -2,7 +2,7 @@ from pathlib import Path
 from pg_data_etl import helpers
 
 
-def copy_table_to_another_db(self, table_to_copy: str, target_db) -> None:
+def export_table_to_another_db(self, table_to_copy: str, target_db) -> None:
     """
     Pipe data directly from a pg_dump of one DB into another using psql
     """
@@ -22,7 +22,7 @@ def copy_table_to_another_db(self, table_to_copy: str, target_db) -> None:
     return None
 
 
-def copy_entire_db_to_another_db(self, target_db) -> None:
+def export_entire_db_to_another_db(self, target_db) -> None:
     """
     Copy an entire database to a new database.
 
