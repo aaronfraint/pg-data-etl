@@ -1,0 +1,49 @@
+site_name: pg-data-etl
+theme:
+theme:
+  name: material
+  features:
+    - navigation.instant
+    # - navigation.tabs
+    - header.autohide
+  icon:
+    logo: material/map-marker-path
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      primary: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: yellow
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+repo_url: https://github.com/aaronfraint/pg-data-etl
+repo_name: aaronfraint/pg-data-etl
+plugins:
+  - search
+  - mkdocs-jupyter
+  - mkdocstrings:
+      handlers:
+        python:
+          rendering:
+            show_root_toc_entry: false
+            show_if_no_docstring: true
+            group_by_category: false
+
+markdown_extensions:
+  - pymdownx.tabbed
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - markdown_include.include:
+      base_path: docs
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+nav:
+  - Quickstart: index.md
+  - Examples: examples.ipynb
+  - Python Documentation: python_ref.md

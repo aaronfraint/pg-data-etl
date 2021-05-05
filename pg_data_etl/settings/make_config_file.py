@@ -1,10 +1,9 @@
-import configparser
 from pathlib import Path
 from typing import Union
 
-DATA_ROOT = Path.home() / "sql_data_io"
+from pathlib import Path
 
-DB_CONFIG_FILEPATH = DATA_ROOT / "database_connections.cfg"
+DB_CONFIG_FILEPATH = Path.home() / ".pg-data-etl" / "database_connections.cfg"
 
 STARTER_CONFIG_FILE = """
 [DEFAULT]
@@ -34,6 +33,9 @@ super_pw = some_super_password12354
 def make_config_file(
     filepath: Union[Path, str] = DB_CONFIG_FILEPATH, overwrite: bool = False
 ) -> bool:
+    """
+    TODO: docstring
+    """
 
     filepath = Path(filepath)
 
@@ -55,31 +57,3 @@ def make_config_file(
             open_file.write(STARTER_CONFIG_FILE)
 
         return True
-
-
-def read_config_file(filepath: Path = DB_CONFIG_FILEPATH) -> dict:
-
-    config = configparser.ConfigParser()
-    config.read(filepath)
-
-    all_hosts = {}
-
-    for host in config.sections():
-        all_hosts[host] = {}
-
-        for key in config[host]:
-            value = config[host][key]
-
-            all_hosts[host][key] = value
-
-    print(f"Loaded db configurations from {filepath}")
-
-    return all_hosts
-
-
-def configurations(filepath: Path = DB_CONFIG_FILEPATH) -> dict:
-
-    if not filepath.exists():
-        make_config_file(filepath)
-
-    return read_config_file(filepath)

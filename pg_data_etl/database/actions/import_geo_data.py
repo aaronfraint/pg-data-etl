@@ -1,0 +1,124 @@
+from pathlib import Path
+import pandas as pd
+import sqlalchemy
+import geopandas as gpd
+from geoalchemy2 import Geometry, WKTElement
+
+from pg_data_etl import helpers
+
+
+def shp2pgsql(self, shp_path: str, srid: int, tablename: str, new_srid: int = None):
+    """
+    Use the shp2pgsql command to import a shapefile into the database
+    """
+
+    # Ensure that the schema provided in the 'tablename' exists
+    schema, _ = helpers.convert_full_tablename_to_parts(tablename)
+    self.add_schema(schema)
+
+    # If 'new_srid' is provided, use 'old:new' to project on the fly
+    srid_arg = f"{srid}:{new_srid}" if new_srid else srid
+
+    command = f'{self.cmd.shp2pgsql} -I -s {srid_arg} "{shp_path}" {tablename} | psql {self.uri}'
+
+    print(command)
+
+    helpers.run_command_in_shell(command)
+
+    self.lint_geom_colname(tablename)
+
+
+def import_geofile_with_geopandas(
+    self, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {}
+) -> None:
+
+    # Read the data into a geodataframe
+    gdf = gpd.read_file(filepath)
+
+    # Drop null geometries
+    gdf = gdf[gdf["geometry"].notnull()]
+
+    self.import_geodataframe(gdf, sql_tablename, gpd_kwargs)
+
+
+def import_geodataframe(
+    self,
+    gdf: gpd.GeoDataFrame,
+    tablename: str,
+    gpd_kwargs: dict = {},
+    uid_col: str = "uid",
+) -> None:
+    """
+    TODO: option to use multipart features instead of exploding to singlepart
+    """
+
+    gdf = gdf.copy()
+
+    gdf = helpers.sanitize_df_for_sql(gdf)
+
+    epsg_code = int(str(gdf.crs).split(":")[1])
+
+    # Get a list of all geometry types in the dataframe
+    geom_types = list(gdf.geometry.geom_type.unique())
+
+    # If there are multi- and single-part features, explode to singlepart
+    if len(geom_types) > 1:
+        # Explode multipart to singlepart and reset the index
+        gdf = gdf.explode()
+        gdf["explode"] = gdf.index
+        gdf = gdf.reset_index()
+
+    # Use the non-multi version of the geometry
+    geom_type_to_use = min(geom_types, key=len).upper()
+
+    # Replace the 'geom' column with 'geometry'
+    if "geom" in gdf.columns:
+        gdf["geometry"] = gdf["geom"]
+        gdf.drop("geom", 1, inplace=True)
+
+    # Drop the 'gid' column
+    if "gid" in gdf.columns:
+        gdf.drop("gid", 1, inplace=True)
+
+    # Rename 'uid' to 'old_uid'
+    if uid_col in gdf.columns:
+        gdf[f"old_{uid_col}"] = gdf[uid_col]
+        gdf.drop(uid_col, 1, inplace=True)
+
+    # Build a 'geom' column using geoalchemy2
+    # and drop the source 'geometry' column
+    gdf["geom"] = gdf["geometry"].apply(lambda x: WKTElement(x.wkt, srid=epsg_code))
+    gdf.drop("geometry", 1, inplace=True)
+
+    # Ensure that the target schema exists
+    schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
+    self.add_schema(schema)
+
+    # Write geodataframe to SQL database
+    engine = sqlalchemy.create_engine(self.uri)
+    gdf.to_sql(
+        tbl,
+        engine,
+        schema=schema,
+        dtype={"geom": Geometry(geom_type_to_use, srid=epsg_code)},
+        **gpd_kwargs,
+    )
+    engine.dispose()
+
+    self.add_uid_column_to_table(tablename)
+    self.gis_add_spatial_index_to_table(tablename)
+
+
+def import_gis(self, method="geopandas", **kwargs):
+    """"""
+    method_mapper = {
+        "geopandas": import_geofile_with_geopandas,
+        "shp2pgsql": shp2pgsql,
+    }
+
+    if method not in method_mapper:
+        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
+
+    func = method_mapper[method]
+
+    func(self, **kwargs)

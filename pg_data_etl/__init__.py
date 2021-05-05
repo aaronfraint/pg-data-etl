@@ -1,2 +1,7 @@
-from .db import Database, Query
-from .configuration_manager import configurations as connections
+"""
+`pg_data_etl`
+-------------
+
+
+"""
+from .database import Database  # noqa

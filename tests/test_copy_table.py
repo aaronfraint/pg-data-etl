@@ -1,17 +1,17 @@
-def test_copy_of_table(local_db, network_db_that_exists):
+def test_copy_table_to(local_db, network_db_that_exists):
     """Copy a known non-spatial table from an existing DB to a new DB"""
 
-    network_db_that_exists.copy_table_to_another_db("lineroutes", local_db)
+    network_db_that_exists.copy_table_to("lineroutes", local_db)
 
-    assert "public.lineroutes" in local_db.table_list()
+    assert "public.lineroutes" in local_db.list_of_tables()
 
 
-def test_copy_of_local_spatial_table(local_db, local_sw_db):
+def test_spatial_copy_table_to(local_db, local_sw_db):
     """Copy a spatial table from a local db to another local db """
 
-    local_sw_db.copy_table_to_another_db("circuittrails", local_db)
+    local_sw_db.copy_table_to("circuittrails", local_db)
 
-    assert "public.circuittrails" in local_db.spatial_table_list()
+    assert "public.circuittrails" in local_db.list_of_tables(spatial_only=True)
 
 
 def test_copy_of_network_spatial_table(local_db, production_gis_db):
