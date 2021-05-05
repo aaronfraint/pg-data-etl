@@ -7,8 +7,8 @@ def gis_table_lint_geom_colname(self, tablename: str) -> None:
     - Rename the geometry column to 'geom' if it comes through as 'shape'
     """
 
-    if "shape" in self.list_of_columns_in(tablename):
-        self.rename_column("shape", "geom", tablename)
+    if "shape" in self.columns(tablename):
+        self.table_rename_column("shape", "geom", tablename)
 
 
 def gis_table_add_spatial_index(self, tablename: str) -> None:
@@ -80,7 +80,7 @@ def gis_make_geotable_from_query(
 
         # Make sure the schema exists
         schema, _ = helpers.convert_full_tablename_to_parts(new_table_name)
-        self.add_schema(schema)
+        self.schema_add(schema)
 
         query_to_make_table = f"""
             DROP TABLE IF EXISTS {new_table_name};
