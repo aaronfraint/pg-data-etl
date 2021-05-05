@@ -213,7 +213,7 @@ class Database:
         else:
             config = configurations()
 
-        return cls(db_name=db_name, bin_paths=bin_paths, **config[config_key])
+        return cls.from_parameters(db_name=db_name, bin_paths=bin_paths, **config[config_key])
 
     # Administration
     # --------------
