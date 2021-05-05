@@ -1,0 +1,6 @@
+python-dotenv
+psycopg2
+geoalchemy2
+geopandas
+folium
+matplotlib
