@@ -1,6 +1,6 @@
 # pg-data-etl
 
-![PyPI](https://img.shields.io/pypi/v/pg-data-etl?style=for-the-badge)
+[![PyPI](https://img.shields.io/pypi/v/pg-data-etl?style=for-the-badge)](https://pypi.org/project/pg-data-etl/)
 
 ETL tools for spatial data stored in postgres.
 
