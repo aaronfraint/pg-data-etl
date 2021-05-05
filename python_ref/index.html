@@ -1,0 +1,2638 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+    
+    
+      
+        <title>Python Documentation - pg-data-etl</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e35208c4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pg_data_etl.database.Database.__init__" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="pg-data-etl" class="md-header__button md-logo" aria-label="pg-data-etl" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2h-2m-4-6H5v-2h2v2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pg-data-etl
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Python Documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="yellow" data-md-color-accent="" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/aaronfraint/pg-data-etl/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aaronfraint/pg-data-etl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="pg-data-etl" class="md-nav__button md-logo" aria-label="pg-data-etl" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2h-2m-4-6H5v-2h2v2z"/></svg>
+
+    </a>
+    pg-data-etl
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/aaronfraint/pg-data-etl/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aaronfraint/pg-data-etl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        Create a Database object
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Python Documentation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Python Documentation
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.admin" class="md-nav__link">
+    admin()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.columns" class="md-nav__link">
+    columns()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.connection_params" class="md-nav__link">
+    connection_params
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.df" class="md-nav__link">
+    df()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.dump" class="md-nav__link">
+    dump()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.execute" class="md-nav__link">
+    execute()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.exists" class="md-nav__link">
+    exists()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.export_entire_db_to_another_db" class="md-nav__link">
+    export_entire_db_to_another_db()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.export_gis" class="md-nav__link">
+    export_gis()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.export_table_to_another_db" class="md-nav__link">
+    export_table_to_another_db()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.from_config" class="md-nav__link">
+    from_config()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.from_parameters" class="md-nav__link">
+    from_parameters()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.from_uri" class="md-nav__link">
+    from_uri()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gdf" class="md-nav__link">
+    gdf()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_make_geotable_from_query" class="md-nav__link">
+    gis_make_geotable_from_query()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_table_add_spatial_index" class="md-nav__link">
+    gis_table_add_spatial_index()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_table_lint_geom_colname" class="md-nav__link">
+    gis_table_lint_geom_colname()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_table_update_spatial_data_projection" class="md-nav__link">
+    gis_table_update_spatial_data_projection()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_dataframe" class="md-nav__link">
+    import_dataframe()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_file_with_pandas" class="md-nav__link">
+    import_file_with_pandas()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_geodataframe" class="md-nav__link">
+    import_geodataframe()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_gis" class="md-nav__link">
+    import_gis()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.load_from_dumpfile" class="md-nav__link">
+    load_from_dumpfile()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query" class="md-nav__link">
+    query()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query_as_list_of_lists" class="md-nav__link">
+    query_as_list_of_lists()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query_as_list_of_singletons" class="md-nav__link">
+    query_as_list_of_singletons()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query_as_singleton" class="md-nav__link">
+    query_as_singleton()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.schema_add" class="md-nav__link">
+    schema_add()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.schemas" class="md-nav__link">
+    schemas()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.table_add_uid_column" class="md-nav__link">
+    table_add_uid_column()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.table_rename_column" class="md-nav__link">
+    table_rename_column()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.tables" class="md-nav__link">
+    tables()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.uri" class="md-nav__link">
+    uri
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.uri_superuser" class="md-nav__link">
+    uri_superuser
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.admin" class="md-nav__link">
+    admin()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.columns" class="md-nav__link">
+    columns()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.connection_params" class="md-nav__link">
+    connection_params
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.df" class="md-nav__link">
+    df()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.dump" class="md-nav__link">
+    dump()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.execute" class="md-nav__link">
+    execute()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.exists" class="md-nav__link">
+    exists()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.export_entire_db_to_another_db" class="md-nav__link">
+    export_entire_db_to_another_db()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.export_gis" class="md-nav__link">
+    export_gis()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.export_table_to_another_db" class="md-nav__link">
+    export_table_to_another_db()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.from_config" class="md-nav__link">
+    from_config()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.from_parameters" class="md-nav__link">
+    from_parameters()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.from_uri" class="md-nav__link">
+    from_uri()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gdf" class="md-nav__link">
+    gdf()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_make_geotable_from_query" class="md-nav__link">
+    gis_make_geotable_from_query()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_table_add_spatial_index" class="md-nav__link">
+    gis_table_add_spatial_index()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_table_lint_geom_colname" class="md-nav__link">
+    gis_table_lint_geom_colname()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.gis_table_update_spatial_data_projection" class="md-nav__link">
+    gis_table_update_spatial_data_projection()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_dataframe" class="md-nav__link">
+    import_dataframe()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_file_with_pandas" class="md-nav__link">
+    import_file_with_pandas()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_geodataframe" class="md-nav__link">
+    import_geodataframe()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.import_gis" class="md-nav__link">
+    import_gis()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.load_from_dumpfile" class="md-nav__link">
+    load_from_dumpfile()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query" class="md-nav__link">
+    query()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query_as_list_of_lists" class="md-nav__link">
+    query_as_list_of_lists()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query_as_list_of_singletons" class="md-nav__link">
+    query_as_list_of_singletons()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.query_as_singleton" class="md-nav__link">
+    query_as_singleton()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.schema_add" class="md-nav__link">
+    schema_add()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.schemas" class="md-nav__link">
+    schemas()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.table_add_uid_column" class="md-nav__link">
+    table_add_uid_column()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.table_rename_column" class="md-nav__link">
+    table_rename_column()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.tables" class="md-nav__link">
+    tables()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.uri" class="md-nav__link">
+    uri
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.uri_superuser" class="md-nav__link">
+    uri_superuser
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/aaronfraint/pg-data-etl/edit/master/docs/python_ref.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Python Documentation</h1>
+                
+                <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>The <code>Database</code> class encapsulates the PostgreSQL connection and
+all necessary functionality. It can be created in two ways:</p>
+<ul>
+<li>
+<p>Option 1: pass a database connection string (i.e. 'uri')</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">uri</span> <span class="o">=</span> <span class="s1">&#39;postgresql://postgres:password@localhost:5432/name_of_db&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">from_uri</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Option 2: pass a keyword-argument dictionary with the connection parameters</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">creds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;db_name&#39;</span><span class="p">:</span> <span class="s1">&#39;my_db&#39;</span><span class="p">,</span> <span class="s1">&#39;un&#39;</span><span class="p">:</span> <span class="s1">&#39;my_username&#39;</span><span class="p">,</span> <span class="n">pw</span><span class="o">=</span><span class="s1">&#39;my_password&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="o">**</span><span class="n">creds</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Option 3: use the built-in configuration manager</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="s1">&#39;my_db&#39;</span><span class="p">,</span> <span class="s1">&#39;localhost&#39;</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ul>
+<hr />
+<p>No matter how it was created, you can access the connection parameters and URI:</p>
+<ul>
+<li>
+<p>Get the database URI with <code>db.uri</code></p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">db</span><span class="o">.</span><span class="n">uri</span>
+<span class="s1">&#39;postgresql://postgres:password@localhost:5432/name_of_db&#39;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Get the database connection parameters with <code>db.connection_params</code></p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">db</span><span class="o">.</span><span class="n">connection_params</span>
+<span class="p">{</span><span class="s1">&#39;db_name&#39;</span><span class="p">:</span> <span class="s1">&#39;name_of_db&#39;</span><span class="p">,</span> <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;un&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span>
+<span class="s1">&#39;pw&#39;</span><span class="p">:</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span> <span class="s1">&#39;extras&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+</code></pre></div>
+</li>
+</ul>
+<hr />
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>
+<p>Save all initial keyword arguments as private variables</p>
+<ul>
+<li>i.e. "host" argument becomes accessible as <code>Database._host</code></li>
+</ul>
+</li>
+<li>
+<p>Accept a flexible set of kwargs, depending on whether the instance
+is created <code>from_parameters()</code> or <code>from_uri()</code></p>
+</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Save all initial keyword arguments as private variables</span>
+<span class="sd">        - i.e. &quot;host&quot; argument becomes accessible as `Database._host`</span>
+
+<span class="sd">    - Accept a flexible set of kwargs, depending on whether the instance</span>
+<span class="sd">    is created `from_parameters()` or `from_uri()`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_init_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="c1"># Save all kwargs as private variables</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># Set up the CommandPath subclass</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bin_paths</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">CommandPathManager</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_bin_paths</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">CommandPathManager</span><span class="p">()</span>
+
+    <span class="c1"># Record how the instance was created</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_uri&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CREATED_BY_URI</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CREATED_BY_URI</span> <span class="o">=</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.admin" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">admin_action</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Allow user to <code>"CREATE"</code> or <code>"DROP"</code> the database</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">admin_action</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Allow user to `&quot;CREATE&quot;` or `&quot;DROP&quot;` the database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">admin_action</span> <span class="o">=</span> <span class="n">admin_action</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># Check that admin_action is allowed</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CREATE&quot;</span><span class="p">,</span> <span class="s2">&quot;DROP&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">admin_action</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">admin_action</span><span class="si">=}</span><span class="s2"> is not supported</span><span class="se">\n</span><span class="s2">Available administration options include: </span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">admin_action</span> <span class="o">==</span> <span class="s2">&quot;CREATE&quot;</span><span class="p">:</span>
+        <span class="n">create_database</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">admin_action</span> <span class="o">==</span> <span class="s2">&quot;DROP&quot;</span><span class="p">:</span>
+        <span class="n">drop_database</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.columns" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Get a list of all column names in a given table</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Get a list of all column names in a given table</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">schema</span><span class="p">,</span> <span class="n">tbl</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">convert_full_tablename_to_parts</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT DISTINCT column_name</span>
+<span class="s2">        FROM information_schema.columns</span>
+<span class="s2">        WHERE</span>
+<span class="s2">            table_name = &#39;</span><span class="si">{</span><span class="n">tbl</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">            AND</span>
+<span class="s2">            table_schema = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_singletons</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="pg_data_etl.database.Database.connection_params" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">connection_params</span><span class="p">:</span> <span class="nb">dict</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Return a <code>dict</code> of the connection parameters</li>
+</ul>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.df" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Return a <code>pandas.Dataframe</code> from a SQL query</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Return a `pandas.Dataframe` from a SQL query</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+    <span class="n">engine</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.dump" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Create a standalone text file backup of the entire database.</li>
+<li>Returns the full filepath to the newly created file.</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Create a standalone text file backup of the entire database.</span>
+<span class="sd">    - Returns the full filepath to the newly created file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">db_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">timestamp_for_filepath</span><span class="p">()</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">db_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.sql&quot;</span>
+    <span class="n">output_filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span>
+
+    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span><span class="si">}</span><span class="s1">&quot; --no-owner --no-acl </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> &gt; &quot;</span><span class="si">{</span><span class="n">output_filepath</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+    <span class="n">helpers</span><span class="o">.</span><span class="n">run_command_in_shell</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output_filepath</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.execute" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Use psycopg2 to execute a query &amp; commit it to the database </p>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Use psycopg2 to execute a query &amp; commit it to the database &quot;&quot;&quot;</span>
+
+    <span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.exists" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>True or False: does this database exist already?</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - True or False: does this database exist already?</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">db_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT EXISTS(</span>
+<span class="s2">            SELECT datname FROM pg_catalog.pg_database</span>
+<span class="s2">            WHERE lower(datname) = lower(&#39;</span><span class="si">{</span><span class="n">db_name</span><span class="si">}</span><span class="s2">&#39;)</span>
+<span class="s2">        );</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_singleton</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.export_entire_db_to_another_db" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">export_entire_db_to_another_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_db</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Copy an entire database to a new database.</p>
+<p>To get around memory error limitations, this is done in two steps as opposed to a single command with a pipe:
+    Step 1) Backup the source db to .sql file with pg_dump
+    Step 2) Load the .sql file into the target db with psql</p>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">export_entire_db_to_another_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_db</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Copy an entire database to a new database.</span>
+
+<span class="sd">    To get around memory error limitations, this is done in two steps as opposed to a single command with a pipe:</span>
+<span class="sd">        Step 1) Backup the source db to .sql file with pg_dump</span>
+<span class="sd">        Step 2) Load the .sql file into the target db with psql</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">target_db</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">target_db_name</span> <span class="o">=</span> <span class="n">target_db</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;A database named &#39;</span><span class="si">{</span><span class="n">target_db_name</span><span class="si">}</span><span class="s2">&#39; already exists. Use a different name or drop this database before copying into it.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sql_filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+
+        <span class="n">target_db</span><span class="o">.</span><span class="n">admin</span><span class="p">(</span><span class="s2">&quot;CREATE&quot;</span><span class="p">)</span>
+
+        <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_db</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">psql</span><span class="si">}</span><span class="s1"> -f  &quot;</span><span class="si">{</span><span class="n">sql_filepath</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="n">target_db</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">helpers</span><span class="o">.</span><span class="n">run_command_in_shell</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+        <span class="c1"># Ensure that spatial tables have &#39;geom&#39; instead of &#39;shape&#39; columns</span>
+        <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">target_db</span><span class="o">.</span><span class="n">tables</span><span class="p">(</span><span class="n">spatial_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">target_db</span><span class="o">.</span><span class="n">gis_table_lint_geom_colname</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+        <span class="c1"># Delete the .sql file from disk</span>
+        <span class="n">sql_filepath</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.export_gis" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">export_gis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;geopandas&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>All methods require kwargs <code>table_or_sql</code> and <code>filepath</code></li>
+<li>Optional kwargs include <code>filetype</code> (ogr2ogr &amp; geopandas) and <code>geom_col</code> (geopandas only)</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">export_gis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;geopandas&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - All methods require kwargs `table_or_sql` and `filepath`</span>
+<span class="sd">    - Optional kwargs include `filetype` (ogr2ogr &amp; geopandas) and `geom_col` (geopandas only)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">method_mapper</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;geopandas&quot;</span><span class="p">:</span> <span class="n">export_gis_with_geopandas</span><span class="p">,</span>
+        <span class="s2">&quot;ogr2ogr&quot;</span><span class="p">:</span> <span class="n">export_shp_with_ogr2ogr</span><span class="p">,</span>
+        <span class="s2">&quot;pgsql2shp&quot;</span><span class="p">:</span> <span class="n">export_shp_with_pgsql2shp</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">method_mapper</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">func</span> <span class="o">=</span> <span class="n">method_mapper</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+
+    <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.export_table_to_another_db" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">export_table_to_another_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_to_copy</span><span class="p">,</span> <span class="n">target_db</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Pipe data directly from a pg_dump of one DB into another using psql</p>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">export_table_to_another_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_to_copy</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_db</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pipe data directly from a pg_dump of one DB into another using psql</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># If the table_to_copy has a schema, ensure that the schema also exists in the target db</span>
+    <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">table_to_copy</span><span class="p">:</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">table_to_copy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">target_db</span><span class="o">.</span><span class="n">schema_add</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span><span class="si">}</span><span class="s2"> --no-owner --no-acl -t </span><span class="si">{</span><span class="n">table_to_copy</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> | psql </span><span class="si">{</span><span class="n">target_db</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="n">helpers</span><span class="o">.</span><span class="n">run_command_in_shell</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">gis_table_lint_geom_colname</span><span class="p">(</span><span class="n">target_db</span><span class="p">,</span> <span class="n">table_to_copy</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.from_config" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">from_config</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">config_key</span><span class="p">,</span> <span class="n">config_filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Build a <code>Database</code> with the configuration file support</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span>
+    <span class="n">db_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">config_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">config_filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bin_paths</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Database</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Build a `Database` with the configuration file support</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">config_filepath</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">configurations</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">config_filepath</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">configurations</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="n">db_name</span><span class="o">=</span><span class="n">db_name</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="n">bin_paths</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="n">config_key</span><span class="p">])</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.from_parameters" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">from_parameters</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">un</span><span class="o">=</span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="n">pw</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5432</span><span class="p">,</span> <span class="n">super_db</span><span class="o">=</span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="n">super_un</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">super_pw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extras</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>
+<p>Build a <code>Database</code> from keyword arguments</p>
+</li>
+<li>
+<p>Super username/password are necessary to create a database. Unless
+explicitly declared, these values are assumed to be the same as the
+provided username/password</p>
+</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_parameters</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span>
+    <span class="n">db_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+    <span class="n">un</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+    <span class="n">pw</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5432</span><span class="p">,</span>
+    <span class="n">super_db</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+    <span class="n">super_un</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">super_pw</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bin_paths</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Database</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Build a `Database` from keyword arguments</span>
+
+<span class="sd">    - Super username/password are necessary to create a database. Unless</span>
+<span class="sd">    explicitly declared, these values are assumed to be the same as the</span>
+<span class="sd">    provided username/password</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">super_un</span><span class="p">:</span>
+        <span class="n">super_un</span> <span class="o">=</span> <span class="n">un</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">super_pw</span><span class="p">:</span>
+        <span class="n">super_pw</span> <span class="o">=</span> <span class="n">pw</span>
+
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+        <span class="n">db_name</span><span class="o">=</span><span class="n">db_name</span><span class="p">,</span>
+        <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+        <span class="n">un</span><span class="o">=</span><span class="n">un</span><span class="p">,</span>
+        <span class="n">pw</span><span class="o">=</span><span class="n">pw</span><span class="p">,</span>
+        <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+        <span class="n">super_un</span><span class="o">=</span><span class="n">super_un</span><span class="p">,</span>
+        <span class="n">super_pw</span><span class="o">=</span><span class="n">super_pw</span><span class="p">,</span>
+        <span class="n">super_db</span><span class="o">=</span><span class="n">super_db</span><span class="p">,</span>
+        <span class="n">extras</span><span class="o">=</span><span class="n">extras</span><span class="p">,</span>
+        <span class="n">bin_paths</span><span class="o">=</span><span class="n">bin_paths</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.from_uri" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">from_uri</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Build a <code>Database</code> through its URI</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_uri</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span>
+    <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">bin_paths</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Database</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Build a `Database` through its URI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">uri</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="n">bin_paths</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.gdf" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Get a <code>geopandas.GeoDataFrame</code> from a SQL query</li>
+</ul>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p><code>PostGIS</code> query as a string</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>geom_col</code></td>
+        <td><code>str</code></td>
+        <td><p>geometry column name in the query. Usually <code>'geom'</code> or <code>'shape'</code></p></td>
+        <td><code>&#39;geom&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>GeoDataFrame</code></td>
+      <td><p>query output as GIS data</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">geom_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;geom&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Get a `geopandas.GeoDataFrame` from a SQL query</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        query (str): `PostGIS` query as a string</span>
+<span class="sd">        geom_col (str): geometry column name in the query. Usually `&#39;geom&#39;` or `&#39;shape&#39;`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        query output as GIS data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+
+    <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="n">geom_col</span><span class="p">)</span>
+
+    <span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">gdf</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.gis_make_geotable_from_query" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gis_make_geotable_from_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">new_table_name</span><span class="p">,</span> <span class="n">geom_type</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">uid_col</span><span class="o">=</span><span class="s1">&#39;uid&#39;</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>
+<p>Allow the creation of a new table in the db directly via query.</p>
+</li>
+<li>
+<p>This is especially helpful when you're working with a large dataset
+and you want to limit the I/O processing time.</p>
+</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_make_geotable_from_query</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">new_table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">geom_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">epsg</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">uid_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Allow the creation of a new table in the db directly via query.</span>
+
+<span class="sd">    - This is especially helpful when you&#39;re working with a large dataset</span>
+<span class="sd">    and you want to limit the I/O processing time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">valid_geom_types</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;POINT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MULTIPOINT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;POLYGON&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MULTIPOLYGON&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;LINESTRING&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MULTILINESTRING&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">geom_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_geom_types</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;Geometry type of </span><span class="si">{</span><span class="n">geom_type</span><span class="si">}</span><span class="s2"> is not valid.&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Please use one of the following: </span><span class="si">{</span><span class="n">valid_geom_types</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Aborting&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="c1"># Make sure the schema exists</span>
+        <span class="n">schema</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">convert_full_tablename_to_parts</span><span class="p">(</span><span class="n">new_table_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema_add</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+        <span class="n">query_to_make_table</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">new_table_name</span><span class="si">}</span><span class="s2">;</span>
+<span class="s2">            CREATE TABLE </span><span class="si">{</span><span class="n">new_table_name</span><span class="si">}</span><span class="s2"> AS</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_to_make_table</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">table_add_uid_column</span><span class="p">(</span><span class="n">new_table_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gis_table_add_spatial_index</span><span class="p">(</span><span class="n">new_table_name</span><span class="p">)</span>
+
+        <span class="c1"># We&#39;re not reprojecting here, but rather forcing an entry for</span>
+        <span class="c1"># the new geo table into the geometry_columns table</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gis_table_update_spatial_data_projection</span><span class="p">(</span><span class="n">new_table_name</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">geom_type</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.gis_table_add_spatial_index" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gis_table_add_spatial_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Add a spatial index on a table's geom column</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_table_add_spatial_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Add a spatial index on a table&#39;s geom column</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        CREATE INDEX ON </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        USING GIST (geom);</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.gis_table_lint_geom_colname" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gis_table_lint_geom_colname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Rename the geometry column to 'geom' if it comes through as 'shape'</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_table_lint_geom_colname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Rename the geometry column to &#39;geom&#39; if it comes through as &#39;shape&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s2">&quot;shape&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="n">tablename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table_rename_column</span><span class="p">(</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.gis_table_update_spatial_data_projection" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gis_table_update_spatial_data_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">old_epsg</span><span class="p">,</span> <span class="n">new_epsg</span><span class="p">,</span> <span class="n">geom_type</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Transform a table in-place from <code>old_epsg</code> to <code>new_epsg</code>.</li>
+<li>You can use this with identical old and new epsgs to force an
+entry into the <code>geometry_columns</code> table. (Helpful for making geotables directly in the DB via query)</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_table_update_spatial_data_projection</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">old_epsg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">new_epsg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">geom_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Transform a table in-place from `old_epsg` to `new_epsg`.</span>
+<span class="sd">    - You can use this with identical old and new epsgs to force an</span>
+<span class="sd">    entry into the `geometry_columns` table. (Helpful for making geotables directly in the DB via query)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        ALTER TABLE </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        ALTER COLUMN geom TYPE geometry(</span><span class="si">{</span><span class="n">geom_type</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">new_epsg</span><span class="si">}</span><span class="s2">)</span>
+<span class="s2">        USING ST_Transform(ST_SetSRID(geom, </span><span class="si">{</span><span class="n">old_epsg</span><span class="si">}</span><span class="s2">), </span><span class="si">{</span><span class="n">new_epsg</span><span class="si">}</span><span class="s2">);</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.import_dataframe" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">import_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">df_import_kwargs</span><span class="o">=</span><span class="p">{})</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">import_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">df_import_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="c1"># Clean up column names</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">sanitize_df_for_sql</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="c1"># Make sure the schema exists</span>
+    <span class="n">schema</span><span class="p">,</span> <span class="n">tbl</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">convert_full_tablename_to_parts</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">schema_add</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+    <span class="c1"># Write to database</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="o">**</span><span class="n">df_import_kwargs</span><span class="p">)</span>
+
+    <span class="n">engine</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.import_file_with_pandas" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">import_file_with_pandas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">pd_read_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="n">df_import_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">import_file_with_pandas</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">pd_read_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">df_import_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="c1"># Determine if this is a CSV, XLS, or XLSX and use the appropriate pandas loader</span>
+    <span class="n">suffix</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.csv&quot;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">pd_read_kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">,</span> <span class="s2">&quot;.xls&quot;</span><span class="p">]:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">pd_read_kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;File type: &#39;</span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&#39; is not supported. Check the official pandas documentation to see if this is a valid filetype.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">import_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">df_import_kwargs</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.import_geodataframe" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">import_geodataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">gpd_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="n">uid_col</span><span class="o">=</span><span class="s1">&#39;uid&#39;</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>TODO: option to use multipart features instead of exploding to singlepart</p>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">import_geodataframe</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">gdf</span><span class="p">:</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span>
+    <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">gpd_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">uid_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TODO: option to use multipart features instead of exploding to singlepart</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">gdf</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">sanitize_df_for_sql</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
+
+    <span class="n">epsg_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">crs</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Get a list of all geometry types in the dataframe</span>
+    <span class="n">geom_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">geom_type</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+    <span class="c1"># If there are multi- and single-part features, explode to singlepart</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geom_types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Explode multipart to singlepart and reset the index</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span>
+        <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;explode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="c1"># Use the non-multi version of the geometry</span>
+    <span class="n">geom_type_to_use</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">geom_types</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="c1"># Replace the &#39;geom&#39; column with &#39;geometry&#39;</span>
+    <span class="k">if</span> <span class="s2">&quot;geom&quot;</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geom&quot;</span><span class="p">]</span>
+        <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Drop the &#39;gid&#39; column</span>
+    <span class="k">if</span> <span class="s2">&quot;gid&quot;</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;gid&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Rename &#39;uid&#39; to &#39;old_uid&#39;</span>
+    <span class="k">if</span> <span class="n">uid_col</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">gdf</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;old_</span><span class="si">{</span><span class="n">uid_col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">uid_col</span><span class="p">]</span>
+        <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">uid_col</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Build a &#39;geom&#39; column using geoalchemy2</span>
+    <span class="c1"># and drop the source &#39;geometry&#39; column</span>
+    <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geom&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">WKTElement</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span> <span class="n">srid</span><span class="o">=</span><span class="n">epsg_code</span><span class="p">))</span>
+    <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Ensure that the target schema exists</span>
+    <span class="n">schema</span><span class="p">,</span> <span class="n">tbl</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">convert_full_tablename_to_parts</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">schema_add</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+    <span class="c1"># Write geodataframe to SQL database</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+    <span class="n">gdf</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span>
+        <span class="n">tbl</span><span class="p">,</span>
+        <span class="n">engine</span><span class="p">,</span>
+        <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;geom&quot;</span><span class="p">:</span> <span class="n">Geometry</span><span class="p">(</span><span class="n">geom_type_to_use</span><span class="p">,</span> <span class="n">srid</span><span class="o">=</span><span class="n">epsg_code</span><span class="p">)},</span>
+        <span class="o">**</span><span class="n">gpd_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">engine</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">table_add_uid_column</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">gis_table_add_spatial_index</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.import_gis" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">import_gis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;geopandas&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Import GIS data using <code>geopandas</code> or <code>shp2pgsql</code></li>
+<li>Both methods take <code>filepath</code> and <code>sql_tablename</code> keyword arguments</li>
+<li>The geopandas method accepts <code>gpd_kwargs=dict</code></li>
+<li>The <code>shp2pgsql</code> method requires <code>srid=int</code> and accepts an optional <code>new_srid=int</code> to convert projections during the import process</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">import_gis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;geopandas&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Import GIS data using `geopandas` or `shp2pgsql`</span>
+<span class="sd">    - Both methods take `filepath` and `sql_tablename` keyword arguments</span>
+<span class="sd">    - The geopandas method accepts `gpd_kwargs=dict`</span>
+<span class="sd">    - The `shp2pgsql` method requires `srid=int` and accepts an optional `new_srid=int` to convert projections during the import process</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">method_mapper</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;geopandas&quot;</span><span class="p">:</span> <span class="n">import_geofile_with_geopandas</span><span class="p">,</span>
+        <span class="s2">&quot;shp2pgsql&quot;</span><span class="p">:</span> <span class="n">shp2pgsql</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">method_mapper</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">func</span> <span class="o">=</span> <span class="n">method_mapper</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+
+    <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.load_from_dumpfile" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">load_from_dumpfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Load a <code>.sql</code> file into a new database</li>
+</ul>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>filepath</code></td>
+        <td><code>str</code></td>
+        <td><p>full path to the SQL file</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_dumpfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Load a `.sql` file into a new database</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (str): full path to the SQL file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">db_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Database </span><span class="si">{</span><span class="n">db_name</span><span class="si">}</span><span class="s2"> already exists. Use a different name.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">psql</span><span class="si">}</span><span class="s1">&quot; -f &quot;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">helpers</span><span class="o">.</span><span class="n">run_command_in_shell</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.query" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Use <code>psycopg2</code> to run a query and return the result as a list of lists</li>
+<li>This will NOT commit any changes to the database</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_list_of_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Use `psycopg2` to run a query and return the result as a list of lists</span>
+<span class="sd">    - This will NOT commit any changes to the database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">super_uri</span><span class="p">:</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_superuser</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span>
+
+    <span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.query_as_list_of_lists" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_as_list_of_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Use <code>psycopg2</code> to run a query and return the result as a list of lists</li>
+<li>This will NOT commit any changes to the database</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_list_of_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Use `psycopg2` to run a query and return the result as a list of lists</span>
+<span class="sd">    - This will NOT commit any changes to the database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">super_uri</span><span class="p">:</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_superuser</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span>
+
+    <span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.query_as_list_of_singletons" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_as_list_of_singletons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Run a query where the expected output is a list of values</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_list_of_singletons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Run a query where the expected output is a list of values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_lists</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="n">super_uri</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.query_as_singleton" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_as_singleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Run a query where the expected output is a single value</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_singleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Run a query where the expected output is a single value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_singletons</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="n">super_uri</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.schema_add" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">schema_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Create a schema if it does not yet exist</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">schema_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Create a schema if it does not yet exist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE SCHEMA IF NOT EXISTS </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">;&quot;</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.schemas" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Get a list of all schemas in the db</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Get a list of all schemas in the db</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT schema_name</span>
+<span class="s2">        FROM information_schema.schemata;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_singletons</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.table_add_uid_column" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">table_add_uid_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">uid_col</span><span class="o">=</span><span class="s1">&#39;uid&#39;</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Add a unique ID column to a table as a SERIAL PRIMARY KEY type</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">table_add_uid_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">uid_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;uid&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Add a unique ID column to a table as a SERIAL PRIMARY KEY type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        ALTER TABLE </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        DROP COLUMN IF EXISTS </span><span class="si">{</span><span class="n">uid_col</span><span class="si">}</span><span class="s2">;</span>
+
+<span class="s2">        ALTER TABLE </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        ADD </span><span class="si">{</span><span class="n">uid_col</span><span class="si">}</span><span class="s2"> serial PRIMARY KEY;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.table_rename_column" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">table_rename_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_colname</span><span class="p">,</span> <span class="n">new_colname</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Change a column name for a table in SQL</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">table_rename_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_colname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_colname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Change a column name for a table in SQL</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ALTER TABLE </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"> RENAME </span><span class="si">{</span><span class="n">old_colname</span><span class="si">}</span><span class="s2"> TO </span><span class="si">{</span><span class="n">new_colname</span><span class="si">}</span><span class="s2">;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.tables" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spatial_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Return a list of tables in the database</li>
+<li>Set <code>spatial_only=True</code> if you only want a list of geotables</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spatial_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Return a list of tables in the database</span>
+<span class="sd">    - Set `spatial_only=True` if you only want a list of geotables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">spatial_only</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT concat(f_table_schema, &#39;.&#39;, f_table_name )</span>
+<span class="s2">            FROM geometry_columns</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; WHERE f_table_schema = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT concat(table_schema, &#39;.&#39;, table_name )</span>
+<span class="s2">            FROM information_schema.tables</span>
+<span class="s2">            WHERE table_schema NOT IN (&#39;pg_catalog&#39;, &#39;information_schema&#39;)</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; AND table_schema = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_singletons</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="pg_data_etl.database.Database.uri" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">uri</span><span class="p">:</span> <span class="nb">str</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Return a connection string</li>
+</ul>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="pg_data_etl.database.Database.uri_superuser" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">uri_superuser</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Return a connection string for the super-user / super-database</li>
+<li>This is only needed to create the database from within Python</li>
+</ul>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../examples/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Create a Database object
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      
+    
+  </body>
+</html>
