@@ -1,8 +1,7 @@
 import configparser
 from pathlib import Path
 
-from ..settings import DB_CONFIG_FILEPATH
-from .make_config_file import make_config_file
+from .make_config_file import make_config_file, DB_CONFIG_FILEPATH
 
 
 def read_config_file(filepath: Path = DB_CONFIG_FILEPATH) -> dict:
