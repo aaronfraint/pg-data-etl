@@ -218,7 +218,7 @@ class Database:
     # Administration
     # --------------
 
-    from .actions import exists, admin, schema_add
+    from .actions import exists, admin, schema_add, load_from_dumpfile
 
     # Change Things Within Database
     # -----------------------------
