@@ -95,7 +95,7 @@ def import_geodataframe(
     self.add_schema(schema)
 
     # Write geodataframe to SQL database
-    engine = sqlalchemy.create_engine(db.uri())
+    engine = sqlalchemy.create_engine(self.uri)
     gdf.to_sql(
         tbl,
         engine,
@@ -106,7 +106,7 @@ def import_geodataframe(
     engine.dispose()
 
     self.add_uid_column_to_table(tablename)
-    self.add_spatial_index_to_table(tablename)
+    self.gis_add_spatial_index_to_table(tablename)
 
 
 def import_gis(self, method="geopandas", **kwargs):
@@ -117,9 +117,7 @@ def import_gis(self, method="geopandas", **kwargs):
     }
 
     if method not in method_mapper:
-        print(
-            f"{method=} does not exist. Valid options include: {method_mapper.keys()}"
-        )
+        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
 
     func = method_mapper[method]
 
