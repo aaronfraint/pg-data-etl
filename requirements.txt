@@ -4,3 +4,6 @@ geoalchemy2
 geopandas
 folium
 matplotlib
+mkdocs-material
+mkdocstrings
+markdown-include
