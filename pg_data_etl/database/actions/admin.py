@@ -53,7 +53,7 @@ def admin(self, admin_action: str) -> None:
         drop_database(self)
 
 
-def add_schema(self, schema: str) -> None:
+def schema_add(self, schema: str) -> None:
     """
     - Create a schema if it does not yet exist
     """

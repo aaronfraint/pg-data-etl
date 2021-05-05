@@ -36,7 +36,7 @@ def import_dataframe(self, df: pd.DataFrame, tablename: str, df_import_kwargs: d
 
     # Make sure the schema exists
     schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
-    self.add_schema(schema)
+    self.schema_add(schema)
 
     # Write to database
     engine = sqlalchemy.create_engine(self.uri)

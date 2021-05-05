@@ -1,4 +1,4 @@
-def rename_column(self, old_colname: str, new_colname: str, tablename: str) -> None:
+def table_rename_column(self, old_colname: str, new_colname: str, tablename: str) -> None:
     """
     - Change a column name for a table in SQL
     """
@@ -7,7 +7,7 @@ def rename_column(self, old_colname: str, new_colname: str, tablename: str) -> N
     self.execute(query)
 
 
-def add_uid_column_to_table(self, tablename: str, uid_col: str = "uid") -> None:
+def table_add_uid_column(self, tablename: str, uid_col: str = "uid") -> None:
     """
     - Add a unique ID column to a table as a SERIAL PRIMARY KEY type
     """

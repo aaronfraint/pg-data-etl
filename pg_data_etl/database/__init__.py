@@ -218,19 +218,19 @@ class Database:
     # Administration
     # --------------
 
-    from .actions import exists, admin, add_schema
+    from .actions import exists, admin, schema_add
 
     # Change Things Within Database
     # -----------------------------
 
     from .actions import (
         execute,
-        add_uid_column_to_table,
-        rename_column,
+        table_add_uid_column,
+        table_rename_column,
         gis_make_geotable_from_query,
-        gis_update_spatial_data_projection,
-        gis_lint_geom_colname,
-        gis_add_spatial_index_to_table,
+        gis_table_update_spatial_data_projection,
+        gis_table_lint_geom_colname,
+        gis_table_add_spatial_index,
     )
 
     # Lists of Content
@@ -242,6 +242,7 @@ class Database:
     # ----------------------------------
 
     from .actions import gdf, df
+    from .actions import query_as_list_of_lists as query
     from .actions import (
         query_as_singleton,
         query_as_list_of_singletons,

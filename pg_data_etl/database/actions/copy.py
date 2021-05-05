@@ -10,14 +10,14 @@ def export_table_to_another_db(self, table_to_copy: str, target_db) -> None:
     # If the table_to_copy has a schema, ensure that the schema also exists in the target db
     if "." in table_to_copy:
         schema = table_to_copy.split(".")[0]
-        target_db.add_schema(schema)
+        target_db.schema_add(schema)
 
     command = f"{self.cmd.pg_dump} --no-owner --no-acl -t {table_to_copy} {self.uri} | psql {target_db.uri}"
 
     print(command)
     helpers.run_command_in_shell(command)
 
-    self.lint_geom_colname(target_db, table_to_copy)
+    self.gis_table_lint_geom_colname(target_db, table_to_copy)
 
     return None
 
@@ -47,8 +47,8 @@ def export_entire_db_to_another_db(self, target_db) -> None:
         helpers.run_command_in_shell(command)
 
         # Ensure that spatial tables have 'geom' instead of 'shape' columns
-        for table in target_db.list_of_tables(spatial_only=True):
-            target_db.lint_geom_colname(table)
+        for table in target_db.tables(spatial_only=True):
+            target_db.gis_table_lint_geom_colname(table)
 
         # Delete the .sql file from disk
         sql_filepath.unlink()

@@ -7,25 +7,27 @@ from geoalchemy2 import Geometry, WKTElement
 from pg_data_etl import helpers
 
 
-def shp2pgsql(self, shp_path: str, srid: int, tablename: str, new_srid: int = None):
+def shp2pgsql(self, filepath: str, srid: int, sql_tablename: str, new_srid: int = None):
     """
     Use the shp2pgsql command to import a shapefile into the database
     """
 
     # Ensure that the schema provided in the 'tablename' exists
-    schema, _ = helpers.convert_full_tablename_to_parts(tablename)
+    schema, _ = helpers.convert_full_tablename_to_parts(sql_tablename)
     self.add_schema(schema)
 
     # If 'new_srid' is provided, use 'old:new' to project on the fly
     srid_arg = f"{srid}:{new_srid}" if new_srid else srid
 
-    command = f'{self.cmd.shp2pgsql} -I -s {srid_arg} "{shp_path}" {tablename} | psql {self.uri}'
+    command = (
+        f'{self.cmd.shp2pgsql} -I -s {srid_arg} "{filepath}" {sql_tablename} | psql {self.uri}'
+    )
 
     print(command)
 
     helpers.run_command_in_shell(command)
 
-    self.lint_geom_colname(tablename)
+    self.gis_table_lint_geom_colname(sql_tablename)
 
 
 def import_geofile_with_geopandas(
@@ -92,7 +94,7 @@ def import_geodataframe(
 
     # Ensure that the target schema exists
     schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
-    self.add_schema(schema)
+    self.schema_add(schema)
 
     # Write geodataframe to SQL database
     engine = sqlalchemy.create_engine(self.uri)
@@ -105,12 +107,17 @@ def import_geodataframe(
     )
     engine.dispose()
 
-    self.add_uid_column_to_table(tablename)
-    self.gis_add_spatial_index_to_table(tablename)
+    self.table_add_uid_column(tablename)
+    self.gis_table_add_spatial_index(tablename)
 
 
 def import_gis(self, method="geopandas", **kwargs):
-    """"""
+    """
+    - Import GIS data using `geopandas` or `shp2pgsql`
+    - Both methods take `filepath` and `sql_tablename` keyword arguments
+    - The geopandas method accepts `gpd_kwargs=dict`
+    - The `shp2pgsql` method requires `srid=int` and accepts an optional `new_srid=int` to convert projections during the import process
+    """
     method_mapper = {
         "geopandas": import_geofile_with_geopandas,
         "shp2pgsql": shp2pgsql,

@@ -2,7 +2,7 @@ from typing import Union
 from pg_data_etl import helpers
 
 
-def gis_lint_geom_colname(self, tablename: str) -> None:
+def gis_table_lint_geom_colname(self, tablename: str) -> None:
     """
     - Rename the geometry column to 'geom' if it comes through as 'shape'
     """
@@ -11,7 +11,7 @@ def gis_lint_geom_colname(self, tablename: str) -> None:
         self.rename_column("shape", "geom", tablename)
 
 
-def gis_add_spatial_index_to_table(self, tablename: str) -> None:
+def gis_table_add_spatial_index(self, tablename: str) -> None:
     """
     - Add a spatial index on a table's geom column
     """
@@ -22,7 +22,7 @@ def gis_add_spatial_index_to_table(self, tablename: str) -> None:
     self.execute(query)
 
 
-def gis_update_spatial_data_projection(
+def gis_table_update_spatial_data_projection(
     self,
     tablename: str,
     old_epsg: Union[int, str],
@@ -90,11 +90,9 @@ def gis_make_geotable_from_query(
 
         self.execute(query_to_make_table)
 
-        self.add_uid_column_to_table(new_table_name)
-        self.add_spatial_index_to_table(new_table_name)
+        self.table_add_uid_column(new_table_name)
+        self.gis_table_add_spatial_index(new_table_name)
 
         # We're not reprojecting here, but rather forcing an entry for
         # the new geo table into the geometry_columns table
-        self.update_spatial_data_projection(
-            new_table_name, epsg, epsg, geom_type.upper()
-        )
+        self.gis_table_update_spatial_data_projection(new_table_name, epsg, epsg, geom_type.upper())
