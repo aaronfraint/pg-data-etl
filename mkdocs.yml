@@ -45,4 +45,5 @@ markdown_extensions:
 
 nav:
   - Quickstart: index.md
-  - Notebook page: examples.ipynb
+  - Examples: examples.ipynb
+  - Python Documentation: python_ref.md
