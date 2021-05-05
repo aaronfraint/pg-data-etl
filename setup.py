@@ -8,8 +8,7 @@ setup(
     author="Aaron Fraint, AICP",
     license="GPL-3.0",
     entry_points="""
-        # [console_scripts]
-        # sidewalk=sidewalk_gaps.cli:main
-        # transit=transit_access.cli:main
+        [console_scripts]
+        pg=pg_data_etl.cli:main
     """,
 )

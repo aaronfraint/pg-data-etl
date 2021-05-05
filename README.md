@@ -2,11 +2,11 @@
 
 ![PyPI](https://img.shields.io/pypi/v/pg-data-etl?style=for-the-badge)
 
-ETL tools for postgres data, built on top of the psql and pg_dump command line tools.
+ETL tools for spatial data stored in postgres.
 
 ## About
 
-This module exists to make life easier when working with geospatial data in a Postgres environment.
+This module exists to make life easier when working with geospatial data in a Postgres database.
 
 You should have the following command-line tools installed, preferably on your system path:
 
@@ -14,6 +14,10 @@ You should have the following command-line tools installed, preferably on your s
 - `pg_dump`
 - `shp2postgis`
 - `ogr2ogr`
+
+If you want to use the optional vector tile functions you'll also need:
+
+- `tippecanoe`
 
 ## Installation
 
@@ -23,19 +27,20 @@ You should have the following command-line tools installed, preferably on your s
 
 The following code blocks import spatial data into Postgres and runs a spatial query:
 
-### 1) Connect to the database
+### 1) Connect to the database and create it
 
 ```python
->>> import pg_data_etl as pg
+>>> from pg_data_etl import Database
 >>> credentials = {
+...     "db_name": "sample_database",
 ...     "host": "localhost",
 ...     "un": "username",
 ...     "pw": "my-password",
 ...     "super_un": "postgres",
 ...     "super_pw": "superuser-password"
 ... }
->>> db = pg.Database("sample_database", **credentials)
->>> db.create_db()
+>>> db = Database.from_parameters(**credentials)
+>>> db.admin("CREATE")
 ```
 
 ### 2) Import GIS data from the web
@@ -46,13 +51,19 @@ The following code blocks import spatial data into Postgres and runs a spatial q
 ...     ("philly.playgrounds", "https://opendata.arcgis.com/datasets/899c807e205244278b3f39421be8489c_0.geojson")
 ... ]
 >>> for sql_tablename, source_url in data_to_import:
-...     db.import_geo_file(source_url, sql_tablename)
+...     kwargs = {
+...         "filepath": source_url,
+...         "sql_tablename": sql_tablename,
+...         "gpd_kwargs": {"if_exists":"replace"}
+...     }
+...     db.import_gis(**kwargs)
 ```
 
 ### 3) Run a query and get the result as a `geopandas.GeoDataFrame`
 
-```
->>> playground_query = """
+```python
+>>> # Define a SQL query as a string in Python
+>>> query = """
 ... select * from philly.high_injury_network
 ... where st_dwithin(
 ...     st_transform(geom, 26918),
@@ -60,8 +71,9 @@ The following code blocks import spatial data into Postgres and runs a spatial q
 ...     100
 ... )
 ... order by st_length(geom) DESC """
->>> high_injury_corridors_near_playgrounds = db.query(playground_query)
->>> high_injury_corridors_near_playgrounds.gdf.head()
+>>> # Get a geodataframe from the db using the query
+>>> gdf = db.gdf(query)
+>>> gdf.head()
    index  objectid            street_name   buffer                                               geom  uid
 0    234       189          BUSTLETON AVE  75 feet  LINESTRING (-75.07081 40.03528, -75.07052 40.0...  236
 1     65        38                 5TH ST  50 feet  LINESTRING (-75.14528 39.96913, -75.14502 39.9...   66
@@ -71,7 +83,15 @@ The following code blocks import spatial data into Postgres and runs a spatial q
 ```
 
 To save time and typing, database credentials can be stored in a text file. You can place this file wherever you want,
-but by default it's placed into `/USERHOME/sql_data_io/database_connections.cfg`. This file uses the following format:
+but by default it's placed into `/USERHOME/.pg-data-etl/database_connections.cfg`.
+
+To generate one for the first time, run the following from a terminal prompt:
+
+```shell
+> pg make-config-file
+```
+
+This file uses the following format:
 
 ```
 [DEFAULT]
@@ -91,25 +111,27 @@ Each entry in square brackets is a named connection, and any parameters not expl
 You can have as many connections defined as you'd like, and you can use them like this:
 
 ```python
->>> import pg_data_etl as pg
->>> credentials = pg.connections()
->>> db = pg.Database("sample_database", **credentials["localhost"])
+>>> from pg_data_etl import Database
+>>> db = Database.from_config("sample_database", "localhost")
 ```
 
 ## Development
 
-Clone or fork this repo and install an editable version:
+Clone or fork this repo:
 
 ```bash
 git clone https://github.com/aaronfraint/pg-data-etl.git
 cd pg-data-etl
-pip install --editable .
 ```
 
-Windows users may find the included `environment.yml` the easiest way to install, using `conda`:
+Install an editable version with `poetry`:
 
 ```bash
-git clone https://github.com/aaronfraint/pg-data-etl.git
-cd pg-data-etl
+poetry install
+```
+
+Windows users who prefer to use `conda` can use the included `environment.yml` file:
+
+```bash
 conda env create -f environment.yml
 ```
