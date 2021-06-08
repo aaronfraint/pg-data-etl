@@ -9,3 +9,4 @@ mkdocs-material
 mkdocstrings
 markdown-include
 mkdocs-jupyter
+livereload
