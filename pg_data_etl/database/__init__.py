@@ -236,7 +236,7 @@ class Database:
     # Lists of Content
     # ----------------
 
-    from .actions import tables, schemas, columns
+    from .actions import tables, schemas, columns, views
 
     # Get Data Out of Database To Memory
     # ----------------------------------

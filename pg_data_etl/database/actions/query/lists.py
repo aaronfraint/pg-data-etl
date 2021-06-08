@@ -42,6 +42,20 @@ def schemas(self) -> list:
     return self.query_as_list_of_singletons(query)
 
 
+def views(self) -> list:
+    """
+    - Get a list of all views in the db
+    """
+
+    query = """
+        select concat(table_schema, '.', table_name)
+        from information_schema.views
+        where table_schema not in ('information_schema', 'pg_catalog')
+    """
+
+    return self.query_as_list_of_singletons(query)
+
+
 def columns(self, tablename: str) -> list:
     """
     - Get a list of all column names in a given table
