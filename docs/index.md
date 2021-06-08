@@ -11,5 +11,5 @@ This Python package builds on top of the following dependencies:
 ## Installation
 
 ```bash
-pip install pg_data_etl
+pip install pg-data-etl
 ```
