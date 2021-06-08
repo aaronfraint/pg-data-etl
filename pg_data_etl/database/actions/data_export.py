@@ -13,9 +13,7 @@ def export_shp_with_pgsql2shp(self, table_or_sql: str, filepath: Path) -> None:
     """
 
     print("WARNING! pgsql2shp creates shapefiles that do not contain EPSG values")
-    print(
-        "As an alternative that preserves EPSG values, use Database.ogr2ogr_export() instead"
-    )
+    print("As an alternative that preserves EPSG values, use Database.ogr2ogr_export() instead")
 
     if helpers.this_is_raw_sql(table_or_sql):
         query = table_or_sql
@@ -68,7 +66,7 @@ def export_gis_with_geopandas(
     """
 
     # Exit early if arguments don't match
-    if filetype != filepath.suffix:
+    if filetype not in filepath.suffix:
         print(f"File type and path do not match!")
         print(f"{filetype=} {filepath.suffix=}")
         return None
@@ -107,9 +105,7 @@ def export_gis(self, method="geopandas", **kwargs):
     }
 
     if method not in method_mapper:
-        print(
-            f"{method=} does not exist. Valid options include: {method_mapper.keys()}"
-        )
+        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
 
     func = method_mapper[method]
 
