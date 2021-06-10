@@ -49,6 +49,7 @@ def import_geodataframe(
     tablename: str,
     gpd_kwargs: dict = {},
     uid_col: str = "uid",
+    explode: bool = False,
 ) -> None:
     """
     TODO: option to use multipart features instead of exploding to singlepart
@@ -64,11 +65,17 @@ def import_geodataframe(
     geom_types = list(gdf.geometry.geom_type.unique())
 
     # If there are multi- and single-part features, explode to singlepart
-    if len(geom_types) > 1:
+    if explode:
         # Explode multipart to singlepart and reset the index
         gdf = gdf.explode()
         gdf["explode"] = gdf.index
         gdf = gdf.reset_index()
+
+    else:
+        if len(geom_types) > 1:
+            print(f"Warning! This dataset has {geom_types=}")
+            print("Run with explode=True")
+            return None
 
     # Use the non-multi version of the geometry
     geom_type_to_use = min(geom_types, key=len).upper()
