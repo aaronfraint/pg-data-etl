@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2, mkdocs-material-7.1.7">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.7">
     
     
       
@@ -1949,7 +1949,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 
 
 <h2 id="pg_data_etl.database.Database.import_geodataframe" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">import_geodataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">gpd_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="n">uid_col</span><span class="o">=</span><span class="s1">&#39;uid&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">import_geodataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">gpd_kwargs</span><span class="o">=</span><span class="p">{},</span> <span class="n">uid_col</span><span class="o">=</span><span class="s1">&#39;uid&#39;</span><span class="p">,</span> <span class="n">explode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 </h2>
@@ -1966,6 +1966,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">gpd_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="n">uid_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;uid&quot;</span><span class="p">,</span>
+    <span class="n">explode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    TODO: option to use multipart features instead of exploding to singlepart</span>
@@ -1981,11 +1982,17 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="n">geom_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">geom_type</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 
     <span class="c1"># If there are multi- and single-part features, explode to singlepart</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geom_types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">explode</span><span class="p">:</span>
         <span class="c1"># Explode multipart to singlepart and reset the index</span>
         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span>
         <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;explode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">index</span>
         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geom_types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning! This dataset has </span><span class="si">{</span><span class="n">geom_types</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run with explode=True&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Use the non-multi version of the geometry</span>
     <span class="n">geom_type_to_use</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">geom_types</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
