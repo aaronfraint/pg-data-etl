@@ -31,7 +31,11 @@ def shp2pgsql(self, filepath: str, srid: int, sql_tablename: str, new_srid: int 
 
 
 def import_geofile_with_geopandas(
-    self, filepath: Path, sql_tablename: str, gpd_kwargs: dict = {}
+    self,
+    filepath: Path,
+    sql_tablename: str,
+    gpd_kwargs: dict = {},
+    explode: bool = False,
 ) -> None:
 
     # Read the data into a geodataframe
@@ -40,7 +44,7 @@ def import_geofile_with_geopandas(
     # Drop null geometries
     gdf = gdf[gdf["geometry"].notnull()]
 
-    self.import_geodataframe(gdf, sql_tablename, gpd_kwargs)
+    self.import_geodataframe(gdf, sql_tablename, gpd_kwargs, explode=explode)
 
 
 def import_geodataframe(
@@ -122,7 +126,7 @@ def import_gis(self, method="geopandas", **kwargs):
     """
     - Import GIS data using `geopandas` or `shp2pgsql`
     - Both methods take `filepath` and `sql_tablename` keyword arguments
-    - The geopandas method accepts `gpd_kwargs=dict`
+    - The geopandas method accepts optional `gpd_kwargs=dict` and `explode=bool` arguments
     - The `shp2pgsql` method requires `srid=int` and accepts an optional `new_srid=int` to convert projections during the import process
     """
     method_mapper = {
