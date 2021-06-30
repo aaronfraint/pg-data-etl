@@ -90,7 +90,7 @@ def gis_make_geotable_from_query(
 
         self.execute(query_to_make_table)
 
-        self.table_add_uid_column(new_table_name)
+        self.table_add_uid_column(new_table_name, uid_col=uid_col)
         self.gis_table_add_spatial_index(new_table_name)
 
         # We're not reprojecting here, but rather forcing an entry for
