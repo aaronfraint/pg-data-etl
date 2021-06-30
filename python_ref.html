@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.7">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
     
     
       
@@ -40,6 +40,8 @@
     
     
       
+
+
     
     
   </head>
@@ -1720,7 +1722,7 @@ and you want to limit the I/O processing time.</p>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_to_make_table</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">table_add_uid_column</span><span class="p">(</span><span class="n">new_table_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table_add_uid_column</span><span class="p">(</span><span class="n">new_table_name</span><span class="p">,</span> <span class="n">uid_col</span><span class="o">=</span><span class="n">uid_col</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gis_table_add_spatial_index</span><span class="p">(</span><span class="n">new_table_name</span><span class="p">)</span>
 
         <span class="c1"># We&#39;re not reprojecting here, but rather forcing an entry for</span>
@@ -2058,7 +2060,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
       <ul>
 <li>Import GIS data using <code>geopandas</code> or <code>shp2pgsql</code></li>
 <li>Both methods take <code>filepath</code> and <code>sql_tablename</code> keyword arguments</li>
-<li>The geopandas method accepts <code>gpd_kwargs=dict</code></li>
+<li>The geopandas method accepts optional <code>gpd_kwargs=dict</code> and <code>explode=bool</code> arguments</li>
 <li>The <code>shp2pgsql</code> method requires <code>srid=int</code> and accepts an optional <code>new_srid=int</code> to convert projections during the import process</li>
 </ul>
 
@@ -2068,7 +2070,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Import GIS data using `geopandas` or `shp2pgsql`</span>
 <span class="sd">    - Both methods take `filepath` and `sql_tablename` keyword arguments</span>
-<span class="sd">    - The geopandas method accepts `gpd_kwargs=dict`</span>
+<span class="sd">    - The geopandas method accepts optional `gpd_kwargs=dict` and `explode=bool` arguments</span>
 <span class="sd">    - The `shp2pgsql` method requires `srid=int` and accepts an optional `new_srid=int` to convert projections during the import process</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">method_mapper</span> <span class="o">=</span> <span class="p">{</span>
@@ -2688,10 +2690,10 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.76f349be.min.js"></script>
+      <script src="assets/javascripts/bundle.82b56eb2.min.js"></script>
       
     
   </body>
