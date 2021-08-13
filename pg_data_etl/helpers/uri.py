@@ -1,4 +1,4 @@
-from typing import Union
+from __future__ import annotations
 
 
 def decode_uri(uri: str) -> dict:
@@ -52,7 +52,7 @@ def generate_uri(
     un: str = "postgres",
     pw: str = "",
     port: int = 5432,
-    extras: Union[str, None] = None,
+    extras: str | None = None,
 ) -> str:
     """
     - Turn individual connection parameters into a URI
