@@ -7,10 +7,11 @@ def run_command_in_shell(command: str) -> str:
     """
     - Use subprocess to execute a command in a shell
 
-    Args:
+    Arguments:
         command (str)
 
-    TODO: docstring
+    Returns:
+        str: output from the command that was run
     """
 
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
@@ -28,7 +29,30 @@ def run_command_in_shell(command: str) -> str:
 
 class CommandPathManager:
     """
-    TODO: docstring
+    The CommandPathManager class allows customization of all necessary
+    CLI tools that this Python package builds on top of.
+
+    It starts with the assumption that everything is on path, and that the
+    default version of the command is the one you want to use.
+
+    In some cases, you may have a `psql` installed in your Python environment
+    that's incompatible with the database cluster you're connecting to. This class
+    exists for this use case, where any and all commands can be configured to execute
+    via an explicitly declared full path.
+
+    This means you can alias 'psql' to something like '/my/custom/path/to/psql'
+
+    Examples:
+        >>> # use default behavior
+        >>> cmd = CommandPathManager()
+        >>> cmd.psql
+        'psql'
+
+        >>> # use custom path to psql
+        >>> cmd = CommandPathManager(psql='/custom/path/to')
+        >>> cmd.psql
+        '/custom/path/to/psql'
+
     """
 
     def __init__(self, **kwargs):
@@ -47,7 +71,7 @@ class CommandPathManager:
         """
         return list(self.bin_paths.keys())
 
-    def _add_bin_path_if_exists(self, cmd: str, bin_id: str = "psql") -> str | None:
+    def _add_bin_path_if_exists(self, cmd: str, bin_id: str) -> str | None:
         """
         - Generate a full path for a `cmd` if the `bin_id` is configured.
         - Otherwise just return the `cmd` without a path, under the assumption that
@@ -82,35 +106,35 @@ class CommandPathManager:
         """
         - `psql` connects to a postgres db
         """
-        return self._add_bin_path_if_exists("psql")
+        return self._add_bin_path_if_exists("psql", bin_id="psql")
 
     @property
     def pg_dump(self):
         """
         - `pg_dump` exports a table or full database
         """
-        return self._add_bin_path_if_exists("pg_dump")
+        return self._add_bin_path_if_exists("pg_dump", bin_id="psql")
 
     @property
     def shp2pgsql(self):
         """
         - `shp2pgsql` imports shapefiles into postgres
         """
-        return self._add_bin_path_if_exists("shp2pgsql")
+        return self._add_bin_path_if_exists("shp2pgsql", bin_id="psql")
 
     @property
     def pgsql2shp(self):
         """
         - `pgsql2shp` exports spatial postgres data to shapefile
         """
-        return self._add_bin_path_if_exists("pgsql2shp")
+        return self._add_bin_path_if_exists("pgsql2shp", bin_id="psql")
 
     @property
     def ogr2ogr(self):
         """
         - `ogr2ogr` converts spatial data between a variety of formats
         """
-        return self._add_bin_path_if_exists("ogr2ogr")
+        return self._add_bin_path_if_exists("ogr2ogr", bin_id="psql")
 
     @property
     def tippecanoe(self):
@@ -118,4 +142,4 @@ class CommandPathManager:
         - `tippecanoe` converts `.geojson` data into vector tiles
         - This is the only command that is not expected to exist in the `psql` bin
         """
-        return self._add_bin_path_if_exists("tippecanoe", "tippecanoe")
+        return self._add_bin_path_if_exists("tippecanoe", bin_id="tippecanoe")

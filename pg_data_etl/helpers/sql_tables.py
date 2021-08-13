@@ -36,7 +36,11 @@ def convert_full_tablename_to_parts(tablename: str) -> tuple:
     e.g.  'my_schema.my_table'  -> ('my_schema', 'my_table')
           'my_table'            -> ('public', 'my_table')
 
-    TODO: docstring
+    Arguments:
+        tablename (str): name of the table, with or without a schema
+
+    Returns:
+        tuple: with two values - (schema, table)
     """
     if "." not in tablename:
         schema = "public"
@@ -47,8 +51,18 @@ def convert_full_tablename_to_parts(tablename: str) -> tuple:
     return (schema, tbl)
 
 
-def this_is_raw_sql(table_or_sql: str) -> str:
+def this_is_raw_sql(table_or_sql: str) -> bool:
     """
-    TODO: docstring
+    - Determine if a text string is a query or a table name
+    - This involves converting the text to lower case and seeing
+    if 'select' and 'from' both appear in the text
+
+    Arguments:
+        table_or_sql (str): text to test
+
+    Returns:
+        bool: True or False, depending on if it's a query
     """
-    return "select" in table_or_sql.lower()
+    text = table_or_sql.lower()
+
+    return "select" in text and "from" in text
