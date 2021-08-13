@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 settings.json
+
+test_data/
