@@ -9,8 +9,8 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.4">
     
     
       
@@ -18,10 +18,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ca7ac06f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.f1a3b89f.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -36,7 +36,7 @@
     
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
     
       
@@ -57,7 +57,7 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="">
   
     
-    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
       <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
@@ -78,7 +78,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="index.html" title="pg-data-etl" class="md-header__button md-logo" aria-label="pg-data-etl" data-md-component="logo">
+    <a href=".." title="pg-data-etl" class="md-header__button md-logo" aria-label="pg-data-etl" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2h-2m-4-6H5v-2h2v2z"/></svg>
@@ -136,14 +136,18 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -193,7 +197,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="index.html" title="pg-data-etl" class="md-nav__button md-logo" aria-label="pg-data-etl" data-md-component="logo">
+    <a href=".." title="pg-data-etl" class="md-nav__button md-logo" aria-label="pg-data-etl" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2h-2m-4-6H5v-2h2v2z"/></svg>
@@ -225,7 +229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="index.html" class="md-nav__link">
+      <a href=".." class="md-nav__link">
         Quickstart
       </a>
     </li>
@@ -240,7 +244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="examples.html" class="md-nav__link">
+      <a href="../examples/" class="md-nav__link">
         Create a Database object
       </a>
     </li>
@@ -267,7 +271,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="python_ref.html" class="md-nav__link md-nav__link--active">
+      <a href="./" class="md-nav__link md-nav__link--active">
         Python Documentation
       </a>
       
@@ -452,6 +456,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.projection" class="md-nav__link">
+    projection()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pg_data_etl.database.Database.query" class="md-nav__link">
     query()
   </a>
@@ -475,6 +486,13 @@
         <li class="md-nav__item">
   <a href="#pg_data_etl.database.Database.query_as_singleton" class="md-nav__link">
     query_as_singleton()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.report_spatial" class="md-nav__link">
+    report_spatial()
   </a>
   
 </li>
@@ -735,6 +753,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.projection" class="md-nav__link">
+    projection()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pg_data_etl.database.Database.query" class="md-nav__link">
     query()
   </a>
@@ -758,6 +783,13 @@
         <li class="md-nav__item">
   <a href="#pg_data_etl.database.Database.query_as_singleton" class="md-nav__link">
     query_as_singleton()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pg_data_etl.database.Database.report_spatial" class="md-nav__link">
+    report_spatial()
   </a>
   
 </li>
@@ -1434,7 +1466,9 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">configurations</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="n">db_name</span><span class="o">=</span><span class="n">db_name</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="n">bin_paths</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="n">config_key</span><span class="p">])</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span>
+        <span class="n">db_name</span><span class="o">=</span><span class="n">db_name</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="n">bin_paths</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="n">config_key</span><span class="p">]</span>
+    <span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2079,7 +2113,9 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">method_mapper</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">func</span> <span class="o">=</span> <span class="n">method_mapper</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
 
@@ -2146,6 +2182,88 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="k">else</span><span class="p">:</span>
         <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">psql</span><span class="si">}</span><span class="s1">&quot; -f &quot;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">helpers</span><span class="o">.</span><span class="n">run_command_in_shell</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.projection" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <ul>
+<li>Get the projection of a spatial table</li>
+</ul>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of table to check, optionally with schema prefix</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>EPSG of table</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Get the projection of a spatial table</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tablename (str): name of table to check, optionally with schema prefix</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        EPSG of table</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">schema</span><span class="p">,</span> <span class="n">tbl</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">convert_full_tablename_to_parts</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        select srid</span>
+<span class="s2">        from geometry_columns</span>
+<span class="s2">        where f_table_schema = &#39;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">        and f_table_name = &#39;</span><span class="si">{</span><span class="n">tbl</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_singleton</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2320,6 +2438,68 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_singletons</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="n">super_uri</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="pg_data_etl.database.Database.report_spatial" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">report_spatial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+        <details class="quote">
+          <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">report_spatial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;select concat(f_table_schema, &#39;.&#39;, f_table_name), srid, type from geometry_columns&quot;</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_lists</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="n">tbl</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">geom_type</span> <span class="o">=</span> <span class="n">row</span>
+
+        <span class="k">if</span> <span class="n">epsg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">epsg</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">geom_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="n">epsg</span><span class="p">]:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">epsg</span><span class="p">][</span><span class="n">geom_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">output</span><span class="p">[</span><span class="n">epsg</span><span class="p">][</span><span class="n">geom_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">print_output</span><span class="p">:</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spatial Data Report for DB: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">epsg_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">epsg_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">-&gt; All data is stored in </span><span class="si">{</span><span class="n">epsg_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">-&gt; Data is stored in </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">epsg_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> projections: </span><span class="si">{</span><span class="n">epsg_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">-&gt; EPSG: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">geom_type</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">-&gt;</span><span class="si">{</span><span class="n">geom_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">geom_type</span><span class="p">]:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t\t\t</span><span class="s2">-&gt; </span><span class="si">{</span><span class="n">tbl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
 </code></pre></div>
         </details>
     </div>
@@ -2654,7 +2834,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="examples.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Create a Database object" rel="prev">
+        <a href="../examples/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Create a Database object" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -2690,10 +2870,10 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.82b56eb2.min.js"></script>
+      <script src="../assets/javascripts/bundle.febc23d1.min.js"></script>
       
     
   </body>
