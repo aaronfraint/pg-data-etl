@@ -27,9 +27,30 @@ def local_db():
     db.admin("DROP")
 
 
-# @pytest.fixture(scope="function")
-# def localhost_postgres():
-#     yield Database.from_parameters("postgres", **config["localhost"])
+@pytest.fixture(scope="function")
+def local_db_with_spatial_data(downloaded_shapefile):
+    """ Spin up a local db, use it in the test, then drop it """
+
+    db = Database.from_config("pytest", "localhost")
+
+    db.admin("CREATE")
+
+    sql_tablename = "test.neighborhoods_gpd"
+
+    db.import_gis(
+        method="geopandas",
+        filepath=str(downloaded_shapefile) + ".shp",
+        sql_tablename=sql_tablename,
+    )
+
+    yield db
+
+    db.admin("DROP")
+
+
+@pytest.fixture(scope="function")
+def localhost_postgres():
+    yield Database.from_config("postgres", "localhost")
 
 
 # @pytest.fixture(scope="function")
@@ -47,7 +68,7 @@ def local_db():
 #     yield Database.from_parameters("sidewalk_gap_analysis", **config["localhost"])
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def downloaded_shapefile():
 
     if not TEST_DATA_PATH.exists():
@@ -70,16 +91,16 @@ def downloaded_shapefile():
     yield unzipped_file_name
 
 
-# @pytest.fixture(scope="session", autouse=True)
-# def teardown_test_data_dir(request):
-#     """
-#     TEARDOWN:
-#     ---------
-#         1) Remove the folder (+ all contents) at the end of the test suite.
-#     """
+@pytest.fixture(scope="session", autouse=True)
+def teardown_test_data_dir(request):
+    """
+    TEARDOWN:
+    ---------
+        1) Remove the folder (+ all contents) at the end of the test suite.
+    """
 
-#     # Teardown
-#     def remove_test_dir_and_db():
-#         shutil.rmtree(TEST_DATA_PATH)
+    # Teardown
+    def remove_test_dir_and_db():
+        shutil.rmtree(TEST_DATA_PATH)
 
-#     request.addfinalizer(remove_test_dir_and_db)
+    request.addfinalizer(remove_test_dir_and_db)
