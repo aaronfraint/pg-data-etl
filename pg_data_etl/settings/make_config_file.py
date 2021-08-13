@@ -1,7 +1,6 @@
+from __future__ import annotations
 from pathlib import Path
-from typing import Union
 
-from pathlib import Path
 
 DB_CONFIG_FILEPATH = Path.home() / ".pg-data-etl" / "database_connections.cfg"
 
@@ -31,10 +30,14 @@ super_pw = some_super_password12354
 
 
 def make_config_file(
-    filepath: Union[Path, str] = DB_CONFIG_FILEPATH, overwrite: bool = False
+    filepath: Path | str = DB_CONFIG_FILEPATH, overwrite: bool = False
 ) -> bool:
     """
-    TODO: docstring
+    - Generate a configuration file to store database connection info
+
+    Arguments:
+        filepath (Path | str): any Path or filepath string, defaults to `DB_CONFIG_FILEPATH`
+        overwrite (bool): flag to handle overwriting if the file already exists. Defaults to `False`
     """
 
     filepath = Path(filepath)
