@@ -45,6 +45,7 @@ def make_config_file(
 
     if not overwrite and filepath.exists():
         print("Config file already exists and overwrite=False. Will not overwrite.")
+        print(f"Existing config file is located at {filepath}")
         return False
 
     else:
