@@ -1,7 +1,6 @@
 from __future__ import annotations
 import subprocess
 from pathlib import Path
-from rich import print
 
 
 def run_command_in_shell(command: str) -> str:
