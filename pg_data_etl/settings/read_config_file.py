@@ -11,7 +11,8 @@ def read_config_file(filepath: Path | str = DB_CONFIG_FILEPATH) -> dict:
     keyed on each entry in the file (could be one or multiple entries in the .cfg file)
 
     Arguments:
-        filepath (Path | str): a Path or filepath as string to the configuration file. Defaults to `DB_CONFIG_FILEPATH`
+        filepath (Path | str): a Path or filepath as string to the configuration file.
+                               Defaults to `DB_CONFIG_FILEPATH`
 
     Returns:
         dict: with all of the info keyed by database cluster
