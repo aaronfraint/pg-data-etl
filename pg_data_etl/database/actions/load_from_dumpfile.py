@@ -1,13 +1,14 @@
+from __future__ import annotations
 from pathlib import Path
 
 from pg_data_etl import helpers
 
 
-def load_from_dumpfile(self, filepath: str) -> None:
+def load_from_dumpfile(self, filepath: str | Path) -> None:
     """
     - Load a `.sql` file into a new database
 
-    Args:
+    Arguments:
         filepath (str): full path to the SQL file
     """
 
