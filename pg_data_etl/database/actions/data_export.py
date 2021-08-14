@@ -1,5 +1,6 @@
+from __future__ import annotations
 from pathlib import Path
-import geopandas as gpd
+
 from pg_data_etl import helpers
 
 
@@ -13,7 +14,9 @@ def export_shp_with_pgsql2shp(self, table_or_sql: str, filepath: Path) -> None:
     """
 
     print("WARNING! pgsql2shp creates shapefiles that do not contain EPSG values")
-    print("As an alternative that preserves EPSG values, use Database.ogr2ogr_export() instead")
+    print("As an alternative that preserves EPSG values, use either:")
+    print("\t -> Database.export_gis(method='geopandas')")
+    print("\t -> Database.export_gis(method='ogr2ogr')")
 
     if helpers.this_is_raw_sql(table_or_sql):
         query = table_or_sql
@@ -41,11 +44,15 @@ def export_shp_with_ogr2ogr(
 
     params = self.connection_params()
 
-    cmd = f'{self.cmd.ogr2ogr} -f "{filetype}" "{filepath}" PG:"host={params["host"]} user={params["un"]} password={params["pw"]} port={params["port"]} dbname={params["db_name"]}" '
+    pg_params_for_ogr = f'PG:"host={params["host"]} user={params["un"]} password={params["pw"]} port={params["port"]} dbname={params["db_name"]}"'
 
+    cmd = f'{self.cmd.ogr2ogr} -f "{filetype}" "{filepath}" {pg_params_for_ogr} '
+
+    # If a query is passed, append cmd with ' -sql QUERY'
     if helpers.this_is_raw_sql(table_or_sql):
         sql = table_or_sql
         cmd += f' -sql "{sql}"'
+    # Otherwise, just append the tablename to the cmd
     else:
         tablename = table_or_sql
         cmd += f" {tablename}"
@@ -57,7 +64,7 @@ def export_shp_with_ogr2ogr(
 def export_gis_with_geopandas(
     self,
     table_or_sql: str,
-    filepath: Path,
+    filepath: Path | str,
     filetype: str = "geojson",
     geom_col: str = "geom",
 ) -> None:
@@ -65,9 +72,11 @@ def export_gis_with_geopandas(
     - Use `geopandas` to extract data from SQL and write to `.geojson` or `.shp`
     """
 
+    filepath = Path(filepath)
+
     # Exit early if arguments don't match
     if filetype not in filepath.suffix:
-        print(f"File type and path do not match!")
+        print("File type and path do not match!")
         print(f"{filetype=} {filepath.suffix=}")
         return None
 
@@ -105,7 +114,9 @@ def export_gis(self, method="geopandas", **kwargs):
     }
 
     if method not in method_mapper:
-        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
+        print(
+            f"{method=} does not exist. Valid options include: {method_mapper.keys()}"
+        )
 
     func = method_mapper[method]
 
