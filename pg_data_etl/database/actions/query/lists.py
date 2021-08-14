@@ -1,11 +1,18 @@
-from typing import Union
+from __future__ import annotations
 from pg_data_etl import helpers
 
 
-def tables(self, spatial_only: bool = False, schema: Union[str, None] = None) -> list:
+def tables(self, spatial_only: bool = False, schema: str | None = None) -> list:
     """
     - Return a list of tables in the database
     - Set `spatial_only=True` if you only want a list of geotables
+
+    Arguments:
+        spatial_only (bool): flag that will filter to spatial tables only if `True`
+        schema (str | None): optional name of schema to filter results to
+
+    Returns:
+        list: with all tablenames, with each entry formatted as `schema.tablename`
     """
     if spatial_only:
         query = """
@@ -32,6 +39,9 @@ def tables(self, spatial_only: bool = False, schema: Union[str, None] = None) ->
 def schemas(self) -> list:
     """
     - Get a list of all schemas in the db
+
+    Returns:
+        list: with all schema names within the database
     """
 
     query = """
@@ -45,6 +55,9 @@ def schemas(self) -> list:
 def views(self) -> list:
     """
     - Get a list of all views in the db
+
+    Returns:
+        list: with the names of all views inside the database
     """
 
     query = """
@@ -59,6 +72,12 @@ def views(self) -> list:
 def columns(self, tablename: str) -> list:
     """
     - Get a list of all column names in a given table
+
+    Arguments:
+        tablename (str): name of the table you're interested in
+
+    Returns:
+        list: with each entry being a column name within the table
     """
 
     schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
