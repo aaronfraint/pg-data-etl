@@ -1052,11 +1052,51 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 <li>Get a list of all column names in a given table</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the table you're interested in</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td><p>list: with each entry being a column name within the table</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Get a list of all column names in a given table</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        tablename (str): name of the table you&#39;re interested in</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: with each entry being a column name within the table</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">schema</span><span class="p">,</span> <span class="n">tbl</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">convert_full_tablename_to_parts</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
@@ -1124,11 +1164,51 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 <li>Return a <code>pandas.Dataframe</code> from a SQL query</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p>any valid SQL query that returns tabular data</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>DataFrame</code></td>
+      <td><p>pd.DataFrame: a pandas dataframe with all rows/columns from the query</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Return a `pandas.Dataframe` from a SQL query</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        query (str): any valid SQL query that returns tabular data</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: a pandas dataframe with all rows/columns from the query</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
@@ -1153,7 +1233,7 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 
 
 <h2 id="pg_data_etl.database.Database.dump" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span></code>
 
 
 </h2>
@@ -1165,12 +1245,52 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 <li>Returns the full filepath to the newly created file.</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>output_folder</code></td>
+        <td><code>str</code></td>
+        <td><p>folder where output file should go. Defaults to active directory.</p></td>
+        <td><code>&#39;.&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Path</code></td>
+      <td><p>Path: to the newly created output file</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Create a standalone text file backup of the entire database.</span>
 <span class="sd">    - Returns the full filepath to the newly created file.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        output_folder (str): folder where output file should go. Defaults to active directory.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Path: to the newly created output file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">db_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
@@ -1179,7 +1299,9 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
     <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">db_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.sql&quot;</span>
     <span class="n">output_filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span>
 
-    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span><span class="si">}</span><span class="s1">&quot; --no-owner --no-acl </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> &gt; &quot;</span><span class="si">{</span><span class="n">output_filepath</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span><span class="si">}</span><span class="s1">&quot; --no-owner --no-acl </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> &gt; &quot;</span><span class="si">{</span><span class="n">output_filepath</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+    <span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
@@ -1208,12 +1330,56 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Use psycopg2 to execute a query &amp; commit it to the database </p>
+      <ul>
+<li>Use psycopg2 to execute a query &amp; commit it to the database</li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p>any valid SQL code that changes the database</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: although the database is updated in-place with whatever is in the query</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; Use psycopg2 to execute a query &amp; commit it to the database &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Use psycopg2 to execute a query &amp; commit it to the database</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        query (str): any valid SQL code that changes the database</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: although the database is updated in-place with whatever is in the query</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
     <span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
@@ -1251,11 +1417,29 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 <li>True or False: does this database exist already?</li>
 </ul>
 
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bool</code></td>
+      <td><p>bool: a True/False flag depending on whether the database exists already</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - True or False: does this database exist already?</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: a True/False flag depending on whether the database exists already</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">db_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
@@ -1290,26 +1474,75 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Copy an entire database to a new database.</p>
-<p>To get around memory error limitations, this is done in two steps as opposed to a single command with a pipe:
+      <ul>
+<li>
+<p>Copy an entire database to a new database.</p>
+</li>
+<li>
+<p>To get around memory error limitations, this is done in two steps as opposed to a single
+command with a pipe:
     Step 1) Backup the source db to .sql file with pg_dump
     Step 2) Load the .sql file into the target db with psql</p>
+</li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>target_db</code></td>
+        <td><code>Database</code></td>
+        <td><p>new database (that doesn't exist yet) where you want the data</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: although it makes a full copy the source database in <code>target_db</code></p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">export_entire_db_to_another_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_db</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Copy an entire database to a new database.</span>
+<span class="sd">    - Copy an entire database to a new database.</span>
 
-<span class="sd">    To get around memory error limitations, this is done in two steps as opposed to a single command with a pipe:</span>
+<span class="sd">    - To get around memory error limitations, this is done in two steps as opposed to a single</span>
+<span class="sd">    command with a pipe:</span>
 <span class="sd">        Step 1) Backup the source db to .sql file with pg_dump</span>
 <span class="sd">        Step 2) Load the .sql file into the target db with psql</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        target_db (Database): new database (that doesn&#39;t exist yet) where you want the data</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: although it makes a full copy the source database in `target_db`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">target_db</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="n">target_db_name</span> <span class="o">=</span> <span class="n">target_db</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A database named &#39;</span><span class="si">{</span><span class="n">target_db_name</span><span class="si">}</span><span class="s2">&#39; already exists.&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;A database named &#39;</span><span class="si">{</span><span class="n">target_db_name</span><span class="si">}</span><span class="s2">&#39; already exists. Use a different name or drop this database before copying into it.&quot;</span>
+            <span class="s2">&quot;Use a different name or drop this database first before copying into it.&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -1370,7 +1603,9 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">method_mapper</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">func</span> <span class="o">=</span> <span class="n">method_mapper</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
 
@@ -1397,13 +1632,62 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 
     <div class="doc doc-contents ">
 
-      <p>Pipe data directly from a pg_dump of one DB into another using psql</p>
+      <ul>
+<li>Pipe data directly from a pg_dump of one DB into another using psql</li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>table_to_copy</code></td>
+        <td><code>str</code></td>
+        <td><p>name of table that you want to copy</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>target_db</code></td>
+        <td><code>Database</code></td>
+        <td><p>database where you want the data copied to</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: although it makes a copy of the table inside <code>target_db</code></p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">export_table_to_another_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_to_copy</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_db</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Pipe data directly from a pg_dump of one DB into another using psql</span>
+<span class="sd">    - Pipe data directly from a pg_dump of one DB into another using psql</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        table_to_copy (str): name of table that you want to copy</span>
+<span class="sd">        target_db (Database): database where you want the data copied to</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: although it makes a copy of the table inside `target_db`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># If the table_to_copy has a schema, ensure that the schema also exists in the target db</span>
@@ -1411,7 +1695,8 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">table_to_copy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">target_db</span><span class="o">.</span><span class="n">schema_add</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
 
-    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span><span class="si">}</span><span class="s2"> --no-owner --no-acl -t </span><span class="si">{</span><span class="n">table_to_copy</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> | psql </span><span class="si">{</span><span class="n">target_db</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">pg_dump</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pg_dump</span><span class="si">}</span><span class="s2"> --no-owner --no-acl -t </span><span class="si">{</span><span class="n">table_to_copy</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> | psql </span><span class="si">{</span><span class="n">target_db</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
     <span class="n">helpers</span><span class="o">.</span><span class="n">run_command_in_shell</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -1650,7 +1935,7 @@ provided username/password</p>
   <tbody>
     <tr>
       <td><code>GeoDataFrame</code></td>
-      <td><p>query output as GIS data</p></td>
+      <td><p>gpd.GeoDataFrame: query output as GIS data</p></td>
     </tr>
   </tbody>
 </table>
@@ -1660,12 +1945,12 @@ provided username/password</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Get a `geopandas.GeoDataFrame` from a SQL query</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Arguments:</span>
 <span class="sd">        query (str): `PostGIS` query as a string</span>
 <span class="sd">        geom_col (str): geometry column name in the query. Usually `&#39;geom&#39;` or `&#39;shape&#39;`</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        query output as GIS data</span>
+<span class="sd">        gpd.GeoDataFrame: query output as GIS data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
@@ -2159,7 +2444,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
   <tbody>
       <tr>
         <td><code>filepath</code></td>
-        <td><code>str</code></td>
+        <td><code>str | Path</code></td>
         <td><p>full path to the SQL file</p></td>
         <td><em>required</em></td>
       </tr>
@@ -2167,11 +2452,11 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 </table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_dumpfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_dumpfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Load a `.sql` file into a new database</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Arguments:</span>
 <span class="sd">        filepath (str): full path to the SQL file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -2291,12 +2576,59 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>This will NOT commit any changes to the database</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p>any valid SQL query that returns data</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>super_uri</code></td>
+        <td><code>bool</code></td>
+        <td><p>flag to control whether this runs against analysis db or super db</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td><p>list: with each row returned from the query as its own sub-list</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_list_of_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Use `psycopg2` to run a query and return the result as a list of lists</span>
 <span class="sd">    - This will NOT commit any changes to the database</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        query (str): any valid SQL query that returns data</span>
+<span class="sd">        super_uri (bool): flag to control whether this runs against analysis db or super db</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: with each row returned from the query as its own sub-list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">super_uri</span><span class="p">:</span>
@@ -2342,12 +2674,59 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>This will NOT commit any changes to the database</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p>any valid SQL query that returns data</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>super_uri</code></td>
+        <td><code>bool</code></td>
+        <td><p>flag to control whether this runs against analysis db or super db</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td><p>list: with each row returned from the query as its own sub-list</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_list_of_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Use `psycopg2` to run a query and return the result as a list of lists</span>
 <span class="sd">    - This will NOT commit any changes to the database</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        query (str): any valid SQL query that returns data</span>
+<span class="sd">        super_uri (bool): flag to control whether this runs against analysis db or super db</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: with each row returned from the query as its own sub-list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">super_uri</span><span class="p">:</span>
@@ -2392,11 +2771,58 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>Run a query where the expected output is a list of values</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p>any valid SQL query that returns data</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>super_uri</code></td>
+        <td><code>bool</code></td>
+        <td><p>flag to control whether this runs against analysis db or super db</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td><p>list: with each value being the first column in the query</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_list_of_singletons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_list_of_singletons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Run a query where the expected output is a list of values</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        query (str): any valid SQL query that returns data</span>
+<span class="sd">        super_uri (bool): flag to control whether this runs against analysis db or super db</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: with each value being the first column in the query</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_lists</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="n">super_uri</span><span class="p">)</span>
@@ -2428,11 +2854,59 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>Run a query where the expected output is a single value</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p>any valid SQL query that returns data</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>super_uri</code></td>
+        <td><code>bool</code></td>
+        <td><p>flag to control whether this runs against analysis db or super db</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>singleton</code></td>
+      <td><p>the specific data type depends on what kind of query you used</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query_as_singleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">super_uri</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Run a query where the expected output is a single value</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        query (str): any valid SQL query that returns data</span>
+<span class="sd">        super_uri (bool): flag to control whether this runs against analysis db or super db</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        singleton: the specific data type depends on what kind of query you used</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_singletons</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">super_uri</span><span class="o">=</span><span class="n">super_uri</span><span class="p">)</span>
@@ -2562,11 +3036,29 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>Get a list of all schemas in the db</li>
 </ul>
 
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td><p>list: with all schema names within the database</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Get a list of all schemas in the db</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: with all schema names within the database</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -2678,12 +3170,59 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>Set <code>spatial_only=True</code> if you only want a list of geotables</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>spatial_only</code></td>
+        <td><code>bool</code></td>
+        <td><p>flag that will filter to spatial tables only if <code>True</code></p></td>
+        <td><code>False</code></td>
+      </tr>
+      <tr>
+        <td><code>schema</code></td>
+        <td><code>str | None</code></td>
+        <td><p>optional name of schema to filter results to</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td><p>list: with all tablenames, with each entry formatted as <code>schema.tablename</code></p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spatial_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spatial_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Return a list of tables in the database</span>
 <span class="sd">    - Set `spatial_only=True` if you only want a list of geotables</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        spatial_only (bool): flag that will filter to spatial tables only if `True`</span>
+<span class="sd">        schema (str | None): optional name of schema to filter results to</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: with all tablenames, with each entry formatted as `schema.tablename`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">spatial_only</span><span class="p">:</span>
         <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -2786,11 +3325,29 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>Get a list of all views in the db</li>
 </ul>
 
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td><p>list: with the names of all views inside the database</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">views</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Get a list of all views in the db</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: with the names of all views inside the database</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
