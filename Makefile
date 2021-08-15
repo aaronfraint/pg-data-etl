@@ -1,4 +1,4 @@
-.PHONY: publish test dev-env-mac dev-env-windows
+.PHONY: publish test dev-env-mac dev-env-windows format docs notebook
 
 all:
 	@echo pg-data-etl makefile options include:
@@ -6,6 +6,9 @@ all:
 	@echo - dev-env-mac
 	@echo - dev-env-windows
 	@echo - test
+	@echo - format
+	@echo - docs
+	@echo - notebook
 	@echo - publish
 
 dev-env-mac:
@@ -19,3 +22,12 @@ test:
 
 publish:
 	poetry publish --build
+
+format:
+	black -l 100 .
+
+docs:
+	mkdocs serve
+
+notebook:
+	jupyter lab
