@@ -25,7 +25,7 @@ class Database:
     - Option 2: pass a keyword-argument dictionary with the connection parameters
 
         ```python
-        >>> creds = {'db_name': 'my_db', 'un': 'my_username', pw='my_password'}
+        >>> creds = {'db_name': 'my_db', 'un': 'my_username', 'pw'='my_password'}
         >>> db = Database.from_parameters(**creds)
         ```
 

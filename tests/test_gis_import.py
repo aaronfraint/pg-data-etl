@@ -1,9 +1,7 @@
 from pg_data_etl import Database
 
 
-def test_shp2pgsql_imports_spatial_data_from_disk(
-    local_db: Database, downloaded_shapefile
-):
+def test_shp2pgsql_imports_spatial_data_from_disk(local_db: Database, downloaded_shapefile):
     """
     Using shp2pgsql:
         Confirm that we have a spatial table with proper projection in the DB
@@ -28,9 +26,7 @@ def test_shp2pgsql_imports_spatial_data_from_disk(
     assert 2272 == local_db.projection(sql_tablename)
 
 
-def test_geopandas_imports_spatial_data_from_disk(
-    local_db: Database, downloaded_shapefile
-):
+def test_geopandas_imports_spatial_data_from_disk(local_db: Database, downloaded_shapefile):
     """
     Using geopandas:
         Confirm that we have a spatial table with proper projection in the DB

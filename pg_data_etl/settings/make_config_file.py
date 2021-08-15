@@ -29,9 +29,7 @@ super_pw = some_super_password12354
 """
 
 
-def make_config_file(
-    filepath: Path | str = DB_CONFIG_FILEPATH, overwrite: bool = False
-) -> bool:
+def make_config_file(filepath: Path | str = DB_CONFIG_FILEPATH, overwrite: bool = False) -> bool:
     """
     - Generate a configuration file to store database connection info
 

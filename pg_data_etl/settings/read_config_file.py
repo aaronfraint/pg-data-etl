@@ -34,9 +34,7 @@ def read_config_file(filepath: Path | str = DB_CONFIG_FILEPATH) -> dict:
     return all_hosts
 
 
-def configurations(
-    filepath: Path | str = DB_CONFIG_FILEPATH, verbose: bool = False
-) -> dict:
+def configurations(filepath: Path | str = DB_CONFIG_FILEPATH, verbose: bool = False) -> dict:
     """
     - Load the configuration data from file
     - If the file does not exist yet, generate the template into the filepath provided by the user

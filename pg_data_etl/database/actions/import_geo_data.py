@@ -19,7 +19,9 @@ def shp2pgsql(self, filepath: str, srid: int, sql_tablename: str, new_srid: int 
     # If 'new_srid' is provided, use 'old:new' to project on the fly
     srid_arg = f"{srid}:{new_srid}" if new_srid else srid
 
-    command = f'{self.cmd.shp2pgsql} -I -s {srid_arg} "{filepath}" {sql_tablename} | psql {self.uri}'
+    command = (
+        f'{self.cmd.shp2pgsql} -I -s {srid_arg} "{filepath}" {sql_tablename} | psql {self.uri}'
+    )
 
     print(command)
 
@@ -133,9 +135,7 @@ def import_gis(self, method="geopandas", **kwargs):
     }
 
     if method not in method_mapper:
-        print(
-            f"{method=} does not exist. Valid options include: {method_mapper.keys()}"
-        )
+        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
 
     func = method_mapper[method]
 

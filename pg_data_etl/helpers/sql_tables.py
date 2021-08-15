@@ -3,9 +3,7 @@ from pandas import DataFrame
 from geopandas import GeoDataFrame
 
 
-def sanitize_df_for_sql(
-    df: Union[DataFrame, GeoDataFrame]
-) -> Union[DataFrame, GeoDataFrame]:
+def sanitize_df_for_sql(df: Union[DataFrame, GeoDataFrame]) -> Union[DataFrame, GeoDataFrame]:
     """
     Clean up a dataframe column names so it imports into SQL properly.
 

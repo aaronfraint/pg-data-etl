@@ -129,6 +129,4 @@ def gis_make_geotable_from_query(
 
         # We're not reprojecting here, but rather forcing an entry for
         # the new geo table into the geometry_columns table
-        self.gis_table_update_spatial_data_projection(
-            new_table_name, epsg, epsg, geom_type.upper()
-        )
+        self.gis_table_update_spatial_data_projection(new_table_name, epsg, epsg, geom_type.upper())

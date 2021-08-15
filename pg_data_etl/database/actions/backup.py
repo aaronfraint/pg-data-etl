@@ -21,9 +21,7 @@ def dump(self, output_folder: str = ".") -> Path:
     filename = f"{db_name}_{timestamp}.sql"
     output_filepath = Path(output_folder) / filename
 
-    command = (
-        f'"{self.cmd.pg_dump}" --no-owner --no-acl {self.uri} > "{output_filepath}"'
-    )
+    command = f'"{self.cmd.pg_dump}" --no-owner --no-acl {self.uri} > "{output_filepath}"'
 
     print(command)
 

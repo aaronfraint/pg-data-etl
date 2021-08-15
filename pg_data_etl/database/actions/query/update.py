@@ -1,6 +1,4 @@
-def table_rename_column(
-    self, old_colname: str, new_colname: str, tablename: str
-) -> None:
+def table_rename_column(self, old_colname: str, new_colname: str, tablename: str) -> None:
     """
     - Change a column name for a table in SQL
 

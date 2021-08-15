@@ -48,9 +48,7 @@ def export_entire_db_to_another_db(self, target_db) -> None:
     if target_db.exists():
         target_db_name = target_db.connection_params["db_name"]
         print(f"A database named '{target_db_name}' already exists.")
-        print(
-            "Use a different name or drop this database first before copying into it."
-        )
+        print("Use a different name or drop this database first before copying into it.")
         return None
 
     else:

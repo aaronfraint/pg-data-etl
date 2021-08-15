@@ -114,9 +114,7 @@ def export_gis(self, method="geopandas", **kwargs):
     }
 
     if method not in method_mapper:
-        print(
-            f"{method=} does not exist. Valid options include: {method_mapper.keys()}"
-        )
+        print(f"{method=} does not exist. Valid options include: {method_mapper.keys()}")
 
     func = method_mapper[method]
 
