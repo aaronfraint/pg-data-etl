@@ -885,7 +885,7 @@ all necessary functionality. It can be created in two ways:</p>
 </li>
 <li>
 <p>Option 2: pass a keyword-argument dictionary with the connection parameters</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">creds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;db_name&#39;</span><span class="p">:</span> <span class="s1">&#39;my_db&#39;</span><span class="p">,</span> <span class="s1">&#39;un&#39;</span><span class="p">:</span> <span class="s1">&#39;my_username&#39;</span><span class="p">,</span> <span class="n">pw</span><span class="o">=</span><span class="s1">&#39;my_password&#39;</span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">creds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;db_name&#39;</span><span class="p">:</span> <span class="s1">&#39;my_db&#39;</span><span class="p">,</span> <span class="s1">&#39;un&#39;</span><span class="p">:</span> <span class="s1">&#39;my_username&#39;</span><span class="p">,</span> <span class="s1">&#39;pw&#39;</span><span class="o">=</span><span class="s1">&#39;my_password&#39;</span><span class="p">}</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="o">**</span><span class="n">creds</span><span class="p">)</span>
 </code></pre></div>
 </li>
@@ -1299,9 +1299,7 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
     <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">db_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.sql&quot;</span>
     <span class="n">output_filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span>
 
-    <span class="n">command</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span><span class="si">}</span><span class="s1">&quot; --no-owner --no-acl </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> &gt; &quot;</span><span class="si">{</span><span class="n">output_filepath</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
-    <span class="p">)</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">pg_dump</span><span class="si">}</span><span class="s1">&quot; --no-owner --no-acl </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> &gt; &quot;</span><span class="si">{</span><span class="n">output_filepath</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
@@ -1541,9 +1539,7 @@ command with a pipe:
     <span class="k">if</span> <span class="n">target_db</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="n">target_db_name</span> <span class="o">=</span> <span class="n">target_db</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A database named &#39;</span><span class="si">{</span><span class="n">target_db_name</span><span class="si">}</span><span class="s2">&#39; already exists.&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;Use a different name or drop this database first before copying into it.&quot;</span>
-        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Use a different name or drop this database first before copying into it.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">else</span><span class="p">:</span>
@@ -1603,9 +1599,7 @@ command with a pipe:
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">method_mapper</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">func</span> <span class="o">=</span> <span class="n">method_mapper</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
 
@@ -1751,9 +1745,7 @@ command with a pipe:
     <span class="k">else</span><span class="p">:</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">configurations</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span>
-        <span class="n">db_name</span><span class="o">=</span><span class="n">db_name</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="n">bin_paths</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="n">config_key</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="n">db_name</span><span class="o">=</span><span class="n">db_name</span><span class="p">,</span> <span class="n">bin_paths</span><span class="o">=</span><span class="n">bin_paths</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="n">config_key</span><span class="p">])</span>
 </code></pre></div>
         </details>
     </div>
@@ -1992,6 +1984,64 @@ and you want to limit the I/O processing time.</p>
 </li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>query</code></td>
+        <td><code>str</code></td>
+        <td><p>any valid SQL query that returns a spatial table</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>new_table_name</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the new table to hold the query output</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>geom_type</code></td>
+        <td><code>str</code></td>
+        <td><p>PostGIS geometry data type returned by the query</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>epsg</code></td>
+        <td><code>int</code></td>
+        <td><p>EPSG code of the geometry data returned by the query</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>uid_col</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the new unique ID column that will be auto-generated (defaults to 'uid')</p></td>
+        <td><code>&#39;uid&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: but generates a new spatial table from the query</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_make_geotable_from_query</span><span class="p">(</span>
@@ -2007,6 +2057,16 @@ and you want to limit the I/O processing time.</p>
 
 <span class="sd">    - This is especially helpful when you&#39;re working with a large dataset</span>
 <span class="sd">    and you want to limit the I/O processing time.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        query (str): any valid SQL query that returns a spatial table</span>
+<span class="sd">        new_table_name (str): name of the new table to hold the query output</span>
+<span class="sd">        geom_type (str): PostGIS geometry data type returned by the query</span>
+<span class="sd">        epsg (int): EPSG code of the geometry data returned by the query</span>
+<span class="sd">        uid_col (str): name of the new unique ID column that will be auto-generated (defaults to &#39;uid&#39;)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: but generates a new spatial table from the query</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">valid_geom_types</span> <span class="o">=</span> <span class="p">[</span>
@@ -2073,11 +2133,51 @@ and you want to limit the I/O processing time.</p>
 <li>Add a spatial index on a table's geom column</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the table to perform a spatial index on</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: although it updates the database to have a spatial index on the <code>geom</code> column</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_table_add_spatial_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Add a spatial index on a table&#39;s geom column</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        tablename (str): name of the table to perform a spatial index on</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: although it updates the database to have a spatial index on the `geom` column</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        CREATE INDEX ON </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"></span>
@@ -2108,13 +2208,57 @@ and you want to limit the I/O processing time.</p>
 
       <ul>
 <li>Rename the geometry column to 'geom' if it comes through as 'shape'</li>
+<li>This is necessary for any data coming from an ESRI/PostGIS database,
+where the <code>geom</code> convention is replaced by ESRI's preference for <code>shape</code></li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the spatial table to lint</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: but updates the geometry column name if it came through as <code>shape</code></p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_table_lint_geom_colname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Rename the geometry column to &#39;geom&#39; if it comes through as &#39;shape&#39;</span>
+<span class="sd">    - This is necessary for any data coming from an ESRI/PostGIS database,</span>
+<span class="sd">    where the `geom` convention is replaced by ESRI&#39;s preference for `shape`</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        tablename (str): name of the spatial table to lint</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: but updates the geometry column name if it came through as `shape`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="s2">&quot;shape&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="n">tablename</span><span class="p">):</span>
@@ -2143,23 +2287,84 @@ and you want to limit the I/O processing time.</p>
 
       <ul>
 <li>Transform a table in-place from <code>old_epsg</code> to <code>new_epsg</code>.</li>
-<li>You can use this with identical old and new epsgs to force an
-entry into the <code>geometry_columns</code> table. (Helpful for making geotables directly in the DB via query)</li>
+<li>You can use this with identical old and new epsgs to force an entry into the
+<code>geometry_columns</code> table. (Helpful for making geotables directly in the DB via query)</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the spatial table to re-project</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>old_epsg</code></td>
+        <td><code>int | str</code></td>
+        <td><p>EPSG code of the original projection</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>new_epsg</code></td>
+        <td><code>int | str</code></td>
+        <td><p>EPSG code of the desired new projection</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>geom_type</code></td>
+        <td><code>str</code></td>
+        <td><p>PostGIS geometry data type (e.g 'LineString', 'Point', etc.)</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: but updates the table in-place to the new_epsg</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gis_table_update_spatial_data_projection</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">old_epsg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-    <span class="n">new_epsg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">old_epsg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">new_epsg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">geom_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Transform a table in-place from `old_epsg` to `new_epsg`.</span>
-<span class="sd">    - You can use this with identical old and new epsgs to force an</span>
-<span class="sd">    entry into the `geometry_columns` table. (Helpful for making geotables directly in the DB via query)</span>
+<span class="sd">    - You can use this with identical old and new epsgs to force an entry into the</span>
+<span class="sd">    `geometry_columns` table. (Helpful for making geotables directly in the DB via query)</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        tablename (str): name of the spatial table to re-project</span>
+<span class="sd">        old_epsg (int | str): EPSG code of the original projection</span>
+<span class="sd">        new_epsg (int | str): EPSG code of the desired new projection</span>
+<span class="sd">        geom_type (str): PostGIS geometry data type (e.g &#39;LineString&#39;, &#39;Point&#39;, etc.)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: but updates the table in-place to the new_epsg</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
@@ -2190,10 +2395,70 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 
     <div class="doc doc-contents ">
 
+      <ul>
+<li>Import an in-memort <code>pandas.DataFrame</code> into postgres</li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>df</code></td>
+        <td><code>pd.DataFrame</code></td>
+        <td><p>data to load into postgres, as an in-memory dataframe</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the new table in SQL</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>df_import_kwargs</code></td>
+        <td><code>dict</code></td>
+        <td><p>a key/value dict with any special arguments needed to write the data to SQL</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>creates a new SQL table from the provided dataframe</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">import_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">df_import_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Import an in-memort `pandas.DataFrame` into postgres</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        df (pd.DataFrame): data to load into postgres, as an in-memory dataframe</span>
+<span class="sd">        tablename (str): name of the new table in SQL</span>
+<span class="sd">        df_import_kwargs (dict): a key/value dict with any special arguments needed to write the data to SQL</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        creates a new SQL table from the provided dataframe</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Clean up column names</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">sanitize_df_for_sql</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -2230,18 +2495,90 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 
     <div class="doc doc-contents ">
 
+      <ul>
+<li>Import a tabular CSV or XLSX file to postgres</li>
+<li>Custom arguments can be provided for the reading of the file via <code>pd_read_kwargs</code></li>
+<li>Custom import arguments can be provided via <code>df_import_kwargs</code></li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>filepath</code></td>
+        <td><code>Path | str</code></td>
+        <td><p>Path or string of filepath to the source CSV or XLSX</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name the new table should be given in the database</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>pd_read_kwargs</code></td>
+        <td><code>dict</code></td>
+        <td><p>a key/value dict with any special arguments needed to read the file</p></td>
+        <td><code>{}</code></td>
+      </tr>
+      <tr>
+        <td><code>df_import_kwargs</code></td>
+        <td><code>dict</code></td>
+        <td><p>a key/value dict with any special arguments needed to write the data to SQL</p></td>
+        <td><code>{&#39;index&#39;: False}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>creates a new SQL table from the specified file</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">import_file_with_pandas</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">pd_read_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="n">df_import_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Import a tabular CSV or XLSX file to postgres</span>
+<span class="sd">    - Custom arguments can be provided for the reading of the file via `pd_read_kwargs`</span>
+<span class="sd">    - Custom import arguments can be provided via `df_import_kwargs`</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        filepath (Path | str): Path or string of filepath to the source CSV or XLSX</span>
+<span class="sd">        tablename (str): name the new table should be given in the database</span>
+<span class="sd">        pd_read_kwargs (dict): a key/value dict with any special arguments needed to read the file</span>
+<span class="sd">        df_import_kwargs (dict): a key/value dict with any special arguments needed to write the data to SQL</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        creates a new SQL table from the specified file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Determine if this is a CSV, XLS, or XLSX and use the appropriate pandas loader</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="n">suffix</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.csv&quot;</span><span class="p">:</span>
@@ -2398,9 +2735,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">method_mapper</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">=}</span><span class="s2"> does not exist. Valid options include: </span><span class="si">{</span><span class="n">method_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">func</span> <span class="o">=</span> <span class="n">method_mapper</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
 
@@ -2429,6 +2764,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 
       <ul>
 <li>Load a <code>.sql</code> file into a new database</li>
+<li>The database must not already exist</li>
 </ul>
 
 <p><strong>Parameters:</strong></p>
@@ -2450,14 +2786,33 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
       </tr>
   </tbody>
 </table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>loads the <code>.sql</code> file into an empty database</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_from_dumpfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Load a `.sql` file into a new database</span>
+<span class="sd">    - The database must not already exist</span>
 
 <span class="sd">    Arguments:</span>
 <span class="sd">        filepath (str): full path to the SQL file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        loads the `.sql` file into an empty database</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">db_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection_params</span><span class="p">[</span><span class="s2">&quot;db_name&quot;</span><span class="p">]</span>
@@ -2467,6 +2822,8 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="k">else</span><span class="p">:</span>
         <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">psql</span><span class="si">}</span><span class="s1">&quot; -f &quot;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">helpers</span><span class="o">.</span><span class="n">run_command_in_shell</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div>
         </details>
     </div>
@@ -2533,7 +2890,7 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Get the projection of a spatial table</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Arguments:</span>
 <span class="sd">        tablename (str): name of table to check, optionally with schema prefix</span>
 
 <span class="sd">    Returns:</span>
@@ -2934,10 +3291,60 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 
     <div class="doc doc-contents ">
 
+      <ul>
+<li>Get a report of all spatial table in the database</li>
+<li>The report groups tables first by EPSG code, then by geometry type</li>
+<li>All tables that share an EPSG and geometry type are grouped into a list</li>
+</ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>print_output</code></td>
+        <td><code>bool</code></td>
+        <td><p>flag to control if the report should also be printed out to console</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>dict</code></td>
+      <td><p>dict: keyed on EPSG code, with a sub-dictionary keyed on geometry type. Value is a list of tables</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">report_spatial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - Get a report of all spatial table in the database</span>
+<span class="sd">    - The report groups tables first by EPSG code, then by geometry type</span>
+<span class="sd">    - All tables that share an EPSG and geometry type are grouped into a list</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        print_output (bool): flag to control if the report should also be printed out to console</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: keyed on EPSG code, with a sub-dictionary keyed on geometry type. Value is a list of tables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;select concat(f_table_schema, &#39;.&#39;, f_table_name), srid, type from geometry_columns&quot;</span>
 
     <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_as_list_of_lists</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
@@ -3091,13 +3498,62 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 
       <ul>
 <li>Add a unique ID column to a table as a SERIAL PRIMARY KEY type</li>
+<li>If the <code>uid_col</code> already exists, it's dropped before being recreated</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the table to add a primary key column to</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>uid_col</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the new column, defaults to 'uid'</p></td>
+        <td><code>&#39;uid&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: but adds a primary key column to the table</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">table_add_uid_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">uid_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;uid&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Add a unique ID column to a table as a SERIAL PRIMARY KEY type</span>
+<span class="sd">    - If the `uid_col` already exists, it&#39;s dropped before being recreated</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        tablename (str): name of the table to add a primary key column to</span>
+<span class="sd">        uid_col (str): name of the new column, defaults to &#39;uid&#39;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: but adds a primary key column to the table</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
@@ -3134,11 +3590,65 @@ entry into the <code>geometry_columns</code> table. (Helpful for making geotable
 <li>Change a column name for a table in SQL</li>
 </ul>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>old_colname</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the original column</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>new_colname</code></td>
+        <td><code>str</code></td>
+        <td><p>desired name of the column</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>tablename</code></td>
+        <td><code>str</code></td>
+        <td><p>name of the table to update</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>None</code></td>
+      <td><p>None: but updates the column name in-place</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>pg_data_etl/database/__init__.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">table_rename_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_colname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_colname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tablename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    - Change a column name for a table in SQL</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        old_colname (str): name of the original column</span>
+<span class="sd">        new_colname (str): desired name of the column</span>
+<span class="sd">        tablename (str): name of the table to update</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None: but updates the column name in-place</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ALTER TABLE </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"> RENAME </span><span class="si">{</span><span class="n">old_colname</span><span class="si">}</span><span class="s2"> TO </span><span class="si">{</span><span class="n">new_colname</span><span class="si">}</span><span class="s2">;&quot;</span>
