@@ -2,6 +2,17 @@ from pg_data_etl import helpers
 
 
 def report_spatial(self, print_output: bool = False) -> dict:
+    """
+    - Get a report of all spatial table in the database
+    - The report groups tables first by EPSG code, then by geometry type
+    - All tables that share an EPSG and geometry type are grouped into a list
+
+    Arguments:
+        print_output (bool): flag to control if the report should also be printed out to console
+
+    Returns:
+        dict: keyed on EPSG code, with a sub-dictionary keyed on geometry type. Value is a list of tables
+    """
     query = "select concat(f_table_schema, '.', f_table_name), srid, type from geometry_columns"
 
     results = self.query_as_list_of_lists(query)
@@ -44,7 +55,7 @@ def projection(self, tablename: str) -> int:
     """
     - Get the projection of a spatial table
 
-    Args:
+    Arguments:
         tablename (str): name of table to check, optionally with schema prefix
 
     Returns:
