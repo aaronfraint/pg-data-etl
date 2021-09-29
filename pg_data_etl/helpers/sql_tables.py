@@ -1,9 +1,10 @@
-from typing import Union
+from __future__ import annotations
+
 from pandas import DataFrame
 from geopandas import GeoDataFrame
 
 
-def sanitize_df_for_sql(df: Union[DataFrame, GeoDataFrame]) -> Union[DataFrame, GeoDataFrame]:
+def sanitize_df_for_sql(df: DataFrame | GeoDataFrame) -> DataFrame | GeoDataFrame:
     """
     Clean up a dataframe column names so it imports into SQL properly.
 
@@ -15,13 +16,15 @@ def sanitize_df_for_sql(df: Union[DataFrame, GeoDataFrame]) -> Union[DataFrame, 
     TODO: docstring
     """
 
+    bad_characters = [".", "-", "(", ")", "+", ":"]
+
     # Replace "Column Name" with "column_name"
     df.columns = df.columns.str.replace(" ", "_")
     df.columns = [x.lower() for x in df.columns]
 
     # Remove '.' and '-' from column names.
     # i.e. 'geo.display-label' becomes 'geodisplaylabel'
-    for s in [".", "-", "(", ")", "+"]:
+    for s in bad_characters:
         df.columns = df.columns.str.replace(s, "", regex=False)
 
     return df
