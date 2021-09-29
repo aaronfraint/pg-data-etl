@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.5">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.0">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.be71726b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.8b42a75e.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -76,7 +76,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="pg-data-etl" class="md-header__button md-logo" aria-label="pg-data-etl" data-md-component="logo">
       
@@ -177,11 +179,14 @@
       </div>
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
+        
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -1082,7 +1087,7 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
   <tbody>
     <tr>
       <td><code>list</code></td>
-      <td><p>list: with each entry being a column name within the table</p></td>
+      <td><p>with each entry being a column name within the table</p></td>
     </tr>
   </tbody>
 </table>
@@ -1193,8 +1198,8 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
   </thead>
   <tbody>
     <tr>
-      <td><code>DataFrame</code></td>
-      <td><p>pd.DataFrame: a pandas dataframe with all rows/columns from the query</p></td>
+      <td><code>pd.DataFrame</code></td>
+      <td><p>a pandas dataframe with all rows/columns from the query</p></td>
     </tr>
   </tbody>
 </table>
@@ -1275,7 +1280,7 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
   <tbody>
     <tr>
       <td><code>Path</code></td>
-      <td><p>Path: to the newly created output file</p></td>
+      <td><p>to the newly created output file</p></td>
     </tr>
   </tbody>
 </table>
@@ -1362,7 +1367,7 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: although the database is updated in-place with whatever is in the query</p></td>
+      <td><p>although the database is updated in-place with whatever is in the query</p></td>
     </tr>
   </tbody>
 </table>
@@ -1426,7 +1431,7 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
   <tbody>
     <tr>
       <td><code>bool</code></td>
-      <td><p>bool: a True/False flag depending on whether the database exists already</p></td>
+      <td><p>a True/False flag depending on whether the database exists already</p></td>
     </tr>
   </tbody>
 </table>
@@ -1514,7 +1519,7 @@ command with a pipe:
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: although it makes a full copy the source database in <code>target_db</code></p></td>
+      <td><p>although it makes a full copy the source database in <code>target_db</code></p></td>
     </tr>
   </tbody>
 </table>
@@ -1666,7 +1671,7 @@ command with a pipe:
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: although it makes a copy of the table inside <code>target_db</code></p></td>
+      <td><p>although it makes a copy of the table inside <code>target_db</code></p></td>
     </tr>
   </tbody>
 </table>
@@ -1926,8 +1931,8 @@ provided username/password</p>
   </thead>
   <tbody>
     <tr>
-      <td><code>GeoDataFrame</code></td>
-      <td><p>gpd.GeoDataFrame: query output as GIS data</p></td>
+      <td><code>gpd.GeoDataFrame</code></td>
+      <td><p>query output as GIS data</p></td>
     </tr>
   </tbody>
 </table>
@@ -2038,7 +2043,7 @@ and you want to limit the I/O processing time.</p>
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: but generates a new spatial table from the query</p></td>
+      <td><p>but generates a new spatial table from the query</p></td>
     </tr>
   </tbody>
 </table>
@@ -2163,7 +2168,7 @@ and you want to limit the I/O processing time.</p>
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: although it updates the database to have a spatial index on the <code>geom</code> column</p></td>
+      <td><p>although it updates the database to have a spatial index on the <code>geom</code> column</p></td>
     </tr>
   </tbody>
 </table>
@@ -2242,7 +2247,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: but updates the geometry column name if it came through as <code>shape</code></p></td>
+      <td><p>but updates the geometry column name if it came through as <code>shape</code></p></td>
     </tr>
   </tbody>
 </table>
@@ -2339,7 +2344,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: but updates the table in-place to the new_epsg</p></td>
+      <td><p>but updates the table in-place to the new_epsg</p></td>
     </tr>
   </tbody>
 </table>
@@ -2780,7 +2785,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
       <tr>
         <td><code>filepath</code></td>
-        <td><code>str | Path</code></td>
+        <td><code>str</code></td>
         <td><p>full path to the SQL file</p></td>
         <td><em>required</em></td>
       </tr>
@@ -2969,7 +2974,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>list</code></td>
-      <td><p>list: with each row returned from the query as its own sub-list</p></td>
+      <td><p>with each row returned from the query as its own sub-list</p></td>
     </tr>
   </tbody>
 </table>
@@ -3067,7 +3072,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>list</code></td>
-      <td><p>list: with each row returned from the query as its own sub-list</p></td>
+      <td><p>with each row returned from the query as its own sub-list</p></td>
     </tr>
   </tbody>
 </table>
@@ -3164,7 +3169,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>list</code></td>
-      <td><p>list: with each value being the first column in the query</p></td>
+      <td><p>with each value being the first column in the query</p></td>
     </tr>
   </tbody>
 </table>
@@ -3327,7 +3332,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>dict</code></td>
-      <td><p>dict: keyed on EPSG code, with a sub-dictionary keyed on geometry type. Value is a list of tables</p></td>
+      <td><p>keyed on EPSG code, with a sub-dictionary keyed on geometry type. Value is a list of tables</p></td>
     </tr>
   </tbody>
 </table>
@@ -3454,7 +3459,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>list</code></td>
-      <td><p>list: with all schema names within the database</p></td>
+      <td><p>with all schema names within the database</p></td>
     </tr>
   </tbody>
 </table>
@@ -3537,7 +3542,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: but adds a primary key column to the table</p></td>
+      <td><p>but adds a primary key column to the table</p></td>
     </tr>
   </tbody>
 </table>
@@ -3632,7 +3637,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>None</code></td>
-      <td><p>None: but updates the column name in-place</p></td>
+      <td><p>but updates the column name in-place</p></td>
     </tr>
   </tbody>
 </table>
@@ -3716,7 +3721,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>list</code></td>
-      <td><p>list: with all tablenames, with each entry formatted as <code>schema.tablename</code></p></td>
+      <td><p>with all tablenames, with each entry formatted as <code>schema.tablename</code></p></td>
     </tr>
   </tbody>
 </table>
@@ -3846,7 +3851,7 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
   <tbody>
     <tr>
       <td><code>list</code></td>
-      <td><p>list: with the names of all views inside the database</p></td>
+      <td><p>with the names of all views inside the database</p></td>
     </tr>
   </tbody>
 </table>
@@ -3922,10 +3927,12 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
         
       </div>
       
@@ -3937,10 +3944,10 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.409db549.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "header.autohide"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.f8263e09.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.56a63758.min.js"></script>
+      <script src="../assets/javascripts/bundle.4fc53ad4.min.js"></script>
       
     
   </body>
