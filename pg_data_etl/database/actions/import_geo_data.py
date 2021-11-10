@@ -72,7 +72,7 @@ def import_geodataframe(
     if explode:
         # Explode multipart to singlepart and reset the index
         gdf = gdf.explode()
-        gdf["explode"] = gdf.index
+        gdf["explode"] = gdf.index.to_numpy()
         gdf = gdf.reset_index()
 
     else:

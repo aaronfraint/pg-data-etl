@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pg-data-etl"
-version = "0.3.1"
+version = "0.3.2"
 description = "ETL tools for spatial data stored in postgres"
 authors = ["Aaron Fraint <38364429+aaronfraint@users.noreply.github.com>"]
 license = "GNU v3"
