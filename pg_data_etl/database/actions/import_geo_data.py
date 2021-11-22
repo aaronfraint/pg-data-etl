@@ -87,21 +87,21 @@ def import_geodataframe(
     # Replace the 'geom' column with 'geometry'
     if "geom" in gdf.columns:
         gdf["geometry"] = gdf["geom"]
-        gdf.drop("geom", 1, inplace=True)
+        gdf.drop(labels="geom", axis=1, inplace=True)
 
     # Drop the 'gid' column
     if "gid" in gdf.columns:
-        gdf.drop("gid", 1, inplace=True)
+        gdf.drop(labels="gid", axis=1, inplace=True)
 
     # Rename 'uid' to 'old_uid'
     if uid_col in gdf.columns:
         gdf[f"old_{uid_col}"] = gdf[uid_col]
-        gdf.drop(uid_col, 1, inplace=True)
+        gdf.drop(labels=uid_col, axis=1, inplace=True)
 
     # Build a 'geom' column using geoalchemy2
     # and drop the source 'geometry' column
     gdf["geom"] = gdf["geometry"].apply(lambda x: WKTElement(x.wkt, srid=epsg_code))
-    gdf.drop("geometry", 1, inplace=True)
+    gdf.drop(labels="geometry", axis=1, inplace=True)
 
     # Ensure that the target schema exists
     schema, tbl = helpers.convert_full_tablename_to_parts(tablename)
