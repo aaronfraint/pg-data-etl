@@ -971,6 +971,7 @@ is created <code>from_parameters()</code> or <code>from_uri()</code></p>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="bp">self</span><span class="o">.</span><span class="n">_can_create_schemas</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_init_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
     <span class="c1"># Save all kwargs as private variables</span>
@@ -3423,9 +3424,11 @@ where the <code>geom</code> convention is replaced by ESRI's preference for <cod
 <span class="sd">    - Create a schema if it does not yet exist</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE SCHEMA IF NOT EXISTS </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_create_schemas</span><span class="p">:</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;CREATE SCHEMA IF NOT EXISTS </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
