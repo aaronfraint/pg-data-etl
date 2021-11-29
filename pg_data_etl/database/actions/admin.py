@@ -58,6 +58,8 @@ def schema_add(self, schema: str) -> None:
     - Create a schema if it does not yet exist
     """
 
-    query = f"CREATE SCHEMA IF NOT EXISTS {schema};"
+    if self._can_create_schemas:
 
-    self.execute(query)
+        query = f"CREATE SCHEMA IF NOT EXISTS {schema};"
+
+        self.execute(query)

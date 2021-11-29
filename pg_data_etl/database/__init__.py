@@ -68,6 +68,7 @@ class Database:
 
         """
 
+        self._can_create_schemas = True
         self._init_kwargs = kwargs
 
         # Save all kwargs as private variables
