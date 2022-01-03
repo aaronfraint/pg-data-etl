@@ -16,7 +16,7 @@ def sanitize_df_for_sql(df: DataFrame | GeoDataFrame) -> DataFrame | GeoDataFram
     TODO: docstring
     """
 
-    bad_characters = [".", "-", "(", ")", "+", ":"]
+    bad_characters = [".", "-", "(", ")", "+", ":", "$"]
 
     # Replace "Column Name" with "column_name"
     df.columns = df.columns.str.replace(" ", "_")
