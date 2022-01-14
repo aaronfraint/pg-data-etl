@@ -42,7 +42,7 @@ def export_shp_with_ogr2ogr(
             "SELECT * FROM pa.centerlines WHERE some_column = 'some value'"
     """
 
-    params = self.connection_params()
+    params = self.connection_params
 
     pg_params_for_ogr = f'PG:"host={params["host"]} user={params["un"]} password={params["pw"]} port={params["port"]} dbname={params["db_name"]}"'
 
