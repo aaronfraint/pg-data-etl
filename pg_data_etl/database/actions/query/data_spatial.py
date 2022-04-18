@@ -1,4 +1,4 @@
-import psycopg2
+import sqlalchemy
 import geopandas as gpd
 
 
@@ -14,10 +14,10 @@ def gdf(self, query: str, geom_col: str = "geom") -> gpd.GeoDataFrame:
         gpd.GeoDataFrame: query output as GIS data
     """
 
-    connection = psycopg2.connect(self.uri)
+    connection = sqlalchemy.create_engine(self.uri)
 
     gdf = gpd.GeoDataFrame.from_postgis(query, connection, geom_col=geom_col)
 
-    connection.close()
+    connection.dispose()
 
     return gdf
