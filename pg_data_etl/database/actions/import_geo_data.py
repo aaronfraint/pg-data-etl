@@ -71,7 +71,7 @@ def import_geodataframe(
     # If there are multi- and single-part features, explode to singlepart
     if explode:
         # Explode multipart to singlepart and reset the index
-        gdf = gdf.explode()
+        gdf = gdf.explode(index_parts=True)
         gdf["explode"] = gdf.index.to_numpy()
         gdf = gdf.reset_index()
 
