@@ -84,6 +84,11 @@ def import_geodataframe(
     # Use the non-multi version of the geometry
     geom_type_to_use = min(geom_types, key=len).upper()
 
+    # Replace the 'shape' column with 'geometry'
+    if "shape" in gdf.columns:
+        gdf["geometry"] = gdf["shape"]
+        gdf.drop(labels="shape", axis=1, inplace=True)
+
     # Replace the 'geom' column with 'geometry'
     if "geom" in gdf.columns:
         gdf["geometry"] = gdf["geom"]
